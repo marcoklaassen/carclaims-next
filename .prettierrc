@@ -1,0 +1,39 @@
+{
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 90,
+  "arrowParens": "avoid",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "jsonc" }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "parser": "json",
+        "printWidth": 40
+      }
+    },
+
+    {
+      "files": ["*.xml", "*.xsl"],
+      "options": {
+        "parser": "xml",
+        "printWidth": 500,
+        "xmlSelfClosingSpace": false,
+        "xmlWhitespaceSensitivity": "ignore",
+        "xmlQuoteAttributes": "double"
+      }
+    },
+
+    {
+      "files": ["*.yml", "*.yaml"],
+      "options": {
+        "parser": "yaml",
+        "bracketSpacing": false,
+        "printWidth": 500
+      }
+    }
+  ]
+}

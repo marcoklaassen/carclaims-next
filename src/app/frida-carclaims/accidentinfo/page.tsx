@@ -21,7 +21,7 @@ import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import React from 'react';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 
 export default function AccidentInfoPage() {
   const router = useRouter();
@@ -36,14 +36,14 @@ export default function AccidentInfoPage() {
     accidentTime: globalForm.accidentTime ?? dayjs(),
   };
 
-  const carclaimsDatailsValidator = Yup.object().shape({
-    language: Yup.string().required('Gesetzte Sprache erforderlich'),
-    accidentDate: Yup.date().required('Datum des Unfalls erforderlich'),
-    accidentTime: Yup.date().required('Zeit des Unfalls erforderlich'),
-    accidentReportNumber: Yup.string().required(
-      'Die Schadensnummer darf nicht leer sein',
-    ),
-  });
+  // const carclaimsDatailsValidator = Yup.object().shape({
+  //   language: Yup.string().required('Gesetzte Sprache erforderlich'),
+  //   accidentDate: Yup.date().required('Datum des Unfalls erforderlich'),
+  //   accidentTime: Yup.date().required('Zeit des Unfalls erforderlich'),
+  //   accidentReportNumber: Yup.string().required(
+  //     'Die Schadensnummer darf nicht leer sein',
+  //   ),
+  // });
 
   return (
     <Formik
@@ -55,7 +55,7 @@ export default function AccidentInfoPage() {
 
         router.push('/frida-carclaims/accidentlocation');
       }}
-      validationSchema={carclaimsDatailsValidator}
+      // validationSchema={carclaimsDatailsValidator}
     >
       {({
         handleChange,

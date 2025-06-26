@@ -1,29 +1,33 @@
-"use client";
-import { Button, TextField, Tooltip } from "@mui/material";
-import { Formik, Form } from "formik";
-import { ArrowRight, MapPin } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useGlobalFormStore, CarclaimsDetailsState } from "@/types/state";
-import { parseAddress } from "@/utils/adress";
-import { useState } from "react";
-import { useGetAddress } from "../../../../hooks";
+'use client';
+import { Button, TextField, Tooltip } from '@mui/material';
+import { Formik, Form } from 'formik';
+import { ArrowRight, MapPin } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useGlobalFormStore, CarclaimsDetailsState } from '@/types/state';
+import { parseAddress } from '@/utils/adress';
+import { useEffect, useState } from 'react';
+import { useGetAddress } from '../../../../hooks';
 
 export default function AccidentlocationPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
   const values: CarclaimsDetailsState = {
-    accidentStreetName: globalForm.accidentStreetName || "",
-    accidentHouseNumber: globalForm.accidentHouseNumber || "",
-    accidentCity: globalForm.accidentCity || "",
-    accidentPostalCode: globalForm.accidentPostalCode || "",
-    accidentDetails: globalForm.accidentDetails || "",
+    accidentStreetName: globalForm.accidentStreetName || '',
+    accidentHouseNumber: globalForm.accidentHouseNumber || '',
+    accidentCity: globalForm.accidentCity || '',
+    accidentPostalCode: globalForm.accidentPostalCode || '',
+    accidentDetails: globalForm.accidentDetails || '',
   };
 
   const [addressInput, setAddressInput] = useState(
-    `${values.accidentStreetName || ""} ${values.accidentHouseNumber || ""}`.trim()
+    `${values.accidentStreetName || ''} ${values.accidentHouseNumber || ''}`.trim(),
   );
 
   const { getAddress, error, loading } = useGetAddress();
@@ -33,18 +37,13 @@ export default function AccidentlocationPage() {
       enableReinitialize
       initialValues={values}
       onSubmit={(values) => {
-        console.log({ "FORM_SUBMIT": values });
+        console.log({ FORM_SUBMIT: values });
         setGlobalForm(values);
-        router.push("/frida-carclaims/insuranceholder-a/personalinfo");
+        router.push('/frida-carclaims/personalinfo/a');
       }}
-    // validationSchema={carclaimsDatailsValidator}
+      // validationSchema={carclaimsDatailsValidator}
     >
-      {({
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        values,
-      }) => {
+      {({ handleChange, handleSubmit, setFieldValue, values }) => {
         return (
           <Form onSubmit={handleSubmit} className="form-wrapper">
             <div className="form-content">
@@ -53,8 +52,8 @@ export default function AccidentlocationPage() {
                 <div className="info-box">
                   <div className="info-icon">i</div>
                   <p>
-                    Je genauer Sie den Ort angeben, umso schneller können wir
-                    Ihren Schaden bearbeiten.
+                    Je genauer Sie den Ort angeben, umso schneller können wir Ihren Schaden
+                    bearbeiten.
                   </p>
                 </div>
               </div>
@@ -72,11 +71,8 @@ export default function AccidentlocationPage() {
                   }}
                   onBlur={(e) => {
                     const { streetName, houseNumber } = parseAddress(e.target.value);
-                    setFieldValue("accidentStreetName", streetName);
-                    setFieldValue(
-                      "accidentHouseNumber",
-                      houseNumber
-                    );
+                    setFieldValue('accidentStreetName', streetName);
+                    setFieldValue('accidentHouseNumber', houseNumber);
                   }}
                   onClick={() => {
                     // Original onClick handler, if any
@@ -93,27 +89,31 @@ export default function AccidentlocationPage() {
                     onClick={async () => {
                       const address = await getAddress();
                       if (address) {
-                        console.log("Address from useGetAddress:", address.address.postcode);
+                        console.log('Address from useGetAddress:', address.address.postcode);
 
                         // Adresse Input aktualisieren
-                        setAddressInput(`${address.address.road || ""} ${address.address.house_number || ""}`.trim());
+                        setAddressInput(
+                          `${address.address.road || ''} ${
+                            address.address.house_number || ''
+                          }`.trim(),
+                        );
 
                         // Formik-Felder setzen
-                        setFieldValue("accidentStreetName", address.address.road || "");
-                        setFieldValue("accidentHouseNumber", address.address.house_number || "");
-                        setFieldValue("accidentCity", address.address.town || "");
-                        setFieldValue("accidentPostalCode", address.address.postcode || "");
+                        setFieldValue('accidentStreetName', address.address.road || '');
+                        setFieldValue('accidentHouseNumber', address.address.house_number || '');
+                        setFieldValue('accidentCity', address.address.town || '');
+                        setFieldValue('accidentPostalCode', address.address.postcode || '');
 
-                        console.log("Address:", address);
+                        console.log('Address:', address);
                       } else if (error) {
-                        console.error("Fehler beim Abrufen der Adresse:", error);
+                        console.error('Fehler beim Abrufen der Adresse:', error);
                         // Hier könnten Sie eine Benutzerbenachrichtigung hinzufügen
                       }
                     }}
                     disabled={loading}
                     className="geolocation-button"
                   >
-                    <MapPin size={20} style={{ color: "black" }} />
+                    <MapPin size={20} style={{ color: 'black' }} />
                     Genauen Standort auf der Karte suchen
                   </Button>
                 </Tooltip>
@@ -161,7 +161,7 @@ export default function AccidentlocationPage() {
             <div className="navigation-container">
               <Button type="submit" variant="contained" className="next-button">
                 Weiter
-                <ArrowRight size={"20"} />
+                <ArrowRight size={'20'} />
               </Button>
             </div>
           </Form>

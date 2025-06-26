@@ -45,7 +45,7 @@ export default function DamageDescriptionPage() {
     onSubmit: (values) => {
       console.log({"FORM_SUBMIT" : values});
       setGlobalForm(values);
-      router.push("/frida-carclaims/insuranceholder-b/personalinfo");
+      router.push("/frida-carclaims/personalinfo/b");
     },
     // validationSchema: carclaimsDatailsValidator
   });

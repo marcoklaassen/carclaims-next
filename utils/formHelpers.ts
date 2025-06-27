@@ -1,5 +1,5 @@
 import { InsuranceHolderFormState, OtherInsuranceHolderFormState, DriverOfInsuranceHolderFormState, GlobalFormState } from '@/types/state';
-import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS } from '@/config/formConfig';
+import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS, DAMAGE_LOCATION_FIELDS } from '@/config/formConfig';
 import dayjs from 'dayjs';
 
 type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState & DriverOfInsuranceHolderFormState & GlobalFormState;
@@ -107,6 +107,23 @@ export function createDriverInfoValues(
       [fields.telephone]: globalForm.otherDriverHolderTelephone || '',
       [fields.driverLicense]: globalForm.otherDriverHolderDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.otherDriverLicenseIssuingAuthority || '',
+    };
+  }
+}
+
+export function createDamageLocationValues(
+  globalForm: Partial<AllFormState>,
+  formType: FormType
+) {
+  const fields = DAMAGE_LOCATION_FIELDS[formType];
+
+  if (formType === 'a') {
+    return {
+      [fields.damagedParts]: globalForm.driverHolderDamagedParts || [],
+    };
+  } else {
+    return {
+      [fields.damagedParts]: globalForm.otherDriverHolderDamagedParts || [],
     };
   }
 }

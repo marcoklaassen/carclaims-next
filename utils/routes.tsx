@@ -7,13 +7,15 @@ export const formRoutes = [
     { id: 'vehicleinfo', name: 'Angaben zum Versicherungsnehmer A', path: '/frida-carclaims/vehicleinfo/a' },
 
     { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/driverinfo/a' },
-    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/damagelocation' },
+    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/damagelocation/a' },
     { id: 'damagedescription', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/damagedescription' },
 
     { id: 'personalinfo', name: 'Angaben zum Versicherungsnehmer B', path: '/frida-carclaims/personalinfo/b' },
     { id: 'vehicleinfo', name: 'Angaben zum Versicherungsnehmer B', path: '/frida-carclaims/vehicleinfo/b' },
 
     { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker B (Verursacher)', path: '/frida-carclaims/driverinfo/b' },
+
+    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker B (Verursacher)', path: '/frida-carclaims/damagelocation/b' },
 
     { id: 'injuredpersons', name: 'Angaben zu verletzten Personen', path: '/frida-carclaims/injuredpersons' },
 

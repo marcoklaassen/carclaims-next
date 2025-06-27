@@ -89,6 +89,15 @@ export const DRIVER_INFO_FIELDS = {
   },
 } as const;
 
+export const DAMAGE_LOCATION_FIELDS = {
+  a: {
+    damagedParts: 'driverHolderDamagedParts',
+  },
+  b: {
+    damagedParts: 'otherDriverHolderDamagedParts',
+  },
+} as const;
+
 // =============================================================================
 // NAVIGATION ROUTES
 // =============================================================================
@@ -103,7 +112,11 @@ export const FORM_ROUTES = {
     b: '/frida-carclaims/driverinfo/b',
   },
   driverInfo: {
-    a: '/frida-carclaims/damagelocation',
+    a: '/frida-carclaims/damagelocation/a',
+    b: '/frida-carclaims/damagelocation/b',
+  },
+  damageLocation: {
+    a: '/frida-carclaims/damagedescription',
     b: '/frida-carclaims/injuredpersons',
   },
 } as const;
@@ -316,6 +329,17 @@ export const FORM_LABELS = {
     telephone: 'Telefon:',
     driverLicense: 'Führerscheinnummer:',
     licenseIssuingAuthority: 'Zulassungsbehörde:',
+  },
+  damageLocation: {
+    title: {
+      a: 'Unfallstelle markieren - Fahrzeug A',
+      b: 'Unfallstelle markieren - Fahrzeug B',
+    },
+    instruction: 'Markieren Sie die Unfallstelle',
+    infoText: 'Wählen Sie die jeweiligen Stellen auf der Grafik per Klick aus. Wenn Sie erneut auf die Stelle klicken, heben Sie Ihre Auswahl wieder auf.',
+    addMoreDamage: 'Weitere Schadensstellen hinzufügen',
+    carImagePlaceholder: 'Fahrzeugbild hier',
+    carImageInstruction: 'Klicken Sie auf die entsprechenden Bereiche am Fahrzeug, um Schäden zu markieren',
   },
   common: {
     selectPlaceholder: 'Bitte auswählen',

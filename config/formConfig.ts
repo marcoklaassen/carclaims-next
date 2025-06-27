@@ -60,6 +60,35 @@ export const VEHICLE_INFO_FIELDS = {
   },
 } as const;
 
+export const DRIVER_INFO_FIELDS = {
+  a: {
+    isInsuredDriver: 'isInsuredDriver',
+    salutation: 'driverSalutation',
+    name: 'driverHolderName',
+    surName: 'driverHolderSurName',
+    streetName: 'driverHolderStreetName',
+    houseNumber: 'driverHolderHouseNumber',
+    postalCode: 'driverHolderPostalCode',
+    city: 'driverHolderCity',
+    telephone: 'driverHolderTelephone',
+    driverLicense: 'driverHolderDriverLicense',
+    licenseIssuingAuthority: 'driverLicenseIssuingAuthority',
+  },
+  b: {
+    isInsuredDriver: 'otherIsInsuredDriver',
+    salutation: 'otherDriverSalutation',
+    name: 'otherDriverHolderName',
+    surName: 'otherDriverHolderSurName',
+    streetName: 'otherDriverHolderStreetName',
+    houseNumber: 'otherDriverHolderHouseNumber',
+    postalCode: 'otherDriverHolderPostalCode',
+    city: 'otherDriverHolderCity',
+    telephone: 'otherDriverHolderTelephone',
+    driverLicense: 'otherDriverHolderDriverLicense',
+    licenseIssuingAuthority: 'otherDriverLicenseIssuingAuthority',
+  },
+} as const;
+
 // =============================================================================
 // NAVIGATION ROUTES
 // =============================================================================
@@ -70,7 +99,11 @@ export const FORM_ROUTES = {
     b: '/frida-carclaims/vehicleinfo/b',
   },
   vehicleInfo: {
-    a: '/frida-carclaims/driverinfo',
+    a: '/frida-carclaims/driverinfo/a',
+    b: '/frida-carclaims/driverinfo/b',
+  },
+  driverInfo: {
+    a: '/frida-carclaims/damagelocation',
     b: '/frida-carclaims/injuredpersons',
   },
 } as const;
@@ -161,6 +194,17 @@ const VALIDATION_RULES = {
     .required('Gültigkeitsdatum ist erforderlich'),
 
   allRiskInsurance: Yup.boolean().required('Bitte wählen Sie eine Option aus'),
+
+  // Driver validation rules
+  isInsuredDriver: Yup.boolean().required('Bitte wählen Sie eine Option aus'),
+
+  driverLicense: Yup.string()
+    .min(5, 'Führerscheinnummer muss mindestens 5 Zeichen lang sein')
+    .required('Führerscheinnummer ist erforderlich'),
+
+  licenseIssuingAuthority: Yup.string()
+    .min(3, 'Zulassungsbehörde muss mindestens 3 Zeichen lang sein')
+    .required('Zulassungsbehörde ist erforderlich'),
 };
 
 // Dynamische Schema-Generierung für Personal Info
@@ -199,6 +243,25 @@ export const createVehicleInfoValidationSchema = (formType: FormType) => {
   });
 };
 
+// Dynamische Schema-Generierung für Driver Info
+export const createDriverInfoValidationSchema = (formType: FormType) => {
+  const fields = DRIVER_INFO_FIELDS[formType];
+
+  return Yup.object().shape({
+    [fields.isInsuredDriver]: VALIDATION_RULES.isInsuredDriver,
+    [fields.salutation]: VALIDATION_RULES.salutation,
+    [fields.name]: VALIDATION_RULES.name,
+    [fields.surName]: VALIDATION_RULES.surName,
+    [fields.streetName]: VALIDATION_RULES.streetName,
+    [fields.houseNumber]: VALIDATION_RULES.houseNumber,
+    [fields.postalCode]: VALIDATION_RULES.postalCode,
+    [fields.city]: VALIDATION_RULES.city,
+    [fields.telephone]: VALIDATION_RULES.telephone,
+    [fields.driverLicense]: VALIDATION_RULES.driverLicense,
+    [fields.licenseIssuingAuthority]: VALIDATION_RULES.licenseIssuingAuthority,
+  });
+};
+
 // =============================================================================
 // LABELS & TRANSLATIONS
 // =============================================================================
@@ -234,6 +297,25 @@ export const FORM_LABELS = {
     greenCardNumber: 'Nummer der Grünen Karte des Versicherers:',
     validDateGreenCard: 'Grüne Karte gültig bis:',
     allRiskInsurance: 'Besteht eine Vollkaskoversicherung?',
+  },
+  driverInfo: {
+    title: {
+      a: 'Fahrerinformationen - Versicherungsnehmer A',
+      b: 'Fahrerinformationen - Versicherungsnehmer B',
+    },
+    isInsuredDriver: {
+      a: 'Ist der Versicherungsnehmer A auch der Fahrlenker gewesen?',
+      b: 'Ist der Versicherungsnehmer B auch der Fahrlenker gewesen?',
+    },
+    salutation: 'Anrede:',
+    name: 'Vorname:',
+    surName: 'Name:',
+    streetAndNumber: 'Straße, Hausnummer:',
+    postalCode: 'PLZ:',
+    city: 'Ort:',
+    telephone: 'Telefon:',
+    driverLicense: 'Führerscheinnummer:',
+    licenseIssuingAuthority: 'Zulassungsbehörde:',
   },
   common: {
     selectPlaceholder: 'Bitte auswählen',

@@ -1,5 +1,3 @@
-// src/components/forms/UnifiedVehicleInfoPage.tsx
-
 'use client';
 
 import { useGlobalFormStore } from '@/types/state';

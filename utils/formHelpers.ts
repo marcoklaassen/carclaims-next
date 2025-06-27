@@ -1,8 +1,8 @@
-import { InsuranceHolderFormState, OtherInsuranceHolderFormState } from '@/types/state';
-import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS } from '@/config/formConfig';
+import { InsuranceHolderFormState, OtherInsuranceHolderFormState, DriverOfInsuranceHolderFormState, GlobalFormState } from '@/types/state';
+import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS } from '@/config/formConfig';
 import dayjs from 'dayjs';
 
-type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState;
+type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState & DriverOfInsuranceHolderFormState & GlobalFormState;
 
 export function createPersonalInfoValues(
   globalForm: Partial<AllFormState>,
@@ -70,6 +70,43 @@ export function createVehicleInfoValues(
       [fields.greenCardNumber]: globalForm.otherGreenCardNumber || '',
       [fields.validDateGreenCard]: globalForm.otherValidDateGreenCard || dayjs(),
       [fields.allRiskInsurance]: globalForm.otherAllRiskInsurance || '',
+    };
+  }
+}
+
+export function createDriverInfoValues(
+  globalForm: Partial<AllFormState>,
+  formType: FormType
+) {
+  const fields = DRIVER_INFO_FIELDS[formType];
+
+  if (formType === 'a') {
+    return {
+      [fields.isInsuredDriver]: globalForm.isInsuredDriver || '',
+      [fields.salutation]: globalForm.driverSalutation || '',
+      [fields.name]: globalForm.driverHolderName || '',
+      [fields.surName]: globalForm.driverHolderSurName || '',
+      [fields.streetName]: globalForm.driverHolderStreetName || '',
+      [fields.houseNumber]: globalForm.driverHolderHouseNumber || '',
+      [fields.postalCode]: globalForm.driverHolderPostalCode || '',
+      [fields.city]: globalForm.driverHolderCity || '',
+      [fields.telephone]: globalForm.driverHolderTelephone || '',
+      [fields.driverLicense]: globalForm.driverHolderDriverLicense || '',
+      [fields.licenseIssuingAuthority]: globalForm.driverLicenseIssuingAuthority || '',
+    };
+  } else {
+    return {
+      [fields.isInsuredDriver]: globalForm.otherIsInsuredDriver || '',
+      [fields.salutation]: globalForm.otherDriverSalutation || '',
+      [fields.name]: globalForm.otherDriverHolderName || '',
+      [fields.surName]: globalForm.otherDriverHolderSurName || '',
+      [fields.streetName]: globalForm.otherDriverHolderStreetName || '',
+      [fields.houseNumber]: globalForm.otherDriverHolderHouseNumber || '',
+      [fields.postalCode]: globalForm.otherDriverHolderPostalCode || '',
+      [fields.city]: globalForm.otherDriverHolderCity || '',
+      [fields.telephone]: globalForm.otherDriverHolderTelephone || '',
+      [fields.driverLicense]: globalForm.otherDriverHolderDriverLicense || '',
+      [fields.licenseIssuingAuthority]: globalForm.otherDriverLicenseIssuingAuthority || '',
     };
   }
 }

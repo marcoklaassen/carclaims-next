@@ -16,6 +16,7 @@ import {
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
+dayjs.locale('de');
 import { Formik, Form } from 'formik';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';

@@ -5,6 +5,8 @@ import { Button, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/mat
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import 'dayjs/locale/de';
+dayjs.locale('de');
 import { Formik, Form } from 'formik';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,7 +17,7 @@ import {
   FORM_LABELS,
   createVehicleInfoValidationSchema,
 } from '@/config/formConfig';
-import { createVehicleInfoValues} from '@/utils/formHelpers';
+import { createVehicleInfoValues } from '@/utils/formHelpers';
 import { useEffect } from 'react';
 
 interface Props {
@@ -28,16 +30,14 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
   // Fallback: verwende den type aus der URL
   const formType: FormType =
     propFormType ||
-    (typeof window !== 'undefined' && window.location.pathname.includes('/b')
-      ? 'b'
-      : 'a');
+    (typeof window !== 'undefined' && window.location.pathname.includes('/b') ? 'b' : 'a');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const globalForm = useGlobalFormStore(s => s.form);
-  const setGlobalForm = useGlobalFormStore(s => s.setGlobalForm);
+  const globalForm = useGlobalFormStore((s) => s.form);
+  const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
   const fields = VEHICLE_INFO_FIELDS[formType];
   const labels = FORM_LABELS.vehicleInfo;
@@ -51,7 +51,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
       enableReinitialize
       initialValues={values}
       validationSchema={validationSchema}
-      onSubmit={formData => {
+      onSubmit={(formData) => {
         console.log({ VEHICLE_FORM_SUBMIT: formData, TYPE: formType });
 
         setGlobalForm(formData);
@@ -158,11 +158,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   variant="outlined"
                   value={values[fields.insuranceCompany] || ''}
                   onChange={handleChange}
-                  error={
-                    !!(
-                      errors[fields.insuranceCompany] && touched[fields.insuranceCompany]
-                    )
-                  }
+                  error={!!(errors[fields.insuranceCompany] && touched[fields.insuranceCompany])}
                   helperText={
                     touched[fields.insuranceCompany] && errors[fields.insuranceCompany]
                       ? errors[fields.insuranceCompany]
@@ -180,9 +176,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   variant="outlined"
                   value={values[fields.insuranceNumber] || ''}
                   onChange={handleChange}
-                  error={
-                    !!(errors[fields.insuranceNumber] && touched[fields.insuranceNumber])
-                  }
+                  error={!!(errors[fields.insuranceNumber] && touched[fields.insuranceNumber])}
                   helperText={
                     touched[fields.insuranceNumber] && errors[fields.insuranceNumber]
                       ? errors[fields.insuranceNumber]
@@ -202,9 +196,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   variant="outlined"
                   value={values[fields.chassisNumber] || ''}
                   onChange={handleChange}
-                  error={
-                    !!(errors[fields.chassisNumber] && touched[fields.chassisNumber])
-                  }
+                  error={!!(errors[fields.chassisNumber] && touched[fields.chassisNumber])}
                   helperText={
                     touched[fields.chassisNumber] && errors[fields.chassisNumber]
                       ? errors[fields.chassisNumber]
@@ -222,9 +214,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   variant="outlined"
                   value={values[fields.odometerReading] || ''}
                   onChange={handleChange}
-                  error={
-                    !!(errors[fields.odometerReading] && touched[fields.odometerReading])
-                  }
+                  error={!!(errors[fields.odometerReading] && touched[fields.odometerReading])}
                   helperText={
                     touched[fields.odometerReading] && errors[fields.odometerReading]
                       ? errors[fields.odometerReading]
@@ -244,9 +234,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   variant="outlined"
                   value={values[fields.greenCardNumber] || ''}
                   onChange={handleChange}
-                  error={
-                    !!(errors[fields.greenCardNumber] && touched[fields.greenCardNumber])
-                  }
+                  error={!!(errors[fields.greenCardNumber] && touched[fields.greenCardNumber])}
                   helperText={
                     touched[fields.greenCardNumber] && errors[fields.greenCardNumber]
                       ? errors[fields.greenCardNumber]
@@ -261,12 +249,12 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   <MobileDatePicker
                     value={dayjs(values[fields.validDateGreenCard]?.toString())}
                     enableAccessibleFieldDOMStructure={false}
-                    onChange={newValue => {
+                    onChange={(newValue) => {
                       setFieldValue(fields.validDateGreenCard, newValue);
                       setFieldTouched(fields.validDateGreenCard, true);
                     }}
                     slots={{
-                      textField: props => {
+                      textField: (props) => {
                         return <TextField {...props} />;
                       },
                     }}
@@ -277,12 +265,10 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                         variant: 'outlined',
                         placeholder: 'Datum auswählen',
                         error: !!(
-                          errors[fields.validDateGreenCard] &&
-                          touched[fields.validDateGreenCard]
+                          errors[fields.validDateGreenCard] && touched[fields.validDateGreenCard]
                         ),
                         helperText:
-                          touched[fields.validDateGreenCard] &&
-                          errors[fields.validDateGreenCard]
+                          touched[fields.validDateGreenCard] && errors[fields.validDateGreenCard]
                             ? errors[fields.validDateGreenCard]
                             : null,
                       },

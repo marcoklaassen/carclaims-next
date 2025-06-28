@@ -85,6 +85,7 @@ export interface GlobalFormState {
   driverPostalCode?: string;
   driverCity?: string;
   driverTelephone?: string;
+  driverEmail?: string;
   driverDriverLicense?: string;
   driverLicenseIssuingAuthority?: string;
   driverFileUploads?: (File & { path?: string })[] | null;
@@ -101,6 +102,7 @@ export interface GlobalFormState {
   otherDriverPostalCode?: string;
   otherDriverCity?: string;
   otherDriverTelephone?: string;
+  otherDriverEmail?: string;
   otherDriverDriverLicense?: string;
   otherDriverLicenseIssuingAuthority?: string;
   otherDriverFileUploads?: (File & { path?: string })[] | null;
@@ -190,6 +192,7 @@ export interface DriverOfInsuranceHolderFormState {
   driverPostalCode?: string;
   driverCity?: string;
   driverTelephone?: string;
+  driverEmail?: string;
   driverDriverLicense?: string;
   driverLicenseIssuingAuthority?: string;
   driverFileUploads?: (File & { path?: string })[] | null;
@@ -210,6 +213,7 @@ export interface DriverOfOtherInsuranceHolderFormState {
   otherDriverPostalCode?: string;
   otherDriverCity?: string;
   otherDriverTelephone?: string;
+  otherDriverEmail?: string;
   otherDriverDriverLicense?: string;
   otherDriverLicenseIssuingAuthority?: string;
   otherDriverFileUploads?: (File & { path?: string }[]) | null;
@@ -244,15 +248,14 @@ type FormStore = {
   resetGlobalForm: () => void;
 };
 
-export const useGlobalFormStore = create<FormStore>(set => ({
-  form: {
-  },
-  setGlobalForm: values =>
-    set(state => ({
+export const useGlobalFormStore = create<FormStore>((set) => ({
+  form: {},
+  setGlobalForm: (values) =>
+    set((state) => ({
       form: { ...state.form, ...values },
     })),
-  resetGlobalForm: () => set({
-    form: {
-    }
-  }),
+  resetGlobalForm: () =>
+    set({
+      form: {},
+    }),
 }));

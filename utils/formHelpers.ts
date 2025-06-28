@@ -1,6 +1,10 @@
 import { InsuranceHolderFormState, OtherInsuranceHolderFormState, DriverOfInsuranceHolderFormState, GlobalFormState } from '@/types/state';
 import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS, DAMAGE_LOCATION_FIELDS, DAMAGE_DESCRIPTION_FIELDS } from '@/config/formConfig';
 import dayjs from 'dayjs';
+import 'dayjs/locale/de';
+
+// Configure dayjs to use German locale
+dayjs.locale('de');
 
 type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState & DriverOfInsuranceHolderFormState & GlobalFormState;
 
@@ -91,6 +95,7 @@ export function createDriverInfoValues(
       [fields.postalCode]: globalForm.driverPostalCode || '',
       [fields.city]: globalForm.driverCity || '',
       [fields.telephone]: globalForm.driverTelephone || '',
+      [fields.email]: globalForm.driverEmail || '',
       [fields.driverLicense]: globalForm.driverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.driverLicenseIssuingAuthority || '',
     };
@@ -105,6 +110,7 @@ export function createDriverInfoValues(
       [fields.postalCode]: globalForm.otherDriverPostalCode || '',
       [fields.city]: globalForm.otherDriverCity || '',
       [fields.telephone]: globalForm.otherDriverTelephone || '',
+      [fields.email]: globalForm.otherDriverEmail || '',
       [fields.driverLicense]: globalForm.otherDriverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.otherDriverLicenseIssuingAuthority || '',
     };

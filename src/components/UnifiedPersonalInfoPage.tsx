@@ -51,9 +51,9 @@ export default function UnifiedPersonalInfoPage({ formType: propFormType }: Prop
       enableReinitialize
       initialValues={values}
       validationSchema={validationSchema}
-      onSubmit={(formValues) => {
-        console.log('Form submit - formValues:', formValues);
-        setGlobalForm(formValues);
+      onSubmit={(formData) => {
+        console.log({ PERSONALINFO_FORM_SUBMIT: formData, TYPE: formType });
+        setGlobalForm(formData);
         router.push(FORM_ROUTES.personalInfo[formType]);
       }}
     >

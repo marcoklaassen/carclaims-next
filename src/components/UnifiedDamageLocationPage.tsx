@@ -57,10 +57,9 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
     <Formik
       enableReinitialize
       initialValues={values}
-      onSubmit={(formValues) => {
-        console.log('Damage location form submit - formValues:', formValues);
-        console.log('Damage location form submit - formType:', formType);
-        setGlobalForm(formValues);
+      onSubmit={(formData) => {
+        console.log({ DAMAGELOCATION_FORM_SUBMIT: formData, TYPE: formType });
+        setGlobalForm(formData);
         window.scrollTo(0, 0);
         router.push(FORM_ROUTES.damageLocation[formType]);
       }}

@@ -46,9 +46,9 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
       enableReinitialize
       initialValues={values}
       validationSchema={validationSchema}
-      onSubmit={(formValues) => {
-        console.log('Driver info form submit - formValues:', formValues);
-        setGlobalForm(formValues);
+      onSubmit={(formData) => {
+        console.log({ DRIVERINFO_FORM_SUBMIT: formData, TYPE: formType });
+        setGlobalForm(formData);
         router.push(FORM_ROUTES.driverInfo[formType]);
       }}
     >

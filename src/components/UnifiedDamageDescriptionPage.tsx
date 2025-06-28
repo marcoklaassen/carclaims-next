@@ -48,11 +48,9 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
 
   const formik = useFormik({
     initialValues: values,
-    onSubmit: (formValues) => {
-      console.log('Damage description form submit - formValues:', formValues);
-      console.log('Damage description form submit - formType:', formType);
-
-      setGlobalForm(formValues);
+    onSubmit: (formData) => {
+      console.log({ DAMAGEDESCRIPTION_FORM_SUBMIT: formData, TYPE: formType });
+      setGlobalForm(formData);
       router.push(FORM_ROUTES.damageDescription[formType]);
     },
   });

@@ -50,10 +50,10 @@ export default function AccidentInfoPage() {
     <Formik
       enableReinitialize
       initialValues={values}
-      onSubmit={values => {
-        console.log({ FORM_SUBMIT: values });
-        setGlobalForm(values);
+      onSubmit={formData => {
+        console.log({ ACCIDENTINFO_FORM_SUBMIT: formData });
 
+        setGlobalForm(formData);
         router.push('/frida-carclaims/accidentlocation');
       }}
       // validationSchema={carclaimsDatailsValidator}

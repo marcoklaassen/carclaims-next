@@ -53,7 +53,6 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
       validationSchema={validationSchema}
       onSubmit={(formData) => {
         console.log({ VEHICLE_FORM_SUBMIT: formData, TYPE: formType });
-
         setGlobalForm(formData);
         router.push(FORM_ROUTES.vehicleInfo[formType]);
       }}

@@ -64,37 +64,37 @@ export const DRIVER_INFO_FIELDS = {
   a: {
     isInsuredDriver: 'isInsuredDriver',
     salutation: 'driverSalutation',
-    name: 'driverHolderName',
-    surName: 'driverHolderSurName',
-    streetName: 'driverHolderStreetName',
-    houseNumber: 'driverHolderHouseNumber',
-    postalCode: 'driverHolderPostalCode',
-    city: 'driverHolderCity',
-    telephone: 'driverHolderTelephone',
-    driverLicense: 'driverHolderDriverLicense',
+    name: 'driverName',
+    surName: 'driverSurName',
+    streetName: 'driverStreetName',
+    houseNumber: 'driverHouseNumber',
+    postalCode: 'driverPostalCode',
+    city: 'driverCity',
+    telephone: 'driverTelephone',
+    driverLicense: 'driverDriverLicense',
     licenseIssuingAuthority: 'driverLicenseIssuingAuthority',
   },
   b: {
     isInsuredDriver: 'otherIsInsuredDriver',
     salutation: 'otherDriverSalutation',
-    name: 'otherDriverHolderName',
-    surName: 'otherDriverHolderSurName',
-    streetName: 'otherDriverHolderStreetName',
-    houseNumber: 'otherDriverHolderHouseNumber',
-    postalCode: 'otherDriverHolderPostalCode',
-    city: 'otherDriverHolderCity',
-    telephone: 'otherDriverHolderTelephone',
-    driverLicense: 'otherDriverHolderDriverLicense',
+    name: 'otherDriverName',
+    surName: 'otherDriverSurName',
+    streetName: 'otherDriverStreetName',
+    houseNumber: 'otherDriverHouseNumber',
+    postalCode: 'otherDriverPostalCode',
+    city: 'otherDriverCity',
+    telephone: 'otherDriverTelephone',
+    driverLicense: 'otherDriverDriverLicense',
     licenseIssuingAuthority: 'otherDriverLicenseIssuingAuthority',
   },
 } as const;
 
 export const DAMAGE_LOCATION_FIELDS = {
   a: {
-    damagedParts: 'driverHolderDamagedParts',
+    damagedParts: 'driverDamagedParts',
   },
   b: {
-    damagedParts: 'otherDriverHolderDamagedParts',
+    damagedParts: 'otherDriverDamagedParts',
   },
 } as const;
 
@@ -104,14 +104,14 @@ export const DAMAGE_DESCRIPTION_FIELDS = {
     additionalComments: 'additionalComments',
     vehicleOperational: 'vehicleOperational',
     damageType: 'damageType',
-    fileUploads: 'driverHolderFileUploads',
+    fileUploads: 'driverFileUploads',
   },
   b: {
     damageDescription: 'otherDamageDescription',
     additionalComments: 'otherAdditionalComments',
     vehicleOperational: 'otherVehicleOperational',
     damageType: 'otherdamageType',
-    fileUploads: 'otherDriverHolderFileUploads',
+    fileUploads: 'otherDriverFileUploads',
   },
 } as const;
 

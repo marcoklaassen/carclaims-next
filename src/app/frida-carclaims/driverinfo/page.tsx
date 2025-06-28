@@ -25,20 +25,20 @@ export default function DriverInfoPage() {
   const values: DriverOfInsuranceHolderFormState = {
     isInsuredDriver: globalForm.isInsuredDriver || '',
     driverSalutation: globalForm.driverSalutation || '',
-    driverHolderName: globalForm.driverHolderName || '',
-    driverHolderSurName: globalForm.driverHolderSurName || '',
-    driverHolderStreetName: globalForm.driverHolderStreetName || '',
-    driverHolderHouseNumber: globalForm.driverHolderHouseNumber || '',
-    driverHolderPostalCode: globalForm.driverHolderPostalCode || '',
-    driverHolderCity: globalForm.driverHolderCity || '',
-    driverHolderTelephone: globalForm.driverHolderTelephone || '',
-    // driverHolderEmail: globalForm.driverHolderEmail || "",
-    driverHolderDriverLicense: globalForm.driverHolderDriverLicense || '',
+    driverName: globalForm.driverName || '',
+    driverSurName: globalForm.driverSurName || '',
+    driverStreetName: globalForm.driverStreetName || '',
+    driverHouseNumber: globalForm.driverHouseNumber || '',
+    driverPostalCode: globalForm.driverPostalCode || '',
+    driverCity: globalForm.driverCity || '',
+    driverTelephone: globalForm.driverTelephone || '',
+    // driverEmail: globalForm.driverEmail || "",
+    driverDriverLicense: globalForm.driverDriverLicense || '',
     driverLicenseIssuingAuthority: globalForm.driverLicenseIssuingAuthority || '',
   };
 
   const [addressInput, setAddressInput] = useState(
-    `${values.driverHolderStreetName} ${values.driverHolderHouseNumber}`.trim(),
+    `${values.driverStreetName} ${values.driverHouseNumber}`.trim(),
   );
 
   return (
@@ -114,24 +114,24 @@ export default function DriverInfoPage() {
               <div className="form-group-item-big">
                 <label>Name:</label>
                 <TextField
-                  name="driverHolderSurName"
+                  name="driverSurName"
                   autoComplete="family-name"
                   fullWidth
                   placeholder="Bitte ausfüllen"
                   variant="outlined"
-                  value={values.driverHolderSurName}
+                  value={values.driverSurName}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group-item-big">
                 <label>Vorname:</label>
                 <TextField
-                  name="driverHolderName"
+                  name="driverName"
                   autoComplete="given-name"
                   fullWidth
                   placeholder="Bitte ausfüllen"
                   variant="outlined"
-                  value={values.driverHolderName}
+                  value={values.driverName}
                   onChange={handleChange}
                 />
               </div>
@@ -140,11 +140,11 @@ export default function DriverInfoPage() {
             <div className="form-group">
               <label>Führerschein-Nr:</label>
               <TextField
-                name="driverHolderDriverLicense"
+                name="driverDriverLicense"
                 fullWidth
                 placeholder="Bitte ausfüllen"
                 variant="outlined"
-                value={values.driverHolderDriverLicense}
+                value={values.driverDriverLicense}
                 onChange={handleChange}
               />
             </div>
@@ -172,8 +172,8 @@ export default function DriverInfoPage() {
                   const value = (e.target as HTMLInputElement).value ?? '';
                   setAddressInput(value);
                   const { streetName, houseNumber } = parseAddress(value);
-                  setFieldValue('driverHolderStreetName', streetName);
-                  setFieldValue('driverHolderHouseNumber', houseNumber);
+                  setFieldValue('driverStreetName', streetName);
+                  setFieldValue('driverHouseNumber', houseNumber);
                 }}
               />
             </div>
@@ -182,22 +182,22 @@ export default function DriverInfoPage() {
               <div className="form-group-item-small">
                 <label>PLZ:</label>
                 <TextField
-                  name="driverHolderPostalCode"
+                  name="driverPostalCode"
                   fullWidth
                   placeholder="Bitte ausfüllen"
                   variant="outlined"
-                  value={values.driverHolderPostalCode}
+                  value={values.driverPostalCode}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group-item-big">
                 <label>Ort:</label>
                 <TextField
-                  name="driverHolderCity"
+                  name="driverCity"
                   fullWidth
                   placeholder="Bitte ausfüllen"
                   variant="outlined"
-                  value={values.driverHolderCity}
+                  value={values.driverCity}
                   onChange={handleChange}
                 />
               </div>
@@ -206,11 +206,11 @@ export default function DriverInfoPage() {
             <div className="form-group">
               <label>Telefon:</label>
               <TextField
-                name="driverHolderTelephone"
+                name="driverTelephone"
                 fullWidth
                 placeholder="Bitte ausfüllen"
                 variant="outlined"
-                value={values.driverHolderTelephone}
+                value={values.driverTelephone}
                 onChange={handleChange}
               />
             </div>

@@ -84,28 +84,28 @@ export function createDriverInfoValues(
     return {
       [fields.isInsuredDriver]: globalForm.isInsuredDriver || '',
       [fields.salutation]: globalForm.driverSalutation || '',
-      [fields.name]: globalForm.driverHolderName || '',
-      [fields.surName]: globalForm.driverHolderSurName || '',
-      [fields.streetName]: globalForm.driverHolderStreetName || '',
-      [fields.houseNumber]: globalForm.driverHolderHouseNumber || '',
-      [fields.postalCode]: globalForm.driverHolderPostalCode || '',
-      [fields.city]: globalForm.driverHolderCity || '',
-      [fields.telephone]: globalForm.driverHolderTelephone || '',
-      [fields.driverLicense]: globalForm.driverHolderDriverLicense || '',
+      [fields.name]: globalForm.driverName || '',
+      [fields.surName]: globalForm.driverSurName || '',
+      [fields.streetName]: globalForm.driverStreetName || '',
+      [fields.houseNumber]: globalForm.driverHouseNumber || '',
+      [fields.postalCode]: globalForm.driverPostalCode || '',
+      [fields.city]: globalForm.driverCity || '',
+      [fields.telephone]: globalForm.driverTelephone || '',
+      [fields.driverLicense]: globalForm.driverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.driverLicenseIssuingAuthority || '',
     };
   } else {
     return {
       [fields.isInsuredDriver]: globalForm.otherIsInsuredDriver || '',
       [fields.salutation]: globalForm.otherDriverSalutation || '',
-      [fields.name]: globalForm.otherDriverHolderName || '',
-      [fields.surName]: globalForm.otherDriverHolderSurName || '',
-      [fields.streetName]: globalForm.otherDriverHolderStreetName || '',
-      [fields.houseNumber]: globalForm.otherDriverHolderHouseNumber || '',
-      [fields.postalCode]: globalForm.otherDriverHolderPostalCode || '',
-      [fields.city]: globalForm.otherDriverHolderCity || '',
-      [fields.telephone]: globalForm.otherDriverHolderTelephone || '',
-      [fields.driverLicense]: globalForm.otherDriverHolderDriverLicense || '',
+      [fields.name]: globalForm.otherDriverName || '',
+      [fields.surName]: globalForm.otherDriverSurName || '',
+      [fields.streetName]: globalForm.otherDriverStreetName || '',
+      [fields.houseNumber]: globalForm.otherDriverHouseNumber || '',
+      [fields.postalCode]: globalForm.otherDriverPostalCode || '',
+      [fields.city]: globalForm.otherDriverCity || '',
+      [fields.telephone]: globalForm.otherDriverTelephone || '',
+      [fields.driverLicense]: globalForm.otherDriverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.otherDriverLicenseIssuingAuthority || '',
     };
   }
@@ -119,11 +119,11 @@ export function createDamageLocationValues(
 
   if (formType === 'a') {
     return {
-      [fields.damagedParts]: globalForm.driverHolderDamagedParts || [],
+      [fields.damagedParts]: globalForm.driverDamagedParts || [],
     };
   } else {
     return {
-      [fields.damagedParts]: globalForm.otherDriverHolderDamagedParts || [],
+      [fields.damagedParts]: globalForm.otherDriverDamagedParts || [],
     };
   }
 }
@@ -140,7 +140,7 @@ export function createDamageDescriptionValues(
       [fields.additionalComments]: globalForm.additionalComments || '',
       [fields.vehicleOperational]: globalForm.vehicleOperational || '',
       [fields.damageType]: globalForm.damageType || '',
-      [fields.fileUploads]: globalForm.driverHolderFileUploads || [],
+      [fields.fileUploads]: globalForm.driverFileUploads || [],
     };
   } else {
     return {
@@ -148,7 +148,7 @@ export function createDamageDescriptionValues(
       [fields.additionalComments]: globalForm.otherAdditionalComments || '',
       [fields.vehicleOperational]: globalForm.otherVehicleOperational || '',
       [fields.damageType]: globalForm.otherdamageType || '',
-      [fields.fileUploads]: globalForm.otherDriverHolderFileUploads || [],
+      [fields.fileUploads]: globalForm.otherDriverFileUploads || [],
     };
   }
 }

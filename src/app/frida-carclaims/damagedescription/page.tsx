@@ -34,7 +34,7 @@ export default function DamageDescriptionPage() {
     additionalComments: globalForm.additionalComments || "",
     vehicleOperational: globalForm.vehicleOperational || "",
     damageType: globalForm.damageType || "",
-    driverHolderFileUploads: globalForm.driverHolderFileUploads || [],
+    driverFileUploads: globalForm.driverFileUploads || [],
   };
 
   // Referenz für Blob URLs mit Map-Struktur für effiziente Suche
@@ -79,7 +79,7 @@ export default function DamageDescriptionPage() {
 
   const onDrop = useCallback(
     (acceptedFiles: (File & { path?: string })[]) => {
-      const currentFiles = formik.values.driverHolderFileUploads || [];
+      const currentFiles = formik.values.driverFileUploads || [];
       const remainingSlots = MAXFILES - currentFiles.length;
 
       // Wenn keine Slots mehr übrig sind, Upload komplett verhindern
@@ -101,18 +101,18 @@ export default function DamageDescriptionPage() {
         );
 
         const updatedFiles = [...currentFiles, ...newFiles];
-        formik.setFieldValue("driverHolderFileUploads", updatedFiles);
+        formik.setFieldValue("driverFileUploads", updatedFiles);
       } else {
         // Alle akzeptierten Dateien können hinzugefügt werden
         const updatedFiles = [...currentFiles, ...acceptedFiles];
-        formik.setFieldValue("driverHolderFileUploads", updatedFiles);
+        formik.setFieldValue("driverFileUploads", updatedFiles);
       }
     },
-    [formik.values.driverHolderFileUploads]
+    [formik.values.driverFileUploads]
   );
 
   const isMaxFilesReached =
-    (formik.values.driverHolderFileUploads?.length || 0) >= MAXFILES;
+    (formik.values.driverFileUploads?.length || 0) >= MAXFILES;
 
   const { getRootProps, getInputProps} =
     useDropzone({
@@ -127,7 +127,7 @@ export default function DamageDescriptionPage() {
 
   // Datei löschen
   const deleteFile = useCallback((index: number) => {
-    const files = formik.values.driverHolderFileUploads || [];
+    const files = formik.values.driverFileUploads || [];
     if (files[index]) {
       // Identifizieren der zu löschenden Datei für das Freigeben der Blob-URL
       const fileToDelete = files[index];
@@ -142,8 +142,8 @@ export default function DamageDescriptionPage() {
 
     // Datei aus dem formik-Zustand entfernen
     const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
-    formik.setFieldValue("driverHolderFileUploads", updatedFiles);
-    formik.setFieldTouched("driverHolderFileUploads", true);
+    formik.setFieldValue("driverFileUploads", updatedFiles);
+    formik.setFieldTouched("driverFileUploads", true);
   }, [formik]);
 
   return (
@@ -178,7 +178,7 @@ export default function DamageDescriptionPage() {
         </div>
 
         <div className="upload-file-section">
-          {formik.values.driverHolderFileUploads?.map(
+          {formik.values.driverFileUploads?.map(
             (file: File & { path?: string }, i: number) => (
               <div key={`attached-file-${i}`} className="image-card">
                 <div className="image-wrapper">
@@ -225,7 +225,7 @@ export default function DamageDescriptionPage() {
         </div>
 
         <div className="attachment-counter">
-          {formik.values.driverHolderFileUploads?.length || 0} / {MAXFILES}
+          {formik.values.driverFileUploads?.length || 0} / {MAXFILES}
         </div>
 
         <div className="info-box file-info">

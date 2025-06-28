@@ -1,5 +1,5 @@
 import { InsuranceHolderFormState, OtherInsuranceHolderFormState, DriverOfInsuranceHolderFormState, GlobalFormState } from '@/types/state';
-import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS, DAMAGE_LOCATION_FIELDS } from '@/config/formConfig';
+import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS, DAMAGE_LOCATION_FIELDS, DAMAGE_DESCRIPTION_FIELDS } from '@/config/formConfig';
 import dayjs from 'dayjs';
 
 type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState & DriverOfInsuranceHolderFormState & GlobalFormState;
@@ -124,6 +124,31 @@ export function createDamageLocationValues(
   } else {
     return {
       [fields.damagedParts]: globalForm.otherDriverHolderDamagedParts || [],
+    };
+  }
+}
+
+export function createDamageDescriptionValues(
+  globalForm: Partial<AllFormState>,
+  formType: FormType
+) {
+  const fields = DAMAGE_DESCRIPTION_FIELDS[formType];
+
+  if (formType === 'a') {
+    return {
+      [fields.damageDescription]: globalForm.damageDescription || '',
+      [fields.additionalComments]: globalForm.additionalComments || '',
+      [fields.vehicleOperational]: globalForm.vehicleOperational || '',
+      [fields.damageType]: globalForm.damageType || '',
+      [fields.fileUploads]: globalForm.driverHolderFileUploads || [],
+    };
+  } else {
+    return {
+      [fields.damageDescription]: globalForm.otherDamageDescription || '',
+      [fields.additionalComments]: globalForm.otherAdditionalComments || '',
+      [fields.vehicleOperational]: globalForm.otherVehicleOperational || '',
+      [fields.damageType]: globalForm.otherdamageType || '',
+      [fields.fileUploads]: globalForm.otherDriverHolderFileUploads || [],
     };
   }
 }

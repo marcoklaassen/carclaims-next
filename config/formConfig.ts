@@ -98,6 +98,23 @@ export const DAMAGE_LOCATION_FIELDS = {
   },
 } as const;
 
+export const DAMAGE_DESCRIPTION_FIELDS = {
+  a: {
+    damageDescription: 'damageDescription',
+    additionalComments: 'additionalComments',
+    vehicleOperational: 'vehicleOperational',
+    damageType: 'damageType',
+    fileUploads: 'driverHolderFileUploads',
+  },
+  b: {
+    damageDescription: 'otherDamageDescription',
+    additionalComments: 'otherAdditionalComments',
+    vehicleOperational: 'otherVehicleOperational',
+    damageType: 'otherdamageType',
+    fileUploads: 'otherDriverHolderFileUploads',
+  },
+} as const;
+
 // =============================================================================
 // NAVIGATION ROUTES
 // =============================================================================
@@ -116,7 +133,11 @@ export const FORM_ROUTES = {
     b: '/frida-carclaims/damagelocation/b',
   },
   damageLocation: {
-    a: '/frida-carclaims/damagedescription',
+    a: '/frida-carclaims/damagedescription/a',
+    b: '/frida-carclaims/damagedescription/b',
+  },
+  damageDescription: {
+    a: '/frida-carclaims/personalinfo/b',
     b: '/frida-carclaims/injuredpersons',
   },
 } as const;
@@ -340,6 +361,24 @@ export const FORM_LABELS = {
     addMoreDamage: 'Weitere Schadensstellen hinzufügen',
     carImagePlaceholder: 'Fahrzeugbild hier',
     carImageInstruction: 'Klicken Sie auf die entsprechenden Bereiche am Fahrzeug, um Schäden zu markieren',
+  },
+  damageDescription: {
+    title: {
+      a: 'Schadensbeschreibung - Fahrzeug A',
+      b: 'Schadensbeschreibung - Fahrzeug B',
+    },
+    damageDescription: 'Beschreiben Sie sichtbare Schäden am Fahrzeug:',
+    additionalComments: 'Weitere Bemerkungen:',
+    vehicleOperational: 'Ist das Fahrzeug vom Beschädigten fahrbereit?',
+    damageType: 'Wie kam es zu dem Fahrzeugschaden?',
+    fileUploads: 'Dateien hochladen:',
+    uploadInstructions: 'Ziehen Sie Dateien hierher oder klicken Sie, um Dateien auszuwählen',
+    maxFiles: 'Maximal 5 Dateien erlaubt',
+    attachFiles: 'Anhänge hinzufügen',
+    maxFilesReached: 'Maximale Anzahl erreicht',
+    deleteAttachment: 'Anhang löschen',
+    acceptedFormats: 'Akzeptierte Bildformate: .JPG, .JPEG, .PNG',
+    documentInfo: 'Sie können auch nützliche Dokumente wie Führerschein und Personalausweis hochladen.',
   },
   common: {
     selectPlaceholder: 'Bitte auswählen',

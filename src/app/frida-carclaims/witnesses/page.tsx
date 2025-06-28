@@ -1,20 +1,16 @@
 'use client';
 import { useGlobalFormStore, WitnessDetails, WitnessesFormState } from '@/types/state';
-import { parseAddress } from '@/utils/adress';
+import PersonalInfoFields from '../../../components/PersonalInfoFields';
 import {
   Button,
   RadioGroup,
   FormControlLabel,
   Radio,
-  TextField,
-  FormControl,
-  MenuItem,
-  Select,
 } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { ArrowRight, Minus, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function WitnessesPage() {
   const router = useRouter();
@@ -40,41 +36,22 @@ export default function WitnessesPage() {
     witnesses: globalForm.witnesses || [],
   };
 
-  const [addressInputs, setAddressInputs] = useState<string[]>(() => {
-    return Array.from({ length: values.witnesses?.length || 0 }, (_, i) => {
-      if (values.witnesses?.[i]) {
-        return `${values.witnesses[i].streetName || ''} ${
-          values.witnesses[i].houseNumber || ''
-        }`.trim();
-      }
-      return '';
-    });
-  });
-
-  console.log(
-    { 'Actual witnesses[] Length:': values.witnesses?.length },
-    { 'Address Inputs Length:': addressInputs.length },
-  );
-
   return (
     <Formik
       initialValues={values}
-      onSubmit={values => {
+      onSubmit={formData => {
         const limitedValues = {
-          ...values,
-          witnesses: values.witnesses?.slice(0, values.witnessesCount) || [],
-          witnessesCount: values.hasWitnesses ? values.witnessesCount : 0,
+          ...formData,
+          witnesses: formData.witnesses?.slice(0, formData.witnessesCount) || [],
+          witnessesCount: formData.hasWitnesses ? formData.witnessesCount : 0,
         };
 
-        console.log({ WITNESS_LIST: limitedValues.witnesses });
-        console.log({ FORM_SUBMIT: limitedValues });
-
-        setGlobalForm(values);
-
+        console.log({ WITNESSES_FORM_SUBMIT: limitedValues });
+        setGlobalForm(formData);
         router.push('/frida-carclaims/miscellaneousdamages');
       }}
     >
-      {({ handleChange, handleSubmit, values, setFieldValue }) => (
+      {({ handleChange, handleSubmit, values, setFieldValue, errors, touched }) => (
         <Form onSubmit={handleSubmit} className="form-wrapper">
           <div className="form-content">
             <div className="form-group radio-group">
@@ -108,7 +85,6 @@ export default function WitnessesPage() {
                     type="button"
                     className="number-btn"
                     onClick={() => {
-                      // Verringere die Anzahl der Zeugen (minimum 0)
                       const newCount = Math.max(0, (values.witnessesCount ?? 0) - 1);
                       setFieldValue('witnessesCount', newCount);
                     }}
@@ -126,16 +102,20 @@ export default function WitnessesPage() {
                     type="button"
                     className="number-btn"
                     onClick={() => {
-                      // Erhöhe die Anzahl der Zeugen
                       const newCount = (values.witnessesCount || 0) + 1;
                       setFieldValue('witnessesCount', newCount);
 
-                      // Stelle sicher, dass für den neuen Zeugen ein neues Objekt mit leeren Feldern erstellt wird
                       const currentWitnesses = [...(values.witnesses || [])];
                       if (currentWitnesses.length < newCount) {
-                        // Füge leere Zeugendetails für den neuen Index hinzu
-                        currentWitnesses.push({ ...emptyWitnessDetails });
+                        const newWitness = { ...emptyWitnessDetails };
+                        currentWitnesses.push(newWitness);
                         setFieldValue('witnesses', currentWitnesses);
+                        
+                        console.log('Adding new witness:', {
+                          newCount,
+                          newWitness,
+                          currentWitnesses,
+                        });
                       }
                     }}
                   >
@@ -144,6 +124,7 @@ export default function WitnessesPage() {
                 </div>
               </div>
             )}
+
             {values.hasWitnesses &&
               values.witnessesCount !== 0 &&
               Array.from(Array(values.witnessesCount)).map((_, index) => (
@@ -151,136 +132,19 @@ export default function WitnessesPage() {
                   <h2 style={{ marginBottom: '8px', marginTop: '12px' }}>
                     Angaben zum Zeugen {index + 1}
                   </h2>
-                  <div className="form-group">
-                    <label>Anrede:</label>
-                    <FormControl fullWidth variant="outlined">
-                      <Select
-                        name={`witnesses[${index}].salutation`}
-                        displayEmpty
-                        value={values.witnesses?.[index]?.salutation || ''}
-                        onChange={handleChange}
-                        renderValue={selected => {
-                          if (selected === '') {
-                            return (
-                              <span
-                                style={{
-                                  color: 'rgba(0, 0, 0, 0.87) !important',
-                                  opacity: '0.5',
-                                }}
-                              >
-                                Bitte auswählen
-                              </span>
-                            );
-                          }
-                          return selected;
-                        }}
-                      >
-                        <MenuItem value="" selected>
-                          Bitte auswählen
-                        </MenuItem>
-                        <MenuItem value="Herr">Herr</MenuItem>
-                        <MenuItem value="Frau">Frau</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-
-                  <div className="form-group-horizontal">
-                    <div className="form-group-item-big">
-                      <label>Name:</label>
-                      <TextField
-                        name={`witnesses[${index}].surName`}
-                        autoComplete="family-name"
-                        fullWidth
-                        placeholder="Bitte ausfüllen"
-                        variant="outlined"
-                        value={values.witnesses?.[index]?.surName || ''}
-                        onChange={handleChange}
-                      />
-                    </div>
-
-                    <div className="form-group-item-big">
-                      <label>Vorname:</label>
-                      <TextField
-                        name={`witnesses[${index}].name`}
-                        autoComplete="given-name"
-                        fullWidth
-                        placeholder="Bitte ausfüllen"
-                        variant="outlined"
-                        value={values.witnesses?.[index]?.name || ''}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Straße, Hausnummer:</label>
-                    <TextField
-                      name={`witnesses[${index}].address`}
-                      fullWidth
-                      placeholder="Bitte ausfüllen"
-                      variant="outlined"
-                      value={addressInputs[index] || ''}
-                      onChange={e => {
-                        const newAddressInputs = [...addressInputs];
-                        newAddressInputs[index] = e.target.value;
-                        setAddressInputs(newAddressInputs);
-                      }}
-                      onBlur={e => {
-                        const { streetName, houseNumber } = parseAddress(e.target.value);
-                        setFieldValue(`witnesses[${index}].streetName`, streetName);
-                        setFieldValue(`witnesses[${index}].houseNumber`, houseNumber);
-                      }}
-                    />
-                  </div>
-
-                  <div className="form-group-horizontal">
-                    <div className="form-group-item-small">
-                      <label>PLZ:</label>
-                      <TextField
-                        name={`witnesses[${index}].postalCode`}
-                        fullWidth
-                        placeholder="Bitte ausfüllen"
-                        variant="outlined"
-                        value={values.witnesses?.[index]?.postalCode || ''}
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group-item-big">
-                      <label>Ort:</label>
-                      <TextField
-                        name={`witnesses[${index}].city`}
-                        fullWidth
-                        placeholder="Bitte ausfüllen"
-                        variant="outlined"
-                        value={values.witnesses?.[index]?.city || ''}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>Telefon:</label>
-                    <TextField
-                      name={`witnesses[${index}].telephone`}
-                      fullWidth
-                      placeholder="Bitte ausfüllen"
-                      variant="outlined"
-                      value={values.witnesses?.[index]?.telephone || ''}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>E-Mail-Adresse:</label>
-                    <TextField
-                      name={`witnesses[${index}].email`}
-                      fullWidth
-                      placeholder="Bitte ausfüllen"
-                      variant="outlined"
-                      value={values.witnesses?.[index]?.email || ''}
-                      onChange={handleChange}
-                    />
-                  </div>
+                  
+                  <PersonalInfoFields
+                    fieldPrefix="witnesses"
+                    arrayIndex={index}
+                    formValues={values as Record<string, unknown>}
+                    handleChange={handleChange}
+                    errors={errors}
+                    touched={touched}
+                    onAddressChange={(streetName, houseNumber) => {
+                      setFieldValue(`witnesses[${index}].streetName`, streetName);
+                      setFieldValue(`witnesses[${index}].houseNumber`, houseNumber);
+                    }}
+                  />
                 </div>
               ))}
           </div>

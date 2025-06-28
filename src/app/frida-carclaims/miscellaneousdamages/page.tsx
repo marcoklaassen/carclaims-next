@@ -44,9 +44,9 @@ export default function MiscellaneousdamagesPage() {
     <Formik
       enableReinitialize
       initialValues={values}
-      onSubmit={(values) => {
-        console.log({"FORM_SUBMIT" : values});
-        setGlobalForm(values);
+      onSubmit={(formData) => {
+        console.log({ MISCELLANEOUSDAMAGES_FORM_SUBMIT: formData });
+        setGlobalForm(formData);
         router.push("/frida-carclaims/witnesses");
       }}
     >

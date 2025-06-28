@@ -13,6 +13,7 @@ interface PersonalInfoFieldsProps {
   errors: FormikErrors<Record<string, unknown>>;
   touched: FormikTouched<Record<string, unknown>>;
   onAddressChange?: (streetName: string, houseNumber: string) => void;
+  arrayIndex?: number; // Optional index für Array-Strukturen wie witnesses
 }
 
 export default function PersonalInfoFields({
@@ -22,9 +23,14 @@ export default function PersonalInfoFields({
   errors,
   touched,
   onAddressChange,
+  arrayIndex,
 }: PersonalInfoFieldsProps) {
-  // Helper function to get field names based on prefix
+
   const getFieldName = (field: string) => {
+
+    if (arrayIndex !== undefined && fieldPrefix === 'witnesses') {
+      return `witnesses[${arrayIndex}].${field}`;
+    }
     // Handle different field patterns
     if (fieldPrefix === 'insuranceHolder') {
       return `${fieldPrefix}${field.charAt(0).toUpperCase() + field.slice(1)}`;
@@ -39,7 +45,17 @@ export default function PersonalInfoFields({
     return `${fieldPrefix}${field.charAt(0).toUpperCase() + field.slice(1)}`;
   };
 
-  const getFieldValue = (field: string) => formValues[getFieldName(field)] || '';
+  const getFieldValue = (field: string) => {
+    const fieldName = getFieldName(field);
+
+    if (arrayIndex !== undefined && fieldPrefix === 'witnesses') {
+      const formData = formValues as Record<string, unknown>;
+      const witnesses = formData.witnesses as Array<Record<string, unknown>> | undefined;
+      return witnesses?.[arrayIndex]?.[field] as string || '';
+    }
+
+    return formValues[fieldName] as string || '';
+  };
 
   // Helper function to check for errors
   const hasError = (field: string) => {

@@ -23,12 +23,12 @@ export default function InjuredPersonsPage() {
     <Formik
       enableReinitialize
       initialValues={values}
-      onSubmit={values => {
+      onSubmit={formData => {
         const valuesForSubmit = {
-          ...values,
-          injuredCount: values.hasInjured === false ? 0 : values.injuredCount,
+          ...formData,
+          injuredCount: formData.hasInjured === false ? 0 : formData.injuredCount,
         };
-        console.log({ FORM_SUBMIT: valuesForSubmit });
+        console.log({ INJUREDPERSONS_FORM_SUBMIT: valuesForSubmit });
 
         setGlobalForm(valuesForSubmit);
         router.push('/frida-carclaims/miscellaneousdamages');

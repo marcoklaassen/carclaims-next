@@ -45,9 +45,9 @@ export default function DriverInfoPage() {
     <Formik
       enableReinitialize
       initialValues={values}
-      onSubmit={values => {
-        console.log({ FORM_SUBMIT: values });
-        setGlobalForm(values);
+      onSubmit={formData => {
+        console.log({ DRIVERINFO_FORM_SUBMIT: formData });
+        setGlobalForm(formData);
         router.push('/frida-carclaims/damagelocation');
       }}
       // validationSchema={carclaimsDatailsValidator}

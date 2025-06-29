@@ -52,7 +52,7 @@ export interface GlobalFormState {
   otherInsuranceHolderStreetName?: string;
   otherInsuranceHolderHouseNumber?: string;
   otherInsuranceHolderPostalCode?: string;
-  otherinsuranceHolderCity?: string;
+  otherInsuranceHolderCity?: string;
   otherInsuranceHolderTelephone?: string;
   otherInsuranceHolderEmail?: string;
   allRiskInsurance?: boolean | string | '0' | '1';
@@ -165,7 +165,7 @@ export interface OtherInsuranceHolderFormState {
   otherInsuranceHolderStreetName?: string;
   otherInsuranceHolderHouseNumber?: string;
   otherInsuranceHolderPostalCode?: string;
-  otherinsuranceHolderCity?: string;
+  otherInsuranceHolderCity?: string;
   otherInsuranceHolderTelephone?: string;
   otherInsuranceHolderEmail?: string;
   allRiskInsurance?: boolean | string | '0' | '1';

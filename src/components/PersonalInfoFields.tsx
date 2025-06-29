@@ -25,9 +25,7 @@ export default function PersonalInfoFields({
   onAddressChange,
   arrayIndex,
 }: PersonalInfoFieldsProps) {
-
   const getFieldName = (field: string) => {
-
     if (arrayIndex !== undefined && fieldPrefix === 'witnesses') {
       return `witnesses[${arrayIndex}].${field}`;
     }
@@ -36,9 +34,9 @@ export default function PersonalInfoFields({
       return `${fieldPrefix}${field.charAt(0).toUpperCase() + field.slice(1)}`;
     } else if (fieldPrefix === 'otherInsuranceHolder') {
       return `${fieldPrefix}${field.charAt(0).toUpperCase() + field.slice(1)}`;
-    } else if (fieldPrefix === 'driver' || fieldPrefix === 'driver') {
+    } else if (fieldPrefix === 'driver') {
       return `driver${field.charAt(0).toUpperCase() + field.slice(1)}`;
-    } else if (fieldPrefix === 'otherDriver' || fieldPrefix === 'otherDriver') {
+    } else if (fieldPrefix === 'otherDriver') {
       return `otherDriver${field.charAt(0).toUpperCase() + field.slice(1)}`;
     }
 
@@ -51,10 +49,10 @@ export default function PersonalInfoFields({
     if (arrayIndex !== undefined && fieldPrefix === 'witnesses') {
       const formData = formValues as Record<string, unknown>;
       const witnesses = formData.witnesses as Array<Record<string, unknown>> | undefined;
-      return witnesses?.[arrayIndex]?.[field] as string || '';
+      return (witnesses?.[arrayIndex]?.[field] as string) || '';
     }
 
-    return formValues[fieldName] as string || '';
+    return (formValues[fieldName] as string) || '';
   };
 
   // Helper function to check for errors
@@ -75,7 +73,6 @@ export default function PersonalInfoFields({
     return `${streetName} ${houseNumber}`.trim();
   });
 
-  // Address parsing function
   const handleAddressInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAddressInput(value);

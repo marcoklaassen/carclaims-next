@@ -15,6 +15,7 @@ import {
 } from '@/config/formConfig';
 import { createDriverInfoValues } from '@/utils/formHelpers';
 import PersonalInfoFields from './PersonalInfoFields';
+import './UnifiedDriverInfoPage.css';
 
 interface Props {
   formType?: FormType;
@@ -53,6 +54,8 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
       }}
     >
       {({ handleChange, handleSubmit, errors, touched, values, setFieldValue }) => {
+        const isInsuredDriver = values[fields.isInsuredDriver] === 'true';
+
         return (
           <Form onSubmit={handleSubmit} className="form-wrapper">
             <div className="form-content">
@@ -65,7 +68,71 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                   name={fields.isInsuredDriver}
                   row
                   value={values[fields.isInsuredDriver] || ''}
-                  onChange={handleChange}
+                  onChange={(event) => {
+                    const selectedValue = event.target.value;
+                    handleChange(event);
+
+                    if (selectedValue === 'true') {
+                      if (formType === 'a') {
+                        setFieldValue(
+                          fields.salutation,
+                          globalForm.insuranceHolderSalutation || '',
+                        );
+                        setFieldValue(fields.surName, globalForm.insuranceHolderSurName || '');
+                        setFieldValue(fields.name, globalForm.insuranceHolderName || '');
+                        setFieldValue(
+                          fields.streetName,
+                          globalForm.insuranceHolderStreetName || '',
+                        );
+                        setFieldValue(
+                          fields.houseNumber,
+                          globalForm.insuranceHolderHouseNumber || '',
+                        );
+                        setFieldValue(
+                          fields.postalCode,
+                          globalForm.insuranceHolderPostalCode || '',
+                        );
+                        setFieldValue(fields.city, globalForm.insuranceHolderCity || '');
+                        setFieldValue(fields.telephone, globalForm.insuranceHolderTelephone || '');
+                        setFieldValue(fields.email, globalForm.insuranceHolderEmail || '');
+                      } else {
+                        setFieldValue(
+                          fields.salutation,
+                          globalForm.otherInsuranceHolderSalutation || '',
+                        );
+                        setFieldValue(fields.surName, globalForm.otherInsuranceHolderSurName || '');
+                        setFieldValue(fields.name, globalForm.otherInsuranceHolderName || '');
+                        setFieldValue(
+                          fields.streetName,
+                          globalForm.otherInsuranceHolderStreetName || '',
+                        );
+                        setFieldValue(
+                          fields.houseNumber,
+                          globalForm.otherInsuranceHolderHouseNumber || '',
+                        );
+                        setFieldValue(
+                          fields.postalCode,
+                          globalForm.otherInsuranceHolderPostalCode || '',
+                        );
+                        setFieldValue(fields.city, globalForm.otherInsuranceHolderCity || '');
+                        setFieldValue(
+                          fields.telephone,
+                          globalForm.otherInsuranceHolderTelephone || '',
+                        );
+                        setFieldValue(fields.email, globalForm.otherInsuranceHolderEmail || '');
+                      }
+                    } else if (selectedValue === 'false') {
+                      setFieldValue(fields.salutation, '');
+                      setFieldValue(fields.surName, '');
+                      setFieldValue(fields.name, '');
+                      setFieldValue(fields.streetName, '');
+                      setFieldValue(fields.houseNumber, '');
+                      setFieldValue(fields.postalCode, '');
+                      setFieldValue(fields.city, '');
+                      setFieldValue(fields.telephone, '');
+                      setFieldValue(fields.email, '');
+                    }
+                  }}
                 >
                   <FormControlLabel
                     value={true}
@@ -88,17 +155,76 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                 <h3>Persönliche Daten des Fahrers</h3>
               </div>
 
-              <PersonalInfoFields
-                fieldPrefix={formType === 'a' ? 'driver' : 'otherDriver'}
-                formValues={values}
-                handleChange={handleChange}
-                errors={errors}
-                touched={touched}
-                onAddressChange={(streetName, houseNumber) => {
-                  setFieldValue(fields.streetName, streetName);
-                  setFieldValue(fields.houseNumber, houseNumber);
-                }}
-              />
+              {isInsuredDriver ? (
+                /* Anzeige der bereits erfassten Versicherungsnehmer-Daten */
+                <div className="insurance-holder-display">
+                  <div className="form-group">
+                    <label>Anrede:</label>
+                    <div className="display-value">
+                      {formType === 'a'
+                        ? globalForm.insuranceHolderSalutation
+                        : globalForm.otherInsuranceHolderSalutation}
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Nach- und Vorname:</label>
+                    <div className="display-value">
+                      {formType === 'a'
+                        ? `${globalForm.insuranceHolderSurName}, ${globalForm.insuranceHolderName}`
+                        : `${globalForm.otherInsuranceHolderSurName}, ${globalForm.otherInsuranceHolderName}`}
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Anschrift:</label>
+                    <div className="display-value">
+                      {formType === 'a'
+                        ? `${globalForm.insuranceHolderStreetName} ${globalForm.insuranceHolderHouseNumber}, ${globalForm.insuranceHolderPostalCode} ${globalForm.insuranceHolderCity}`
+                        : `${globalForm.otherInsuranceHolderStreetName} ${globalForm.otherInsuranceHolderHouseNumber}, ${globalForm.otherInsuranceHolderPostalCode} ${globalForm.otherInsuranceHolderCity}`}
+                    </div>
+                  </div>
+
+                  {(formType === 'a'
+                    ? globalForm.insuranceHolderTelephone
+                    : globalForm.otherInsuranceHolderTelephone) && (
+                    <div className="form-group">
+                      <label>Telefon:</label>
+                      <div className="display-value">
+                        {formType === 'a'
+                          ? globalForm.insuranceHolderTelephone
+                          : globalForm.otherInsuranceHolderTelephone}
+                      </div>
+                    </div>
+                  )}
+
+                  {(formType === 'a'
+                    ? globalForm.insuranceHolderEmail
+                    : globalForm.otherInsuranceHolderEmail) && (
+                    <div className="form-group">
+                      <label>E-Mail:</label>
+                      <div className="display-value">
+                        {formType === 'a'
+                          ? globalForm.insuranceHolderEmail
+                          : globalForm.otherInsuranceHolderEmail}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Eingabefelder für separate Fahrer-Daten */
+                <PersonalInfoFields
+                  fieldPrefix={formType === 'a' ? 'driver' : 'otherDriver'}
+                  formValues={values}
+                  handleChange={handleChange}
+                  errors={errors}
+                  touched={touched}
+                  onAddressChange={(streetName, houseNumber) => {
+                    setFieldValue(fields.streetName, streetName);
+                    setFieldValue(fields.houseNumber, houseNumber);
+                  }}
+                />
+              )}
 
               {/* Driver-spezifische Felder */}
               <div className="form-group">

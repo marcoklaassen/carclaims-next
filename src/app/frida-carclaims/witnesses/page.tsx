@@ -1,12 +1,7 @@
 'use client';
 import { useGlobalFormStore, WitnessDetails, WitnessesFormState } from '@/types/state';
 import PersonalInfoFields from '../../../components/PersonalInfoFields';
-import {
-  Button,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from '@mui/material';
+import { Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { ArrowRight, Minus, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,8 +10,8 @@ import React from 'react';
 export default function WitnessesPage() {
   const router = useRouter();
 
-  const globalForm = useGlobalFormStore(s => s.form);
-  const setGlobalForm = useGlobalFormStore(s => s.setGlobalForm);
+  const globalForm = useGlobalFormStore((s) => s.form);
+  const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
   const emptyWitnessDetails: WitnessDetails = {
     salutation: '',
@@ -39,7 +34,7 @@ export default function WitnessesPage() {
   return (
     <Formik
       initialValues={values}
-      onSubmit={formData => {
+      onSubmit={(formData) => {
         const limitedValues = {
           ...formData,
           witnesses: formData.witnesses?.slice(0, formData.witnessesCount) || [],
@@ -60,7 +55,7 @@ export default function WitnessesPage() {
                 name="hasWitnesses"
                 row
                 value={values.hasWitnesses}
-                onChange={e => {
+                onChange={(e) => {
                   const newValue = e.target.value === 'true';
                   setFieldValue('hasWitnesses', newValue);
                 }}
@@ -110,7 +105,7 @@ export default function WitnessesPage() {
                         const newWitness = { ...emptyWitnessDetails };
                         currentWitnesses.push(newWitness);
                         setFieldValue('witnesses', currentWitnesses);
-                        
+
                         console.log('Adding new witness:', {
                           newCount,
                           newWitness,
@@ -132,7 +127,7 @@ export default function WitnessesPage() {
                   <h2 style={{ marginBottom: '8px', marginTop: '12px' }}>
                     Angaben zum Zeugen {index + 1}
                   </h2>
-                  
+
                   <PersonalInfoFields
                     fieldPrefix="witnesses"
                     arrayIndex={index}

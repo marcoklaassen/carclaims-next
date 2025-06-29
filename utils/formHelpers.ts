@@ -1,17 +1,29 @@
-import { InsuranceHolderFormState, OtherInsuranceHolderFormState, DriverOfInsuranceHolderFormState, GlobalFormState } from '@/types/state';
-import { FormType, PERSONAL_INFO_FIELDS, VEHICLE_INFO_FIELDS, DRIVER_INFO_FIELDS, DAMAGE_LOCATION_FIELDS, DAMAGE_DESCRIPTION_FIELDS } from '@/config/formConfig';
+import {
+  InsuranceHolderFormState,
+  OtherInsuranceHolderFormState,
+  DriverOfInsuranceHolderFormState,
+  GlobalFormState,
+} from '@/types/state';
+import {
+  FormType,
+  PERSONAL_INFO_FIELDS,
+  VEHICLE_INFO_FIELDS,
+  DRIVER_INFO_FIELDS,
+  DAMAGE_LOCATION_FIELDS,
+  DAMAGE_DESCRIPTION_FIELDS,
+} from '@/config/formConfig';
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 
 // Configure dayjs to use German locale
 dayjs.locale('de');
 
-type AllFormState = InsuranceHolderFormState & OtherInsuranceHolderFormState & DriverOfInsuranceHolderFormState & GlobalFormState;
+type AllFormState = InsuranceHolderFormState &
+  OtherInsuranceHolderFormState &
+  DriverOfInsuranceHolderFormState &
+  GlobalFormState;
 
-export function createPersonalInfoValues(
-  globalForm: Partial<AllFormState>,
-  formType: FormType
-) {
+export function createPersonalInfoValues(globalForm: Partial<AllFormState>, formType: FormType) {
   const fields = PERSONAL_INFO_FIELDS[formType];
 
   if (formType === 'a') {
@@ -34,17 +46,14 @@ export function createPersonalInfoValues(
       [fields.streetName]: globalForm.otherInsuranceHolderStreetName || '',
       [fields.houseNumber]: globalForm.otherInsuranceHolderHouseNumber || '',
       [fields.postalCode]: globalForm.otherInsuranceHolderPostalCode || '',
-      [fields.city]: globalForm.otherinsuranceHolderCity || '',
+      [fields.city]: globalForm.otherInsuranceHolderCity || '',
       [fields.telephone]: globalForm.otherInsuranceHolderTelephone || '',
       [fields.email]: globalForm.otherInsuranceHolderEmail || '',
     };
   }
 }
 
-export function createVehicleInfoValues(
-  globalForm: Partial<AllFormState>,
-  formType: FormType
-) {
+export function createVehicleInfoValues(globalForm: Partial<AllFormState>, formType: FormType) {
   const fields = VEHICLE_INFO_FIELDS[formType];
 
   if (formType === 'a') {
@@ -78,15 +87,12 @@ export function createVehicleInfoValues(
   }
 }
 
-export function createDriverInfoValues(
-  globalForm: Partial<AllFormState>,
-  formType: FormType
-) {
+export function createDriverInfoValues(globalForm: Partial<AllFormState>, formType: FormType) {
   const fields = DRIVER_INFO_FIELDS[formType];
 
   if (formType === 'a') {
-    return {
-      [fields.isInsuredDriver]: globalForm.isInsuredDriver || '',
+    const baseValues = {
+      [fields.isInsuredDriver]: globalForm.isInsuredDriver || 'true',
       [fields.salutation]: globalForm.driverSalutation || '',
       [fields.name]: globalForm.driverName || '',
       [fields.surName]: globalForm.driverSurName || '',
@@ -99,9 +105,28 @@ export function createDriverInfoValues(
       [fields.driverLicense]: globalForm.driverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.driverLicenseIssuingAuthority || '',
     };
+
+    // Smart Initial Values: Wenn "Ja" ausgewählt ist, kopiere Versicherungsnehmer-Daten
+    if (baseValues[fields.isInsuredDriver] === 'true' && globalForm.insuranceHolderName) {
+      return {
+        ...baseValues,
+        [fields.salutation]: globalForm.insuranceHolderSalutation || baseValues[fields.salutation],
+        [fields.name]: globalForm.insuranceHolderName || baseValues[fields.name],
+        [fields.surName]: globalForm.insuranceHolderSurName || baseValues[fields.surName],
+        [fields.streetName]: globalForm.insuranceHolderStreetName || baseValues[fields.streetName],
+        [fields.houseNumber]:
+          globalForm.insuranceHolderHouseNumber || baseValues[fields.houseNumber],
+        [fields.postalCode]: globalForm.insuranceHolderPostalCode || baseValues[fields.postalCode],
+        [fields.city]: globalForm.insuranceHolderCity || baseValues[fields.city],
+        [fields.telephone]: globalForm.insuranceHolderTelephone || baseValues[fields.telephone],
+        [fields.email]: globalForm.insuranceHolderEmail || baseValues[fields.email],
+      };
+    }
+
+    return baseValues;
   } else {
-    return {
-      [fields.isInsuredDriver]: globalForm.otherIsInsuredDriver || '',
+    const baseValues = {
+      [fields.isInsuredDriver]: globalForm.otherIsInsuredDriver || 'true',
       [fields.salutation]: globalForm.otherDriverSalutation || '',
       [fields.name]: globalForm.otherDriverName || '',
       [fields.surName]: globalForm.otherDriverSurName || '',
@@ -114,13 +139,33 @@ export function createDriverInfoValues(
       [fields.driverLicense]: globalForm.otherDriverDriverLicense || '',
       [fields.licenseIssuingAuthority]: globalForm.otherDriverLicenseIssuingAuthority || '',
     };
+
+    // Smart Initial Values: Wenn "Ja" ausgewählt ist, kopiere Versicherungsnehmer-Daten
+    if (baseValues[fields.isInsuredDriver] === 'true' && globalForm.otherInsuranceHolderName) {
+      return {
+        ...baseValues,
+        [fields.salutation]:
+          globalForm.otherInsuranceHolderSalutation || baseValues[fields.salutation],
+        [fields.name]: globalForm.otherInsuranceHolderName || baseValues[fields.name],
+        [fields.surName]: globalForm.otherInsuranceHolderSurName || baseValues[fields.surName],
+        [fields.streetName]:
+          globalForm.otherInsuranceHolderStreetName || baseValues[fields.streetName],
+        [fields.houseNumber]:
+          globalForm.otherInsuranceHolderHouseNumber || baseValues[fields.houseNumber],
+        [fields.postalCode]:
+          globalForm.otherInsuranceHolderPostalCode || baseValues[fields.postalCode],
+        [fields.city]: globalForm.otherInsuranceHolderCity || baseValues[fields.city],
+        [fields.telephone]:
+          globalForm.otherInsuranceHolderTelephone || baseValues[fields.telephone],
+        [fields.email]: globalForm.otherInsuranceHolderEmail || baseValues[fields.email],
+      };
+    }
+
+    return baseValues;
   }
 }
 
-export function createDamageLocationValues(
-  globalForm: Partial<AllFormState>,
-  formType: FormType
-) {
+export function createDamageLocationValues(globalForm: Partial<AllFormState>, formType: FormType) {
   const fields = DAMAGE_LOCATION_FIELDS[formType];
 
   if (formType === 'a') {
@@ -136,7 +181,7 @@ export function createDamageLocationValues(
 
 export function createDamageDescriptionValues(
   globalForm: Partial<AllFormState>,
-  formType: FormType
+  formType: FormType,
 ) {
   const fields = DAMAGE_DESCRIPTION_FIELDS[formType];
 
@@ -158,4 +203,3 @@ export function createDamageDescriptionValues(
     };
   }
 }
-

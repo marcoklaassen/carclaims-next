@@ -25,7 +25,7 @@ export const PERSONAL_INFO_FIELDS = {
     streetName: 'otherInsuranceHolderStreetName',
     houseNumber: 'otherInsuranceHolderHouseNumber',
     postalCode: 'otherInsuranceHolderPostalCode',
-    city: 'otherinsuranceHolderCity',
+    city: 'otherInsuranceHolderCity',
     telephone: 'otherInsuranceHolderTelephone',
     email: 'otherInsuranceHolderEmail',
   },

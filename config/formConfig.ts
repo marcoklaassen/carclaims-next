@@ -363,7 +363,6 @@ export const FORM_LABELS = {
     instruction: 'Markieren Sie die Unfallstelle',
     infoText: 'Wählen Sie die jeweiligen Stellen auf der Grafik per Klick aus. Wenn Sie erneut auf die Stelle klicken, heben Sie Ihre Auswahl wieder auf.',
     addMoreDamage: 'Weitere Schadensstellen hinzufügen',
-    carImagePlaceholder: 'Fahrzeugbild hier',
     carImageInstruction: 'Klicken Sie auf die entsprechenden Bereiche am Fahrzeug, um Schäden zu markieren',
   },
   damageDescription: {

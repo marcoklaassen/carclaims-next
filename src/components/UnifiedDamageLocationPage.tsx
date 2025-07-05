@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useGlobalFormStore } from '@/types/state';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Formik, Form } from 'formik';
@@ -8,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FormType, DAMAGE_LOCATION_FIELDS, FORM_ROUTES, FORM_LABELS } from '@/config/formConfig';
 import { createDamageLocationValues } from '@/utils/formHelpers';
+import carclaims from '../../public/carclaims-grafik.svg';
 
 interface Props {
   formType?: FormType;
@@ -127,8 +129,16 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
 
             {/* Platzhalter für Fahrzeugbild */}
             <div className="car-image-placeholder">
-              <div>{labels.carImagePlaceholder}</div>
-              <div style={{ fontSize: '12px', marginTop: '8px' }}>{labels.carImageInstruction}</div>
+              <Image
+                src={carclaims}
+                alt="Car Image SVG"
+                className="car-image"
+                style={{
+                  objectFit: 'contain',
+                }}
+                unoptimized
+                priority
+              />
             </div>
           </div>
 

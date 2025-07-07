@@ -6,13 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-api": "openapi-generator-cli generate -o ./openapi/generated -i ./openapi/claimsOas.yaml -g typescript-fetch"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.0",
     "@mui/x-date-pickers": "^8.4.0",
+    "@openapitools/openapi-generator-cli": "^2.21.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "lucide-react": "^0.509.0",

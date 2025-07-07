@@ -1,0 +1,16 @@
+.openapi-generator-ignore
+apis/ClaimsApi.ts
+apis/index.ts
+index.ts
+models/Claimsdata.ts
+models/Claimsdetails.ts
+models/ErrorList.ts
+models/ErrorListErrorsInner.ts
+models/Person.ts
+models/Policyholder.ts
+models/VehicleDriver.ts
+models/VehicleDriverDamagedCarImagesInner.ts
+models/VehicleDriverDamagedWindowImagesInner.ts
+models/Witness.ts
+models/index.ts
+runtime.ts

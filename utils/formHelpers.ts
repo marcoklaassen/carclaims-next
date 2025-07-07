@@ -77,7 +77,7 @@ export function createVehicleInfoValues(globalForm: Partial<AllFormState>, formT
       [fields.carModel]: globalForm.otherCarModel || '',
       [fields.licensePlate]: globalForm.otherLicensePlate || '',
       [fields.insuranceCompany]: globalForm.otherInsuranceCompany || '',
-      [fields.insuranceNumber]: globalForm.otherinsuranceNumber || '',
+      [fields.insuranceNumber]: globalForm.otherInsuranceNumber || '',
       [fields.chassisNumber]: globalForm.otherChassisNumber || '',
       [fields.odometerReading]: globalForm.otherOdometerReading || '',
       [fields.greenCardNumber]: globalForm.otherGreenCardNumber || '',
@@ -198,7 +198,7 @@ export function createDamageDescriptionValues(
       [fields.damageDescription]: globalForm.otherDamageDescription || '',
       [fields.additionalComments]: globalForm.otherAdditionalComments || '',
       [fields.vehicleOperational]: globalForm.otherVehicleOperational || '',
-      [fields.damageType]: globalForm.otherdamageType || '',
+      [fields.damageType]: globalForm.otherDamageType || '',
       [fields.fileUploads]: globalForm.otherDriverFileUploads || [],
     };
   }

@@ -62,7 +62,6 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
       onSubmit={(formData) => {
         console.log({ DAMAGELOCATION_FORM_SUBMIT: formData, TYPE: formType });
         setGlobalForm(formData);
-        window.scrollTo(0, 0);
         router.push(FORM_ROUTES.damageLocation[formType]);
       }}
     >

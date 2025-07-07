@@ -51,7 +51,7 @@ export const VEHICLE_INFO_FIELDS = {
     carModel: 'otherCarModel',
     licensePlate: 'otherLicensePlate',
     insuranceCompany: 'otherInsuranceCompany',
-    insuranceNumber: 'otherinsuranceNumber',
+    insuranceNumber: 'otherInsuranceNumber',
     chassisNumber: 'otherChassisNumber',
     odometerReading: 'otherOdometerReading',
     greenCardNumber: 'otherGreenCardNumber',
@@ -112,7 +112,7 @@ export const DAMAGE_DESCRIPTION_FIELDS = {
     damageDescription: 'otherDamageDescription',
     additionalComments: 'otherAdditionalComments',
     vehicleOperational: 'otherVehicleOperational',
-    damageType: 'otherdamageType',
+    damageType: 'otherDamageType',
     fileUploads: 'otherDriverFileUploads',
   },
 } as const;

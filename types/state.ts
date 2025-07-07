@@ -61,7 +61,7 @@ export interface GlobalFormState {
   otherCarModel?: string;
   otherLicensePlate?: string;
   otherInsuranceCompany?: string;
-  otherinsuranceNumber?: string;
+  otherInsuranceNumber?: string;
   otherChassisNumber?: string;
   otherOdometerReading?: string;
   otherGreenCardNumber?: string;
@@ -110,7 +110,7 @@ export interface GlobalFormState {
   otherAdditionalComments?: string;
   otherDamageDescription?: string;
   otherVehicleOperational?: '';
-  otherdamageType?: string;
+  otherDamageType?: string;
 }
 
 export interface CarclaimsDetailsState {
@@ -174,7 +174,7 @@ export interface OtherInsuranceHolderFormState {
   otherCarModel?: string;
   otherLicensePlate?: string;
   otherInsuranceCompany?: string;
-  otherinsuranceNumber?: string;
+  otherInsuranceNumber?: string;
   otherChassisNumber?: string;
   otherOdometerReading?: string;
   otherGreenCardNumber?: string;
@@ -221,7 +221,7 @@ export interface DriverOfOtherInsuranceHolderFormState {
   otherAdditionalComments?: string;
   otherDamageDescription?: string;
   otherVehicleOperational?: '' | '';
-  otherdamageType?: string;
+  otherDamageType?: string;
 }
 
 export interface WitnessesFormState {

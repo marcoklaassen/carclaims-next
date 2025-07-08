@@ -3,25 +3,30 @@
   border: 1px solid #e9ecef;
   border-radius: 8px;
   padding: 16px;
-  margin: 16px 0;
+  margin-bottom: 24px !important;
 }
 
 .insurance-holder-display .form-group {
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
-.insurance-holder-display .form-group:last-child {
+/* .insurance-holder-display .form-group:last-child {
   margin-bottom: 0;
-}
+} */
 
-.insurance-holder-display label {
-  font-weight: 600;
-  color: #495057;
+.insurance-holder-display label,
+.insurance-holder-display .display-label {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  /* line-height: 14px; */
+  color: #1A1A1A;
+  margin-bottom: 0px !important;
   display: block;
-  margin-bottom: 4px;
 }
 
 .display-value {
+  font-size: 16px;
+  /* line-height: 16px !important; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -29,13 +34,13 @@
 
 /* Responsive Anpassungen für sehr kleine Bildschirme */
 @media (max-width: 480px) {
-  .insurance-holder-display {
+  /* .insurance-holder-display {
     padding: 12px;
-    margin: 12px 0;
-  }
+     margin: 12px 0;
+  } */
 
   .display-value {
-    font-size: 14px;
+    /* font-size: 14px; */
     max-width: calc(100vw - 80px);
   }
 
@@ -47,7 +52,7 @@
 
 @media (max-width: 320px) {
   .display-value {
-    font-size: 13px;
+    /* font-size: 13px; */
     max-width: calc(100vw - 60px);
   }
 }

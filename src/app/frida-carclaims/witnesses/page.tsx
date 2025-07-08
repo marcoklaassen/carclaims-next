@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik';
 import { ArrowRight, Minus, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { ClaimsSubmissionService } from '@/utils/claimsSubmissionService';
 
 export default function WitnessesPage() {
   const router = useRouter();
@@ -31,6 +32,18 @@ export default function WitnessesPage() {
     witnesses: globalForm.witnesses || [],
   };
 
+  async function sendClaimsdata() {
+    try {
+      console.log('📤 Sende Claims-Daten mit Service...');
+      await ClaimsSubmissionService.submitClaims();
+      console.log('✅ Claims erfolgreich übermittelt!');
+      alert('Schadendaten erfolgreich übermittelt!');
+    } catch (error) {
+      console.error('❌ Fehler beim Übermitteln der Claims:', error);
+      alert('Fehler beim Übermitteln der Schadendaten: ' + error);
+    }
+  }
+
   return (
     <Formik
       initialValues={values}
@@ -43,6 +56,8 @@ export default function WitnessesPage() {
 
         console.log({ WITNESSES_FORM_SUBMIT: limitedValues });
         setGlobalForm(formData);
+        // Send claims data to the insurance company before navigating to the next page
+        sendClaimsdata();
         router.push('/frida-carclaims/miscellaneousdamages');
       }}
     >

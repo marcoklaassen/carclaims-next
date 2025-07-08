@@ -150,16 +150,11 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                 )}
               </div>
 
-              {/* Persönliche Daten des Fahrers */}
-              <div className="form-group">
-                <h3>Persönliche Daten des Fahrers</h3>
-              </div>
-
               {isInsuredDriver ? (
                 /* Anzeige der bereits erfassten Versicherungsnehmer-Daten */
                 <div className="insurance-holder-display">
                   <div className="form-group">
-                    <label>Anrede:</label>
+                    <span className="display-label">Anrede:</span>
                     <div className="display-value">
                       {formType === 'a'
                         ? globalForm.insuranceHolderSalutation
@@ -168,7 +163,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                   </div>
 
                   <div className="form-group">
-                    <label>Nach- und Vorname:</label>
+                    <span className="display-label">Nach- und Vorname:</span>
                     <div className="display-value">
                       {formType === 'a'
                         ? `${globalForm.insuranceHolderSurName}, ${globalForm.insuranceHolderName}`
@@ -177,7 +172,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                   </div>
 
                   <div className="form-group">
-                    <label>Anschrift:</label>
+                    <span className="display-label">Anschrift:</span>
                     <div className="display-value">
                       {formType === 'a'
                         ? `${globalForm.insuranceHolderStreetName} ${globalForm.insuranceHolderHouseNumber}, ${globalForm.insuranceHolderPostalCode} ${globalForm.insuranceHolderCity}`
@@ -189,7 +184,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                     ? globalForm.insuranceHolderTelephone
                     : globalForm.otherInsuranceHolderTelephone) && (
                     <div className="form-group">
-                      <label>Telefon:</label>
+                      <span className="display-label">Telefon:</span>
                       <div className="display-value">
                         {formType === 'a'
                           ? globalForm.insuranceHolderTelephone
@@ -202,7 +197,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                     ? globalForm.insuranceHolderEmail
                     : globalForm.otherInsuranceHolderEmail) && (
                     <div className="form-group">
-                      <label>E-Mail:</label>
+                      <span className="display-label">E-Mail:</span>
                       <div className="display-value">
                         {formType === 'a'
                           ? globalForm.insuranceHolderEmail
@@ -212,18 +207,25 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                   )}
                 </div>
               ) : (
-                /* Eingabefelder für separate Fahrer-Daten */
-                <PersonalInfoFields
-                  fieldPrefix={formType === 'a' ? 'driver' : 'otherDriver'}
-                  formValues={values}
-                  handleChange={handleChange}
-                  errors={errors}
-                  touched={touched}
-                  onAddressChange={(streetName, houseNumber) => {
-                    setFieldValue(fields.streetName, streetName);
-                    setFieldValue(fields.houseNumber, houseNumber);
-                  }}
-                />
+                <>
+                  {/* Persönliche Daten des Fahrers */}
+                  <div className="form-group">
+                    <h3>Persönliche Daten des Fahrers</h3>
+                  </div>
+
+                  {/* Eingabefelder für separate Fahrer-Daten */}
+                  <PersonalInfoFields
+                    fieldPrefix={formType === 'a' ? 'driver' : 'otherDriver'}
+                    formValues={values}
+                    handleChange={handleChange}
+                    errors={errors}
+                    touched={touched}
+                    onAddressChange={(streetName, houseNumber) => {
+                      setFieldValue(fields.streetName, streetName);
+                      setFieldValue(fields.houseNumber, houseNumber);
+                    }}
+                  />
+                </>
               )}
 
               {/* Driver-spezifische Felder */}

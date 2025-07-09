@@ -5,7 +5,9 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'CarClaims - Schadensmeldung',
-  description: 'Digitale Schadensmeldung für Kfz-Versicherungen'
+  description: 'Digitale Schadensmeldung für Kfz-Versicherungen',
+  icons: {
+    icon: '/frida.ico'}
 };
 
 export default function RootLayout({

@@ -88,15 +88,15 @@ export class ClaimsSubmissionService {
     const missingFields: string[] = [];
 
     if (!claimsdata.policyholder.policyNumber) {
-      missingFields.push('Policennummer von Versicherungsnehmer A');
+      missingFields.push('Policennummer von Versicherungsnehmer');
     }
 
     if (!claimsdata.policyholder.personalInformation?.lastName) {
-      missingFields.push('Name von Versicherungsnehmer A');
+      missingFields.push('Name von Versicherungsnehmer');
     }
 
     if (!claimsdata.otherPolicyholder.personalInformation?.lastName) {
-      missingFields.push('Name von Versicherungsnehmer B');
+      missingFields.push('Name des Geschädigten');
     }
 
     if (!claimsdata.claimsDetails?.accidentDate) {

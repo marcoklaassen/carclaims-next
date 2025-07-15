@@ -306,8 +306,8 @@ export const createDriverInfoValidationSchema = (formType: FormType) => {
 export const FORM_LABELS = {
   personalInfo: {
     title: {
-      a: 'Persönliche Daten - Versicherungsnehmer A',
-      b: 'Persönliche Daten - Versicherungsnehmer B',
+      a: 'Persönliche Daten - Versicherungsnehmer',
+      b: 'Persönliche Daten - Geschädigte:r',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -320,8 +320,8 @@ export const FORM_LABELS = {
   },
   vehicleInfo: {
     title: {
-      a: 'Fahrzeuginformationen - Versicherungsnehmer A',
-      b: 'Fahrzeuginformationen - Versicherungsnehmer B',
+      a: 'Fahrzeuginformationen - Versicherungsnehmer',
+      b: 'Fahrzeuginformationen - Geschädigte:r',
     },
     vatDeduction: 'Besteht Berechtigung zum Vorsteuerabzug?',
     carBrand: 'Automarke (z.B. Audi, Mercedes Benz etc.):',
@@ -337,12 +337,12 @@ export const FORM_LABELS = {
   },
   driverInfo: {
     title: {
-      a: 'Fahrerinformationen - Versicherungsnehmer A',
-      b: 'Fahrerinformationen - Versicherungsnehmer B',
+      a: 'Fahrerinformationen - Versicherungsnehmer',
+      b: 'Fahrerinformationen - Geschädigte:r',
     },
     isInsuredDriver: {
-      a: 'Ist der Versicherungsnehmer A auch der Fahrlenker gewesen?',
-      b: 'Ist der Versicherungsnehmer B auch der Fahrlenker gewesen?',
+      a: 'Ist der Versicherungsnehmer auch der Fahrlenker gewesen?',
+      b: 'Ist der Geschädigte auch der Fahrlenker gewesen?',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -357,8 +357,8 @@ export const FORM_LABELS = {
   },
   damageLocation: {
     title: {
-      a: 'Unfallstelle markieren - Fahrzeug A',
-      b: 'Unfallstelle markieren - Fahrzeug B',
+      a: 'Unfallstelle markieren - Fahrzeug des Versicherungsnehmers',
+      b: 'Unfallstelle markieren - Fahrzeug des Geschädigten',
     },
     instruction: 'Markieren Sie die Unfallstelle',
     infoText: 'Wählen Sie die jeweiligen Stellen auf der Grafik per Klick aus. Wenn Sie erneut auf die Stelle klicken, heben Sie Ihre Auswahl wieder auf.',
@@ -367,8 +367,8 @@ export const FORM_LABELS = {
   },
   damageDescription: {
     title: {
-      a: 'Schadensbeschreibung - Fahrzeug A',
-      b: 'Schadensbeschreibung - Fahrzeug B',
+      a: 'Schadensbeschreibung - Fahrzeug des Versicherungsnehmers',
+      b: 'Schadensbeschreibung - Fahrzeug des Geschädigten',
     },
     damageDescription: 'Beschreiben Sie sichtbare Schäden am Fahrzeug:',
     additionalComments: 'Weitere Bemerkungen:',

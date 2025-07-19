@@ -81,7 +81,6 @@ export default function AccidentInfoPage() {
                   value={values.language}
                   displayEmpty
                   onChange={handleChange}
-                  className="select-input"
                   renderValue={selected => {
                     if (selected === '') {
                       return (

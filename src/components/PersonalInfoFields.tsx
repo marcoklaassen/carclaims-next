@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, FormControl, Select, MenuItem } from '@mui/material';
+import { TextField, FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
 import { FormikErrors, FormikTouched } from 'formik';
 import { parseAddress } from '@/utils/adress';
 import { FORM_LABELS } from '@/config/formConfig';
@@ -13,7 +13,7 @@ interface PersonalInfoFieldsProps {
   errors: FormikErrors<Record<string, unknown>>;
   touched: FormikTouched<Record<string, unknown>>;
   onAddressChange?: (streetName: string, houseNumber: string) => void;
-  arrayIndex?: number; // Optional index für Array-Strukturen wie witnesses
+  arrayIndex?: number;
 }
 
 export default function PersonalInfoFields({
@@ -116,7 +116,7 @@ export default function PersonalInfoFields({
             <MenuItem value="Frau">{FORM_LABELS.common.salutations.mrs}</MenuItem>
           </Select>
           {hasError('salutation') && (
-            <div className="error-message">{String(getErrorMessage('salutation'))}</div>
+            <FormHelperText error={true}>{String(getErrorMessage('salutation'))}</FormHelperText>
           )}
         </FormControl>
       </div>

@@ -1,5 +1,5 @@
 'use client';
-import { Button, TextField, Tooltip } from '@mui/material';
+import { Button, FormHelperText, TextField, Tooltip } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -7,6 +7,7 @@ import { useGlobalFormStore, CarclaimsDetailsState } from '@/types/state';
 import { parseAddress } from '@/utils/adress';
 import { useEffect, useState } from 'react';
 import { useGetAddress } from '../../../../hooks';
+import { createAccidentLocationValidationSchema } from '@/config/formConfig';
 
 export default function AccidentlocationPage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function AccidentlocationPage() {
     accidentDetails: globalForm.accidentDetails || '',
   };
 
+  const validationSchema = createAccidentLocationValidationSchema();
   const [addressInput, setAddressInput] = useState(
     `${values.accidentStreetName || ''} ${values.accidentHouseNumber || ''}`.trim(),
   );
@@ -36,14 +38,14 @@ export default function AccidentlocationPage() {
     <Formik
       enableReinitialize
       initialValues={values}
+      validationSchema={validationSchema}
       onSubmit={(formData) => {
         console.log({ ACCIDENTLOCATION_FORM_SUBMIT: formData });
         setGlobalForm(formData);
         router.push('/frida-carclaims/personalinfo/a');
       }}
-      // validationSchema={carclaimsDatailsValidator}
     >
-      {({ handleChange, handleSubmit, setFieldValue, values }) => {
+      {({ handleChange, handleSubmit, setFieldValue, setFieldTouched, values, errors, touched }) => {
         return (
           <Form onSubmit={handleSubmit} className="form-wrapper">
             <div className="form-content">
@@ -66,6 +68,10 @@ export default function AccidentlocationPage() {
                   placeholder="Bitte ausfüllen"
                   variant="outlined"
                   value={addressInput}
+                  error={
+                    (touched.accidentStreetName && Boolean(errors.accidentStreetName)) ||
+                    (touched.accidentHouseNumber && Boolean(errors.accidentHouseNumber))
+                  }
                   onChange={(e) => {
                     setAddressInput(e.target.value);
                   }}
@@ -74,10 +80,13 @@ export default function AccidentlocationPage() {
                     setFieldValue('accidentStreetName', streetName);
                     setFieldValue('accidentHouseNumber', houseNumber);
                   }}
-                  onClick={() => {
-                    // Original onClick handler, if any
-                  }}
                 />
+                {((touched.accidentStreetName && errors.accidentStreetName) ||
+                  (touched.accidentHouseNumber && errors.accidentHouseNumber)) && (
+                  <FormHelperText error={true}>
+                    {String(errors.accidentStreetName || errors.accidentHouseNumber)}
+                  </FormHelperText>
+                )}
               </div>
 
               <div className="location-button">
@@ -104,10 +113,14 @@ export default function AccidentlocationPage() {
                         setFieldValue('accidentCity', address.address.town || '');
                         setFieldValue('accidentPostalCode', address.address.postcode || '');
 
+                        setFieldTouched('accidentStreetName', false);
+                        setFieldTouched('accidentHouseNumber', false);
+                        setFieldTouched('accidentCity', false);
+                        setFieldTouched('accidentPostalCode', false);
+
                         console.log('Address:', address);
                       } else if (error) {
                         console.error('Fehler beim Abrufen der Adresse:', error);
-                        // Hier könnten Sie eine Benutzerbenachrichtigung hinzufügen
                       }
                     }}
                     disabled={loading}
@@ -128,7 +141,11 @@ export default function AccidentlocationPage() {
                   variant="outlined"
                   value={values.accidentPostalCode}
                   onChange={handleChange}
+                  error={touched.accidentPostalCode && Boolean(errors.accidentPostalCode)}
                 />
+                {touched.accidentPostalCode && errors.accidentPostalCode && (
+                  <FormHelperText error={true}>{String(errors.accidentPostalCode)}</FormHelperText>
+                )}
               </div>
 
               <div className="form-group">
@@ -140,7 +157,11 @@ export default function AccidentlocationPage() {
                   variant="outlined"
                   value={values.accidentCity}
                   onChange={handleChange}
+                  error={touched.accidentCity && Boolean(errors.accidentCity)}
                 />
+                {touched.accidentCity && errors.accidentCity && (
+                  <FormHelperText error={true}>{String(errors.accidentCity)}</FormHelperText>
+                )}
               </div>
 
               <div className="form-group">

@@ -1,4 +1,5 @@
 "use client";
+import { createMiscellaneousDamagesValidationSchema } from "@/config/formConfig";
 import { useGlobalFormStore } from "@/types/state";
 import {
   Button,
@@ -30,6 +31,8 @@ export default function MiscellaneousdamagesPage() {
   // State um zu verfolgen, ob das Feld manuell gelöscht wurde (also bewusst leer gelassen)
   const [fieldWasCleared, setFieldWasCleared] = useState(wasInitiallyCleared);
 
+  const validationSchema = createMiscellaneousDamagesValidationSchema();
+
   const values = {
     miscellaneousDamages: globalForm.miscellaneousDamages || false,
     miscellaneousDamageDescription:
@@ -49,8 +52,9 @@ export default function MiscellaneousdamagesPage() {
         setGlobalForm(formData);
         router.push("/frida-carclaims/witnesses");
       }}
+      validationSchema={validationSchema}
     >
-      {({ handleChange, handleSubmit, values, setFieldValue }) => (
+      {({ handleChange, handleSubmit, values, setFieldValue, errors, touched }) => (
         <Form onSubmit={handleSubmit} className="form-wrapper">
           <div className="form-content">
             <div className="form-group radio-group">
@@ -116,6 +120,8 @@ export default function MiscellaneousdamagesPage() {
                   multiline
                   rows={4}
                   value={values.miscellaneousDamageDescription}
+                  error={touched.miscellaneousDamageDescription && Boolean(errors.miscellaneousDamageDescription)}
+                  helperText={touched.miscellaneousDamageDescription && errors.miscellaneousDamageDescription}
                   onChange={(e) => {
                     handleChange(e);
                     // Zusätzlich den Zustand verfolgen, ob das Feld geleert wurde

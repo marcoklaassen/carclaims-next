@@ -3,6 +3,30 @@ import * as Yup from 'yup';
 export type FormType = 'a' | 'b';
 
 // =============================================================================
+// DAMAGE PARTS OPTIONS
+// =============================================================================
+
+export const AVAILABLE_DAMAGE_PARTS = [
+  'Reifen vorne rechts',
+  'Reifen vorne links',
+  'Reifen hinten rechts',
+  'Reifen hinten links',
+  'Scheibe vorne rechts',
+  'Scheibe vorne links',
+  'Scheibe hinten rechts',
+  'Scheibe hinten links',
+  'Kennzeichen vorne',
+  'Kennzeichen hinten',
+  'Kotflügel vorne rechts',
+  'Kotflügel vorne links',
+  'Stoßstange vorne',
+  'Stoßstange hinten',
+  'Motorhaube',
+  'Kofferraumklappe',
+  'Dach',
+];
+
+// =============================================================================
 // FIELD MAPPINGS
 // =============================================================================
 
@@ -150,10 +174,6 @@ export const FORM_ROUTES = {
 
 // Gemeinsame Validierungsregeln
 const VALIDATION_RULES = {
-  salutation: Yup.string()
-    .oneOf(['Herr', 'Frau'], 'Bitte wählen Sie eine gültige Anrede aus')
-    .required('Anrede ist erforderlich'),
-
   name: Yup.string()
     .min(2, 'Vorname muss mindestens 2 Zeichen lang sein')
     .max(50, 'Vorname darf maximal 50 Zeichen lang sein')
@@ -180,16 +200,11 @@ const VALIDATION_RULES = {
 
   telephone: Yup.string()
     .matches(/^[\d\s\-\+\(\)\/]+$/, 'Ungültiges Telefonnummer-Format')
-    .min(10, 'Telefonnummer muss mindestens 10 Zeichen lang sein')
-    .required('Telefonnummer ist erforderlich'),
+    .min(10, 'Telefonnummer muss mindestens 10 Zeichen lang sein'),
 
-  email: Yup.string()
-    .email('Ungültige E-Mail-Adresse')
-    .required('E-Mail-Adresse ist erforderlich'),
+  email: Yup.string().email('Ungültige E-Mail-Adresse').required('E-Mail-Adresse ist erforderlich'),
 
   // Vehicle validation rules
-  vatDeduction: Yup.boolean().required('Bitte wählen Sie eine Option aus'),
-
   carBrand: Yup.string()
     .min(2, 'Automarke muss mindestens 2 Zeichen lang sein')
     .required('Automarke ist erforderlich'),
@@ -221,13 +236,9 @@ const VALIDATION_RULES = {
     .max(999999, 'KM-Stand scheint unrealistisch hoch')
     .required('KM-Stand ist erforderlich'),
 
-  greenCardNumber: Yup.string()
-    .min(5, 'Grüne Karte Nummer muss mindestens 5 Zeichen lang sein')
-    .required('Grüne Karte Nummer ist erforderlich'),
+  greenCardNumber: Yup.string().min(5, 'Grüne Karte Nummer muss mindestens 5 Zeichen lang sein'),
 
-  validDateGreenCard: Yup.date()
-    .min(new Date(), 'Grüne Karte muss in der Zukunft gültig sein')
-    .required('Gültigkeitsdatum ist erforderlich'),
+  validDateGreenCard: Yup.date().min(new Date(), 'Grüne Karte muss in der Zukunft gültig sein'),
 
   allRiskInsurance: Yup.boolean().required('Bitte wählen Sie eine Option aus'),
 
@@ -241,6 +252,59 @@ const VALIDATION_RULES = {
   licenseIssuingAuthority: Yup.string()
     .min(3, 'Zulassungsbehörde muss mindestens 3 Zeichen lang sein')
     .required('Zulassungsbehörde ist erforderlich'),
+
+  // Damage Description rules
+  damageDescription: Yup.string().min(
+    10,
+    'Schadensbeschreibung muss mindestens 10 Zeichen lang sein',
+  ),
+
+  additionalComments: Yup.string().max(
+    500,
+    'Zusätzliche Bemerkungen dürfen maximal 500 Zeichen lang sein',
+  ),
+
+  damageType: Yup.string()
+    .oneOf(
+      [
+        'Auffahren',
+        'Rangieren/ Parken',
+        'Missachtung der Vorfahrt',
+        'Abbiegen',
+        'Abkommen von der Fahrbahn',
+        'Überholvorgang',
+        'Spurwechsel',
+        'Sonstiges',
+      ],
+      'Bitte wählen Sie eine gültige Schadensart aus',
+    )
+    .required('Schadensart ist erforderlich'),
+
+  // Damage Location rules
+  damagedParts: Yup.array()
+    .of(Yup.string().oneOf(AVAILABLE_DAMAGE_PARTS, 'Bitte wählen Sie gültige Fahrzeugteile aus'))
+    .min(1, 'Bitte wählen Sie mindestens ein beschädigtes Fahrzeugteil aus')
+    .required('Beschädigte Fahrzeugteile sind erforderlich'),
+
+  // Miscellaneous Damages rules
+  miscellaneousDamageDescription: Yup.string().when('miscellaneousDamages', {
+    is: true,
+    then: (schema) =>
+      schema
+        .required('Beschreibung ist erforderlich wenn andere Sachschäden vorhanden sind')
+        .min(10, 'Beschreibung muss mindestens 10 Zeichen lang sein'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+};
+
+// Schema-Generierung für accidentlocation
+export const createAccidentLocationValidationSchema = () => {
+  return Yup.object().shape({
+    accidentStreetName: VALIDATION_RULES.streetName,
+    accidentHouseNumber: VALIDATION_RULES.houseNumber,
+    accidentCity: VALIDATION_RULES.city,
+    accidentPostalCode: VALIDATION_RULES.postalCode,
+  });
 };
 
 // Dynamische Schema-Generierung für Personal Info
@@ -248,7 +312,6 @@ export const createPersonalInfoValidationSchema = (formType: FormType) => {
   const fields = PERSONAL_INFO_FIELDS[formType];
 
   return Yup.object().shape({
-    [fields.salutation]: VALIDATION_RULES.salutation,
     [fields.name]: VALIDATION_RULES.name,
     [fields.surName]: VALIDATION_RULES.surName,
     [fields.streetName]: VALIDATION_RULES.streetName,
@@ -265,7 +328,6 @@ export const createVehicleInfoValidationSchema = (formType: FormType) => {
   const fields = VEHICLE_INFO_FIELDS[formType];
 
   return Yup.object().shape({
-    [fields.vatDeduction]: VALIDATION_RULES.vatDeduction,
     [fields.carBrand]: VALIDATION_RULES.carBrand,
     [fields.carModel]: VALIDATION_RULES.carModel,
     [fields.licensePlate]: VALIDATION_RULES.licensePlate,
@@ -285,7 +347,6 @@ export const createDriverInfoValidationSchema = (formType: FormType) => {
 
   return Yup.object().shape({
     [fields.isInsuredDriver]: VALIDATION_RULES.isInsuredDriver,
-    [fields.salutation]: VALIDATION_RULES.salutation,
     [fields.name]: VALIDATION_RULES.name,
     [fields.surName]: VALIDATION_RULES.surName,
     [fields.streetName]: VALIDATION_RULES.streetName,
@@ -299,6 +360,33 @@ export const createDriverInfoValidationSchema = (formType: FormType) => {
   });
 };
 
+// Dynamische Schema-Generierung für Damage Location
+export const createDamageLocationValidationSchema = (formType: FormType) => {
+  const fields = DAMAGE_LOCATION_FIELDS[formType];
+
+  return Yup.object().shape({
+    [fields.damagedParts]: VALIDATION_RULES.damagedParts,
+  });
+};
+
+// Dynamische Schema-Generierung für Damage Description
+export const createDamageDescriptionValidationSchema = (formType: FormType) => {
+  const fields = DAMAGE_DESCRIPTION_FIELDS[formType];
+
+  return Yup.object().shape({
+    [fields.damageDescription]: VALIDATION_RULES.damageDescription,
+    [fields.additionalComments]: VALIDATION_RULES.additionalComments,
+    [fields.damageType]: VALIDATION_RULES.damageType,
+  });
+};
+
+// Schema für Miscellaneous Damages
+export const createMiscellaneousDamagesValidationSchema = () => {
+  return Yup.object().shape({
+    miscellaneousDamageDescription: VALIDATION_RULES.miscellaneousDamageDescription,
+  });
+};
+
 // =============================================================================
 // LABELS & TRANSLATIONS
 // =============================================================================
@@ -306,8 +394,8 @@ export const createDriverInfoValidationSchema = (formType: FormType) => {
 export const FORM_LABELS = {
   personalInfo: {
     title: {
-      a: 'Persönliche Daten - Versicherungsnehmer A',
-      b: 'Persönliche Daten - Versicherungsnehmer B',
+      a: 'Persönliche Daten - Versicherungsnehmer',
+      b: 'Persönliche Daten - Geschädigte:r',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -320,8 +408,8 @@ export const FORM_LABELS = {
   },
   vehicleInfo: {
     title: {
-      a: 'Fahrzeuginformationen - Versicherungsnehmer A',
-      b: 'Fahrzeuginformationen - Versicherungsnehmer B',
+      a: 'Fahrzeuginformationen - Versicherungsnehmer',
+      b: 'Fahrzeuginformationen - Geschädigte:r',
     },
     vatDeduction: 'Besteht Berechtigung zum Vorsteuerabzug?',
     carBrand: 'Automarke (z.B. Audi, Mercedes Benz etc.):',
@@ -337,12 +425,12 @@ export const FORM_LABELS = {
   },
   driverInfo: {
     title: {
-      a: 'Fahrerinformationen - Versicherungsnehmer A',
-      b: 'Fahrerinformationen - Versicherungsnehmer B',
+      a: 'Fahrerinformationen - Versicherungsnehmer',
+      b: 'Fahrerinformationen - Geschädigte:r',
     },
     isInsuredDriver: {
-      a: 'Ist der Versicherungsnehmer A auch der Fahrlenker gewesen?',
-      b: 'Ist der Versicherungsnehmer B auch der Fahrlenker gewesen?',
+      a: 'Ist der Versicherungsnehmer auch der Fahrlenker gewesen?',
+      b: 'Ist der Geschädigte auch der Fahrlenker gewesen?',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -357,18 +445,20 @@ export const FORM_LABELS = {
   },
   damageLocation: {
     title: {
-      a: 'Unfallstelle markieren - Fahrzeug A',
-      b: 'Unfallstelle markieren - Fahrzeug B',
+      a: 'Unfallstelle markieren - Fahrzeug des Versicherungsnehmers',
+      b: 'Unfallstelle markieren - Fahrzeug des Geschädigten',
     },
     instruction: 'Markieren Sie die Unfallstelle',
-    infoText: 'Wählen Sie die jeweiligen Stellen auf der Grafik per Klick aus. Wenn Sie erneut auf die Stelle klicken, heben Sie Ihre Auswahl wieder auf.',
+    infoText:
+      'Wählen Sie die jeweiligen Stellen auf der Grafik per Klick aus. Wenn Sie erneut auf die Stelle klicken, heben Sie Ihre Auswahl wieder auf.',
     addMoreDamage: 'Weitere Schadensstellen hinzufügen',
-    carImageInstruction: 'Klicken Sie auf die entsprechenden Bereiche am Fahrzeug, um Schäden zu markieren',
+    carImageInstruction:
+      'Klicken Sie auf die entsprechenden Bereiche am Fahrzeug, um Schäden zu markieren',
   },
   damageDescription: {
     title: {
-      a: 'Schadensbeschreibung - Fahrzeug A',
-      b: 'Schadensbeschreibung - Fahrzeug B',
+      a: 'Schadensbeschreibung - Fahrzeug des Versicherungsnehmers',
+      b: 'Schadensbeschreibung - Fahrzeug des Geschädigten',
     },
     damageDescription: 'Beschreiben Sie sichtbare Schäden am Fahrzeug:',
     additionalComments: 'Weitere Bemerkungen:',
@@ -381,7 +471,8 @@ export const FORM_LABELS = {
     maxFilesReached: 'Maximale Anzahl erreicht',
     deleteAttachment: 'Anhang löschen',
     acceptedFormats: 'Akzeptierte Bildformate: .JPG, .JPEG, .PNG',
-    documentInfo: 'Sie können auch nützliche Dokumente wie Führerschein und Personalausweis hochladen.',
+    documentInfo:
+      'Sie können auch nützliche Dokumente wie Führerschein und Personalausweis hochladen.',
   },
   common: {
     selectPlaceholder: 'Bitte auswählen',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useGlobalFormStore } from '@/types/state';
-import { Button, FormControlLabel, Radio, RadioGroup, TextField } from '@mui/material';
+import { Button, FormControlLabel, FormHelperText, Radio, RadioGroup, TextField } from '@mui/material';
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -297,6 +297,9 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   label="Nein"
                 />
               </RadioGroup>
+               {touched[fields.allRiskInsurance] && errors[fields.allRiskInsurance] && (
+                <FormHelperText error={true}>{String(errors[fields.allRiskInsurance])}</FormHelperText>
+              )}
             </div>
           </div>
 

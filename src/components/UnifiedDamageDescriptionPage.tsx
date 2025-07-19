@@ -3,12 +3,14 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   MenuItem,
   RadioGroup,
   Select,
   TextField,
   Radio,
 } from '@mui/material';
+import Image from 'next/image';
 import { useFormik } from 'formik';
 import { ArrowRight, ZoomIn, Trash2, Paperclip, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -17,7 +19,13 @@ import { useDropzone } from 'react-dropzone';
 import React from 'react';
 import './upload-file-section.css';
 import { MAXFILES, useGlobalFormStore } from '@/types/state';
-import { FormType, DAMAGE_DESCRIPTION_FIELDS, FORM_ROUTES, FORM_LABELS } from '@/config/formConfig';
+import {
+  FormType,
+  DAMAGE_DESCRIPTION_FIELDS,
+  FORM_ROUTES,
+  FORM_LABELS,
+  createDamageDescriptionValidationSchema,
+} from '@/config/formConfig';
 import { createDamageDescriptionValues } from '@/utils/formHelpers';
 
 interface Props {
@@ -42,6 +50,8 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
   const fields = DAMAGE_DESCRIPTION_FIELDS[formType];
   const labels = FORM_LABELS.damageDescription;
 
+  const validationSchema = createDamageDescriptionValidationSchema(formType);
+
   const values = createDamageDescriptionValues(globalForm, formType);
 
   const blobUrlsRef = React.useRef<Record<string, string>>({});
@@ -53,6 +63,7 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
       setGlobalForm(formData);
       router.push(FORM_ROUTES.damageDescription[formType]);
     },
+    validationSchema: validationSchema,
   });
 
   // Funktion um Blob-URL für eine Datei zu erhalten
@@ -150,6 +161,8 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
             variant="outlined"
             value={formik.values[fields.damageDescription]}
             onChange={formik.handleChange}
+            error={formik.touched.damageDescription && Boolean(formik.errors.damageDescription)}
+            helperText={formik.touched.damageDescription && formik.errors.damageDescription}
           />
         </div>
 
@@ -173,7 +186,17 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
             (file: File & { path?: string }, i: number) => (
               <div key={`attached-file-${i}`} className="image-card">
                 <div className="image-wrapper">
-                  <img src={getFileUrl(file)} alt={file.path} className="photo" />
+                  <Image
+                    src={getFileUrl(file)}
+                    alt={file.path ? file.path : `Uploaded file ${i + 1}`}
+                    className="photo"
+                    style={{
+                      objectFit: 'contain',
+                    }}
+                    width={100}
+                    height={100}
+                    priority
+                  />
                   <div className="zoom-icon">
                     <ZoomIn size={'20'} className="zoom" />
                   </div>
@@ -260,6 +283,7 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
               displayEmpty
               value={formik.values[fields.damageType] as string}
               onChange={formik.handleChange}
+              error={formik.touched[fields.damageType] && Boolean(formik.errors[fields.damageType])}
               renderValue={(selected: string) => {
                 if (selected === '') {
                   return (
@@ -286,6 +310,11 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
               <MenuItem value="Spurwechsel">Spurwechsel</MenuItem>
               <MenuItem value="Sonstiges">Sonstiges</MenuItem>
             </Select>
+            {formik.touched[fields.damageType] && formik.errors[fields.damageType] && (
+              <FormHelperText error={true}>
+                {String(formik.errors[fields.damageType])}
+              </FormHelperText>
+            )}
           </FormControl>
         </div>
       </div>

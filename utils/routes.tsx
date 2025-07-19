@@ -3,20 +3,19 @@ export const formRoutes = [
     { id: 'accidentinfo', name: 'Angaben zum Unfallort', path: '/frida-carclaims/accidentinfo' },
     { id: 'accidentlocation', name: 'Angaben zum Unfallort', path: '/frida-carclaims/accidentlocation' },
 
-    { id: 'personalinfo', name: 'Angaben zum Versicherungsnehmer A', path: '/frida-carclaims/personalinfo/a' },
-    { id: 'vehicleinfo', name: 'Angaben zum Versicherungsnehmer A', path: '/frida-carclaims/vehicleinfo/a' },
+    { id: 'personalinfo', name: 'Angaben zum Versicherungsnehmer', path: '/frida-carclaims/personalinfo/a' },
+    { id: 'vehicleinfo', name: 'Angaben zum Versicherungsnehmer', path: '/frida-carclaims/vehicleinfo/a' },
 
-    { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/driverinfo/a' },
-    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/damagelocation/a' },
-    { id: 'damagedescription', name: 'Angaben zum Fahrzeuglenker A (Verursacher)', path: '/frida-carclaims/damagedescription/a' },
+    { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker (Verursacher)', path: '/frida-carclaims/driverinfo/a' },
+    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker (Verursacher)', path: '/frida-carclaims/damagelocation/a' },
+    { id: 'damagedescription', name: 'Angaben zum Fahrzeuglenker (Verursacher)', path: '/frida-carclaims/damagedescription/a' },
 
-    { id: 'personalinfo', name: 'Angaben zum Versicherungsnehmer B', path: '/frida-carclaims/personalinfo/b' },
-    { id: 'vehicleinfo', name: 'Angaben zum Versicherungsnehmer B', path: '/frida-carclaims/vehicleinfo/b' },
+    { id: 'personalinfo', name: 'Angaben zum Geschädigten', path: '/frida-carclaims/personalinfo/b' },
+    { id: 'vehicleinfo', name: 'Angaben zum Geschädigten', path: '/frida-carclaims/vehicleinfo/b' },
 
-    { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker B (Verursacher)', path: '/frida-carclaims/driverinfo/b' },
-
-    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker B (Verursacher)', path: '/frida-carclaims/damagelocation/b' },
-    { id: 'damagedescription', name: 'Angaben zum Fahrzeuglenker B (Verursacher)', path: '/frida-carclaims/damagedescription/b' },
+    { id: 'driverinfo', name: 'Angaben zum Fahrzeuglenker (Geschädigter)', path: '/frida-carclaims/driverinfo/b' },
+    { id: 'damagelocation', name: 'Angaben zum Fahrzeuglenker (Geschädigter)', path: '/frida-carclaims/damagelocation/b' },
+    { id: 'damagedescription', name: 'Angaben zum Fahrzeuglenker (Geschädigter)', path: '/frida-carclaims/damagedescription/b' },
 
     { id: 'injuredpersons', name: 'Angaben zu verletzten Personen', path: '/frida-carclaims/injuredpersons' },
 

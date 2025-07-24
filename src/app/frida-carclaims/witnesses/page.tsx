@@ -5,11 +5,15 @@ import { Button, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { ArrowRight, Minus, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ClaimsSubmissionService } from '@/utils/claimsSubmissionService';
 
 export default function WitnessesPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);

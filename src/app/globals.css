@@ -297,11 +297,29 @@ body {
   transition: transform 0.1s ease !important;
 }
 
+/* Subtilere Ripple-Animation für Next-Button */
+@keyframes nextButtonRipple {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 179, 185, 0.3);
+  }
+  50% {
+    transform: scale(1.005);
+    box-shadow: 0 0 0 3px rgba(26, 179, 185, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 179, 185, 0);
+  }
+}
+
 /* Ripple animation für Buttons */
-.number-btn.ripple,
-.next-button.clicked,
-.back-button.clicked {
+.number-btn.ripple {
   animation: ripple 0.3s ease-in-out !important;
+}
+
+.next-button.clicked {
+  animation: nextButtonRipple 0.2s ease-in-out !important;
 }
 
 @keyframes ripple {

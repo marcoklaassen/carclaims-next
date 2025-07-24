@@ -17,6 +17,7 @@ export default function Header() {
           <IconButton
             onClick={() => router.push(getPreviousRoute(currentStep))}
             style={{color: "white"}}
+            className="back-button"
           >
             <ArrowLeft size={24} />
           </IconButton>

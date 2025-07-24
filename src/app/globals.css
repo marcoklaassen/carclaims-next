@@ -277,9 +277,51 @@ body {
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color-light);
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transform-origin: center !important;
+}
+
+.number-btn:hover,
+.back-button:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* Active state für Buttons */
+.number-btn:active,
+.next-button:active,
+.back-button:active {
+  transform: scale(0.95) !important;
+  transition: transform 0.1s ease !important;
+}
+
+/* Ripple animation für Buttons */
+.number-btn.ripple,
+.next-button.clicked,
+.back-button.clicked {
+  animation: ripple 0.3s ease-in-out !important;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 179, 185, 0.4);
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px rgba(26, 179, 185, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 179, 185, 0);
+  }
+}
+
+.number-btn.ripple
+.back-button.ripple {
+  animation: ripple 0.6s ease-out !important;
 }
 
 .number-input {
@@ -290,7 +332,13 @@ body {
   border-radius: 4px !important;
   border-style: solid;
   margin: 0 8px;
+  transform-origin: center !important;
 }
+
+.back-button{
+  transform-origin: center !important;
+}
+
 
 /* Navigation container */
 .navigation-container {
@@ -313,8 +361,9 @@ body {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
   display: flex !important;
   align-items: center !important;
-  transition: all 0.3s ease !important;
+  /* transition: all 0.2s ease !important; */
   cursor: pointer !important;
+  transform-origin: center !important;
 }
 .next-button:hover {
   background-color: var(--primary-color-dark) !important;

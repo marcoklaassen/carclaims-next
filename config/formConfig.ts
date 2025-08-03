@@ -395,7 +395,7 @@ export const FORM_LABELS = {
   personalInfo: {
     title: {
       a: 'Persönliche Daten - Versicherungsnehmer',
-      b: 'Persönliche Daten - Geschädigte:r',
+      b: 'Persönliche Daten - Unfallbeteiligte:r',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -409,7 +409,7 @@ export const FORM_LABELS = {
   vehicleInfo: {
     title: {
       a: 'Fahrzeuginformationen - Versicherungsnehmer',
-      b: 'Fahrzeuginformationen - Geschädigte:r',
+      b: 'Fahrzeuginformationen - Unfallbeteiligte:r',
     },
     vatDeduction: 'Besteht Berechtigung zum Vorsteuerabzug?',
     carBrand: 'Automarke (z.B. Audi, Mercedes Benz etc.):',
@@ -426,7 +426,7 @@ export const FORM_LABELS = {
   driverInfo: {
     title: {
       a: 'Fahrerinformationen - Versicherungsnehmer',
-      b: 'Fahrerinformationen - Geschädigte:r',
+      b: 'Fahrerinformationen - Unfallbeteiligte:r',
     },
     isInsuredDriver: {
       a: 'Ist der Versicherungsnehmer auch der Fahrlenker gewesen?',
@@ -484,6 +484,7 @@ export const FORM_LABELS = {
     salutations: {
       mr: 'Herr',
       mrs: 'Frau',
+      divers: 'Divers'
     },
   },
 } as const;

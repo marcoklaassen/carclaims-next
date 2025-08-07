@@ -88,7 +88,8 @@ export interface Person {
 export const PersonFormOfAddressEnum = {
     NotSpecified: 'not_specified',
     Herr: 'Herr',
-    Frau: 'Frau'
+    Frau: 'Frau',
+    Divers: 'Divers'
 } as const;
 export type PersonFormOfAddressEnum = typeof PersonFormOfAddressEnum[keyof typeof PersonFormOfAddressEnum];
 

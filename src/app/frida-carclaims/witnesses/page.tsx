@@ -62,7 +62,6 @@ export default function WitnessesPage() {
         setGlobalForm(formData);
         // Send claims data to the insurance company before navigating to the next page
         sendClaimsdata();
-        router.push('/frida-carclaims/miscellaneousdamages');
       }}
     >
       {({ handleChange, handleSubmit, values, setFieldValue, errors, touched }) => (

@@ -10,7 +10,7 @@ export class ClaimsSubmissionService {
   /**
    * Sendet die Claims-Daten an die API
    */
-  static async submitClaims(): Promise<void> {
+  static async submitClaims(): Promise<{ success: boolean; data?: unknown }> {
     try {
 
       const globalForm = useGlobalFormStore.getState().form;
@@ -37,6 +37,8 @@ export class ClaimsSubmissionService {
       });
 
       console.log('✅ Claims erfolgreich übermittelt:', response);
+
+      return { success: true, data: response };
 
     } catch (error) {
       console.error('❌ Fehler beim Übermitteln der Claims:', error

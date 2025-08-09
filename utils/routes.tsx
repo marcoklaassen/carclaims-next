@@ -21,7 +21,9 @@ export const formRoutes = [
 
     { id: 'miscellanousdamages', name: 'Angaben zu anderen Sachschäden', path: '/frida-carclaims/miscellaneousdamages' },
 
-    { id: 'witnesses', name: 'Angaben zu Zeugen', path: '/frida-carclaims/witnesses' }
+    { id: 'witnesses', name: 'Angaben zu Zeugen', path: '/frida-carclaims/witnesses' },
+
+    { id: 'success', name: 'Übertragung erfolgreich', path: '/frida-carclaims/success' }
   ];
 
 export function getRouteIndex(currentPath: string) {

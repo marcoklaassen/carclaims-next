@@ -258,21 +258,42 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     cy.waitForPageLoad('/witnesses')
     cy.fillWitnesses(testData)
 
-    // Intercept the alert before clicking next
-    cy.window().then((win) => {
-      cy.stub(win, 'alert').as('windowAlert')
-    })
-
     cy.clickNext()
 
-    // 17. SUBMIT CLAIM
+    // 17. SUBMIT CLAIM AND NAVIGATE TO SUCCESS PAGE
     cy.wait('@submitClaim').then((interception) => {
       expect(interception.response.statusCode).to.eq(201)
       expect(interception.request.url).to.include('/claimsdata/ALZ123456789')
     })
 
-    // Verify the success alert was called
-    cy.get('@windowAlert').should('have.been.calledWith', 'Schadendaten erfolgreich übermittelt!')
+    // 18. SUCCESS PAGE
+    cy.waitForPageLoad('/success')
+
+    cy.url().should('include', '/success')
+
+    // Verify success page content
+    cy.contains('Ihre Daten wurden erfolgreich übermittelt!').should('be.visible')
+    cy.contains('Datenübertragung abgeschlossen').should('be.visible')
+    cy.contains('Sie erhalten in den nächsten 24 Stunden eine separate Bestätigung').should('be.visible')
+
+    // Verify next steps list
+    cy.contains('Was passiert als Nächstes:').should('be.visible')
+    cy.contains('Wir prüfen Ihre übermittelten Daten').should('be.visible')
+    cy.contains('Sie erhalten eine E-Mail-Bestätigung mit allen Details').should('be.visible')
+    cy.contains('Bei Rückfragen kontaktieren wir Sie direkt').should('be.visible')
+    cy.contains('Ihre Daten stehen in Ihrer Wallet zur Verfügung').should('be.visible')
+
+    // Verify important notice
+    cy.contains('Wichtiger Hinweis').should('be.visible')
+    cy.contains('Bitte bewahren Sie die E-Mail-Bestätigung gut auf').should('be.visible')
+
+    // Verify buttons are present
+    cy.contains('Zurück zur Startseite').should('be.visible')
+    cy.contains('Weiter zur Wallet').should('be.visible')
+
+    // Test "Zurück zur Startseite" button
+    cy.contains('Zurück zur Startseite').click()
+    cy.url().should('include', '/frida-carclaims')
 
     cy.log('✅ Komplette Schadensmeldung erfolgreich durchlaufen!')
   })

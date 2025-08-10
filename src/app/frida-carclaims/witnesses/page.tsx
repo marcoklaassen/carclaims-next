@@ -39,9 +39,12 @@ export default function WitnessesPage() {
   async function sendClaimsdata() {
     try {
       console.log('📤 Sende Claims-Daten mit Service...');
-      await ClaimsSubmissionService.submitClaims();
-      console.log('✅ Claims erfolgreich übermittelt!');
-      alert('Schadendaten erfolgreich übermittelt!');
+      const result = await ClaimsSubmissionService.submitClaims();
+
+      if (result.success) {
+        console.log('✅ Claims erfolgreich übermittelt!');
+        router.push('/frida-carclaims/success');
+      }
     } catch (error) {
       console.error('❌ Fehler beim Übermitteln der Claims:', error);
       alert('Fehler beim Übermitteln der Schadendaten: ' + error);
@@ -62,7 +65,6 @@ export default function WitnessesPage() {
         setGlobalForm(formData);
         // Send claims data to the insurance company before navigating to the next page
         sendClaimsdata();
-        router.push('/frida-carclaims/miscellaneousdamages');
       }}
     >
       {({ handleChange, handleSubmit, values, setFieldValue, errors, touched }) => (

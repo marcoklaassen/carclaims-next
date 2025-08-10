@@ -114,6 +114,7 @@ export default function PersonalInfoFields({
             <MenuItem value="">{FORM_LABELS.common.selectPlaceholder}</MenuItem>
             <MenuItem value="Herr">{FORM_LABELS.common.salutations.mr}</MenuItem>
             <MenuItem value="Frau">{FORM_LABELS.common.salutations.mrs}</MenuItem>
+            <MenuItem value="Divers">{FORM_LABELS.common.salutations.divers}</MenuItem>
           </Select>
           {hasError('salutation') && (
             <FormHelperText error={true}>{String(getErrorMessage('salutation'))}</FormHelperText>

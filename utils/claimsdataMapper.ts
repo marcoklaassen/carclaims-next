@@ -329,6 +329,8 @@ export class ClaimsdataMapper {
         return PersonFormOfAddressEnum.Herr;
       case 'Frau':
         return PersonFormOfAddressEnum.Frau;
+      case 'Divers':
+        return PersonFormOfAddressEnum.Divers;
       default:
         return PersonFormOfAddressEnum.NotSpecified;
     }

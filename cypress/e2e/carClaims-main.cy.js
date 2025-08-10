@@ -19,7 +19,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
 
     // Versicherungsnehmer (Party A)
     insuranceHolder: {
-      salutation: 'Herr',
+      salutation: 'Divers',
       name: 'Max',
       surName: 'Mustermann',
       streetName: 'Teststraße',

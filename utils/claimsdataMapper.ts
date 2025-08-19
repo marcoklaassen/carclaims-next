@@ -287,26 +287,43 @@ export class ClaimsdataMapper {
     if (!parts || parts.length === 0) return undefined;
 
     const mappings: Record<string, VehicleDriverDriverDamagedpartsGraphicEnum> = {
-      'vorne links': VehicleDriverDriverDamagedpartsGraphicEnum.VorneLinks,
-      'vorne rechts': VehicleDriverDriverDamagedpartsGraphicEnum.VorneRechts,
-      'Seite vorne links': VehicleDriverDriverDamagedpartsGraphicEnum.SeiteVorneLinks,
-      'Seite vorne rechts': VehicleDriverDriverDamagedpartsGraphicEnum.SeiteVorneRechts,
-      'Fahrertür links': VehicleDriverDriverDamagedpartsGraphicEnum.FahrertrLinks,
-      'Beifahrertür rechts': VehicleDriverDriverDamagedpartsGraphicEnum.BeifahrertrRechts,
-      'hintere Tür links': VehicleDriverDriverDamagedpartsGraphicEnum.HintereTrLinks,
-      'hintere Tür rechts': VehicleDriverDriverDamagedpartsGraphicEnum.HintereTrRechts,
-      'Seite hinten links': VehicleDriverDriverDamagedpartsGraphicEnum.SeiteHintenLinks,
-      'Seite hinten rechts': VehicleDriverDriverDamagedpartsGraphicEnum.SeiteHintenRechts,
-      'hinten links': VehicleDriverDriverDamagedpartsGraphicEnum.HintenLinks,
-      'hinten rechts': VehicleDriverDriverDamagedpartsGraphicEnum.HintenRechts,
       'Motorhaube': VehicleDriverDriverDamagedpartsGraphicEnum.Motorhaube,
-      'Frontscheibe': VehicleDriverDriverDamagedpartsGraphicEnum.Frontscheibe,
       'Dach': VehicleDriverDriverDamagedpartsGraphicEnum.Dach,
+      'Kofferraum/Heckklappe': VehicleDriverDriverDamagedpartsGraphicEnum.KofferraumHeckklappe,
+      'Kühlergrill': VehicleDriverDriverDamagedpartsGraphicEnum.Khlergrill,
+      'Linke Fahrzeugseite': VehicleDriverDriverDamagedpartsGraphicEnum.LinkeFahrzeugseite,
+      'Rechte Fahrzeugseite': VehicleDriverDriverDamagedpartsGraphicEnum.RechteFahrzeugseite,
+      'Vorderer Stoßfänger': VehicleDriverDriverDamagedpartsGraphicEnum.VordererStofnger,
+      'Hinterer Stoßfänger': VehicleDriverDriverDamagedpartsGraphicEnum.HintererStofnger,
+      'Fahrertür (vorne links)': VehicleDriverDriverDamagedpartsGraphicEnum.FahrertrVorneLinks,
+      'Beifahrertür (vorne rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.BeifahrertrVorneRechts,
+      'Hintere linke Tür': VehicleDriverDriverDamagedpartsGraphicEnum.HintereLinkeTr,
+      'Hintere rechte Tür': VehicleDriverDriverDamagedpartsGraphicEnum.HintereRechteTr,
+      'Vorderrad links': VehicleDriverDriverDamagedpartsGraphicEnum.VorderradLinks,
+      'Vorderrad rechts': VehicleDriverDriverDamagedpartsGraphicEnum.VorderradRechts,
+      'Hinterrad links': VehicleDriverDriverDamagedpartsGraphicEnum.HinterradLinks,
+      'Hinterrad rechts': VehicleDriverDriverDamagedpartsGraphicEnum.HinterradRechts,
+      'Windschutzscheibe': VehicleDriverDriverDamagedpartsGraphicEnum.Windschutzscheibe,
       'Heckscheibe': VehicleDriverDriverDamagedpartsGraphicEnum.Heckscheibe,
-      'Kofferraum': VehicleDriverDriverDamagedpartsGraphicEnum.Kofferraum
+      'Seitenscheibe (vorne links)': VehicleDriverDriverDamagedpartsGraphicEnum.SeitenscheibeVorneLinks,
+      'Seitenscheibe (vorne rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.SeitenscheibeVorneRechts,
+      'Seitenscheibe (hinten links)': VehicleDriverDriverDamagedpartsGraphicEnum.SeitenscheibeHintenLinks,
+      'Seitenscheibe (hinten rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.SeitenscheibeHintenRechts,
+      'Linker Außenspiegel': VehicleDriverDriverDamagedpartsGraphicEnum.LinkerAuenspiegel,
+      'Rechter Außenspiegel': VehicleDriverDriverDamagedpartsGraphicEnum.RechterAuenspiegel,
+      'Frontscheinwerfer links': VehicleDriverDriverDamagedpartsGraphicEnum.FrontscheinwerferLinks,
+      'Frontscheinwerfer rechs': VehicleDriverDriverDamagedpartsGraphicEnum.FrontscheinwerferRechts,
+      'Heckscheinwerfer links': VehicleDriverDriverDamagedpartsGraphicEnum.HeckscheinwerferLinks,
+      'Heckscheinwerfer rechts': VehicleDriverDriverDamagedpartsGraphicEnum.HeckscheinwerferRechts,
+      'Griffschalen (vorne links)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenVorneLinks,
+      'Griffschalen (vorne rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenVorneRechts,
+      'Griffschalen (hinten links)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenHintenLinks,
+      'Griffschalen (hinten rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenHintenRechts,
+      'Schweller links': VehicleDriverDriverDamagedpartsGraphicEnum.SchwellerLinks,
+      'Schweller rechts': VehicleDriverDriverDamagedpartsGraphicEnum.SchwellerRechts
     };
 
-    return parts.map(part => mappings[part] || VehicleDriverDriverDamagedpartsGraphicEnum.HintenLinks);
+    return parts.map(part => mappings[part] || VehicleDriverDriverDamagedpartsGraphicEnum.Motorhaube);
   }
 
   /**

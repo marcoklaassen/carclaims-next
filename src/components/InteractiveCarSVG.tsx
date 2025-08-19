@@ -57,7 +57,7 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
               stroke: #201600;
             }
 
-            .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+            .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-9 {
               fill: #fff;
             }
 
@@ -387,13 +387,18 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
       <path
         className="cls-7"
         d="M456.06,783.12c0,6.11-.23,14.39-.77,21.32-.66,8.43-1.71,16.24-2.95,23.37h-202.52c-1.24-7.13-2.29-14.94-2.95-23.37-.54-6.93-.77-15.21-.77-21.32l10.45.33,13.47-23.58h162.09l13.47,23.58,10.45-.33Z"
-        style={getPartStyle('Heckscheibe')}
-        onClick={() => handlePartClick('Heckscheibe')}
-        onMouseEnter={(e) => handlePartHover('Heckscheibe', e)}
+        style={getPartStyle('Kofferraum/Heckklappe')}
+        onClick={() => handlePartClick('Kofferraum/Heckklappe')}
+        onMouseEnter={(e) => handlePartHover('Kofferraum/Heckklappe', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
       <path className="cls-7" d="M351.09,860.23h-49.64c-16.6,0-32.52,6.61-44.24,18.36l-3.41,3.42c-49.25,5.82-45.79-30.67-45.79-30.67l33.52-7.68c8.15-1.87,16.48-2.81,24.84-2.81h169.42c8.36,0,16.69.94,24.84,2.81l33.52,7.68c-2.08,11.94,2.2,33.06-45.79,30.67l-3.41-3.42c-11.72-11.76-27.64-18.36-44.24-18.36h-49.64"
+        style={getPartStyle('Hinterer Stoßfänger')}
+        onClick={() => handlePartClick('Hinterer Stoßfänger')}
+        onMouseEnter={(e) => handlePartHover('Hinterer Stoßfänger', e)}
+        onMouseLeave={handlePartLeave}
+        onMouseMove={handleMouseMove}
       />
       <polyline className="cls-9" points="432.14 759.87 351.09 759.87 270.04 759.87"
       />
@@ -422,9 +427,23 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
-      <path className="cls-7" d="M351.64,15.66c-26.71,0-53.42.8-80.12,2.39-2.86.17-4.63,4.42-3.17,7.58,1.15,2.49,2.3,4.99,3.46,7.48.67,1.44,1.87,2.28,3.17,2.2,25.54-1.49,51.1-2.25,76.66-2.28,25.56.03,51.12.79,76.66,2.28,1.3.08,2.5-.76,3.17-2.2,1.15-2.5,2.3-4.99,3.46-7.48,1.46-3.17-.31-7.41-3.17-7.58-26.69-1.59-53.4-2.39-80.12-2.39Z"
+      <path
+        className="cls-7"
+        d="M351.64,15.66c-26.71,0-53.42.8-80.12,2.39-2.86.17-4.63,4.42-3.17,7.58,1.15,2.49,2.3,4.99,3.46,7.48.67,1.44,1.87,2.28,3.17,2.2,25.54-1.49,51.1-2.25,76.66-2.28,25.56.03,51.12.79,76.66,2.28,1.3.08,2.5-.76,3.17-2.2,1.15-2.5,2.3-4.99,3.46-7.48,1.46-3.17-.31-7.41-3.17-7.58-26.69-1.59-53.4-2.39-80.12-2.39Z"
+        style={getPartStyle('Kühlergrill')}
+        onClick={() => handlePartClick('Kühlergrill')}
+        onMouseEnter={(e) => handlePartHover('Kühlergrill', e)}
+        onMouseLeave={handlePartLeave}
+        onMouseMove={handleMouseMove}
       />
-      <path className="cls-7" d="M351.44,52.42c-20.22,0-44.2,1.01-70.28,6.39-3.52.73-6.95,1.5-10.28,2.31-4.34,1.05-6.12,5.27-3.47,8.24,2.07,2.32,4.56,4.78,7.56,7.24.07.06.14.11.21.17,8.93,7.29,21.07,11.41,33.76,11.72.93.02,1.87.04,2.81.06,13.7.29,26.94,0,39.7,0s26,.29,39.7,0c.94-.02,1.88-.04,2.81-.06,12.68-.31,24.82-4.43,33.76-11.72.07-.06.14-.11.21-.17,3-2.46,5.49-4.92,7.56-7.24,2.65-2.97.87-7.18-3.47-8.24-3.33-.81-6.76-1.58-10.28-2.31-26.08-5.38-50.06-6.39-70.28-6.39Z"
+      <path
+        className="cls-7"
+        d="M351.44,52.42c-20.22,0-44.2,1.01-70.28,6.39-3.52.73-6.95,1.5-10.28,2.31-4.34,1.05-6.12,5.27-3.47,8.24,2.07,2.32,4.56,4.78,7.56,7.24.07.06.14.11.21.17,8.93,7.29,21.07,11.41,33.76,11.72.93.02,1.87.04,2.81.06,13.7.29,26.94,0,39.7,0s26,.29,39.7,0c.94-.02,1.88-.04,2.81-.06,12.68-.31,24.82-4.43,33.76-11.72.07-.06.14-.11.21-.17,3-2.46,5.49-4.92,7.56-7.24,2.65-2.97.87-7.18-3.47-8.24-3.33-.81-6.76-1.58-10.28-2.31-26.08-5.38-50.06-6.39-70.28-6.39Z"
+        style={getPartStyle('Kühlergrill')}
+        onClick={() => handlePartClick('Kühlergrill')}
+        onMouseEnter={(e) => handlePartHover('Kühlergrill', e)}
+        onMouseLeave={handlePartLeave}
+        onMouseMove={handleMouseMove}
       />
       <path className="cls-4" d="M482.61,110.88c-7.38-.46-19.2-1.52-21.73-1.75-.34-.03-.67-.12-.98-.27l-26.09-12.46c-2.06-.98-2.41-4.44-.57-5.66l4.15-2.74c.09-.06.18-.11.28-.16,2.39-1.11,18.72-8.1,35.25,3.79,5.88,4.23,9.9,9.52,12.52,13.93,1.48,2.5-.13,5.49-2.83,5.32Z"
         style={getPartStyle('Frontscheinwerfer rechs')}
@@ -468,7 +487,14 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
-      <path className="cls-9" d="M270.9,93.43c5.67,1.6,13.09,3.34,21.87,4.51,5.33.7,11.55,1.25,35.79,1.4,6.37.04,14.09.06,22.88,0,8.79.06,16.7.04,23.08,0,24.24-.16,30.46-.7,35.79-1.4,8.78-1.16,16.2-2.91,21.87-4.51"
+      <path
+        className="cls-9"
+        d="M270.9,93.43c5.67,1.6,13.09,3.34,21.87,4.51,5.33.7,11.55,1.25,35.79,1.4,6.37.04,14.09.06,22.88,0,8.79.06,16.7.04,23.08,0,24.24-.16,30.46-.7,35.79-1.4,8.78-1.16,16.2-2.91,21.87-4.51"
+        style={getPartStyle('Vorderer Stoßfänger')}
+        onClick={() => handlePartClick('Vorderer Stoßfänger')}
+        onMouseEnter={(e) => handlePartHover('Vorderer Stoßfänger', e)}
+        onMouseLeave={handlePartLeave}
+        onMouseMove={handleMouseMove}
       />
       <line className="cls-6" x1="63.11" y1="579.07" x2="63.11" y2="585.07"
       />

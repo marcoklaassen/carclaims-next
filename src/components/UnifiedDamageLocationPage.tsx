@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useGlobalFormStore } from '@/types/state';
 import { Button, FormControl, FormHelperText, MenuItem, Select } from '@mui/material';
 import { Formik, Form } from 'formik';
@@ -16,7 +15,7 @@ import {
   createDamageLocationValidationSchema,
 } from '@/config/formConfig';
 import { createDamageLocationValues } from '@/utils/formHelpers';
-import carclaims from '../../public/carclaims-grafik.svg';
+import InteractiveCarSVG from './InteractiveCarSVG';
 
 interface Props {
   formType?: FormType;
@@ -29,7 +28,6 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
     window.scrollTo(0, 0);
   }, []);
 
-  // Fallback: verwende den type aus der URL
   const formType: FormType =
     propFormType ||
     (typeof window !== 'undefined' && window.location.pathname.includes('/b') ? 'b' : 'a');
@@ -133,16 +131,22 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
               )}
             </FormControl>
 
-            {/* Platzhalter für Fahrzeugbild */}
+            {/* Interaktives Fahrzeugbild */}
             <div className="car-image-placeholder">
-              <Image
-                src={carclaims}
-                alt="Car Image SVG"
-                className="car-image"
-                style={{
-                  objectFit: 'contain',
+              <InteractiveCarSVG
+                selectedParts={values[fields.damagedParts] ?? []}
+                onPartClick={(partName: string) => {
+                  const currentParts = values[fields.damagedParts] ?? [];
+                  if (currentParts.includes(partName)) {
+                    const newParts = currentParts.filter((part: string) => part !== partName);
+                    setFieldValue(fields.damagedParts, newParts);
+                    setFieldTouched(fields.damagedParts, newParts.length === 0);
+                  } else {
+                    const newParts = [...currentParts, partName];
+                    setFieldValue(fields.damagedParts, newParts);
+                    setFieldTouched(fields.damagedParts, false);
+                  }
                 }}
-                priority
               />
             </div>
           </div>

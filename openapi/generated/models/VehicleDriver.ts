@@ -126,23 +126,27 @@ export interface VehicleDriver {
  * @export
  */
 export const VehicleDriverDriverDamagedpartsGraphicEnum = {
-    VorneLinks: 'vorne links',
-    VorneRechts: 'vorne rechts',
-    SeiteVorneLinks: 'Seite vorne links',
-    SeiteVorneRechts: 'Seite vorne rechts',
-    FahrertrLinks: 'Fahrertür links',
-    BeifahrertrRechts: 'Beifahrertür rechts',
-    HintereTrLinks: 'hintere Tür links',
-    HintereTrRechts: 'hintere Tür rechts',
-    SeiteHintenLinks: 'Seite hinten links',
-    SeiteHintenRechts: 'Seite hinten rechts',
-    HintenLinks: 'hinten links',
-    HintenRechts: 'hinten rechts',
     Motorhaube: 'Motorhaube',
-    Frontscheibe: 'Frontscheibe',
     Dach: 'Dach',
+    KofferraumHeckklappe: 'Kofferraum/Heckklappe',
+    LinkeFahrzeugseite: 'Linke Fahrzeugseite',
+    RechteFahrzeugseite: 'Rechte Fahrzeugseite',
+    VordereStostange: 'Vordere Stoßstange',
+    HintereStostange: 'Hintere Stoßstange',
+    FahrertrVorneLinks: 'Fahrertür (vorne links)',
+    BeifahrertrVorneRechts: 'Beifahrertür (vorne rechts)',
+    HintereLinkeTr: 'Hintere linke Tür',
+    HintereRechteTr: 'Hintere rechte Tür',
+    VorderradLinks: 'Vorderrad links',
+    VorderradRechts: 'Vorderrad rechts',
+    HinterradLinks: 'Hinterrad links',
+    HinterradRechts: 'Hinterrad rechts',
+    Windschutzscheibe: 'Windschutzscheibe',
     Heckscheibe: 'Heckscheibe',
-    Kofferraum: 'Kofferraum'
+    LinkeSeitenscheiben: 'Linke Seitenscheiben',
+    RechteSeitenscheiben: 'Rechte Seitenscheiben',
+    LinkerAuenspiegel: 'Linker Außenspiegel',
+    RechterAuenspiegel: 'Rechter Außenspiegel'
 } as const;
 export type VehicleDriverDriverDamagedpartsGraphicEnum = typeof VehicleDriverDriverDamagedpartsGraphicEnum[keyof typeof VehicleDriverDriverDamagedpartsGraphicEnum];
 

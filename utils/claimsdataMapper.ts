@@ -294,7 +294,7 @@ export class ClaimsdataMapper {
       'Linke Fahrzeugseite': VehicleDriverDriverDamagedpartsGraphicEnum.LinkeFahrzeugseite,
       'Rechte Fahrzeugseite': VehicleDriverDriverDamagedpartsGraphicEnum.RechteFahrzeugseite,
       'Vorderer Stoßfänger': VehicleDriverDriverDamagedpartsGraphicEnum.VordererStofnger,
-      'Hintere Stoßfänger': VehicleDriverDriverDamagedpartsGraphicEnum.HintereStofnger,
+      'Hinterer Stoßfänger': VehicleDriverDriverDamagedpartsGraphicEnum.HintererStofnger,
       'Fahrertür (vorne links)': VehicleDriverDriverDamagedpartsGraphicEnum.FahrertrVorneLinks,
       'Beifahrertür (vorne rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.BeifahrertrVorneRechts,
       'Hintere linke Tür': VehicleDriverDriverDamagedpartsGraphicEnum.HintereLinkeTr,

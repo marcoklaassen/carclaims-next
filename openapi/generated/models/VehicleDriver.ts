@@ -133,7 +133,7 @@ export const VehicleDriverDriverDamagedpartsGraphicEnum = {
     LinkeFahrzeugseite: 'Linke Fahrzeugseite',
     RechteFahrzeugseite: 'Rechte Fahrzeugseite',
     VordererStofnger: 'Vorderer Stoßfänger',
-    HintereStofnger: 'Hintere Stoßfänger',
+    HintererStofnger: 'Hinterer Stoßfänger',
     FahrertrVorneLinks: 'Fahrertür (vorne links)',
     BeifahrertrVorneRechts: 'Beifahrertür (vorne rechts)',
     HintereLinkeTr: 'Hintere linke Tür',

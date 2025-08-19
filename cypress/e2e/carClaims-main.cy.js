@@ -52,7 +52,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     },
 
     // Damage Location A
-    damagedPartsA: ['Stoßstange vorne', 'Kotflügel vorne rechts'],
+    damagedPartsA: ['Vorderer Stoßfänger', 'Fahrertür (vorne links)'],
 
     // Damage Description A
     damageDescriptionA: {
@@ -106,7 +106,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     },
 
     // Damage Location B
-    damagedPartsB: ['Stoßstange hinten', 'Kennzeichen hinten'],
+    damagedPartsB: ['Hinterer Stoßfänger', 'Schweller rechts'],
 
     // Damage Description B
     damageDescriptionB: {

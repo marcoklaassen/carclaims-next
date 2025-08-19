@@ -151,7 +151,7 @@ export const VehicleDriverDriverDamagedpartsGraphicEnum = {
     LinkerAuenspiegel: 'Linker Außenspiegel',
     RechterAuenspiegel: 'Rechter Außenspiegel',
     FrontscheinwerferLinks: 'Frontscheinwerfer links',
-    FrontscheinwerferRechs: 'Frontscheinwerfer rechs',
+    FrontscheinwerferRechts: 'Frontscheinwerfer rechts',
     HeckscheinwerferLinks: 'Heckscheinwerfer links',
     HeckscheinwerferRechts: 'Heckscheinwerfer rechts',
     GriffschalenVorneLinks: 'Griffschalen (vorne links)',

@@ -446,9 +446,9 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
         onMouseMove={handleMouseMove}
       />
       <path className="cls-4" d="M482.61,110.88c-7.38-.46-19.2-1.52-21.73-1.75-.34-.03-.67-.12-.98-.27l-26.09-12.46c-2.06-.98-2.41-4.44-.57-5.66l4.15-2.74c.09-.06.18-.11.28-.16,2.39-1.11,18.72-8.1,35.25,3.79,5.88,4.23,9.9,9.52,12.52,13.93,1.48,2.5-.13,5.49-2.83,5.32Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
@@ -460,16 +460,16 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
         onMouseMove={handleMouseMove}
       />
       <path className="cls-7" d="M439.87,35.99l.12-.27c.8-1.84,2.29-3.11,3.99-3.36l28.47-4.13c6.87-1,12.39,4.86,9.79,11.11l-3.45,8.27c-1.66,3.98-6.24,5.86-10.52,4.62l-25.15-7.26c-3.23-.93-4.79-5.42-3.24-8.99Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
       <path className="cls-4" d="M460.97,40.66c0,4.46,3.06,8.32,7.1,8.65,4.39.36,8.22-3.51,8.22-8.66s-3.83-9.02-8.22-8.65c-4.05.34-7.1,4.21-7.1,8.66Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
@@ -560,9 +560,9 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
       <path className="cls-9" d="M546.75,161.76c-2.08,10.63-3.97,21.67-5.61,33.13-4.21,29.39-6.14,56.96-6.58,82.26"
       />
       <path className="cls-4" d="M547.06,162.31c-.03-.17-.04-.33-.01-.5,1.2-8.11,3.33-17.93,7.18-28.7,3.53-9.88,7.69-18.26,11.68-25.1.76-1.31,2.77-.75,2.73.76-.17,6.51-.55,13.28-1.19,20.29-2.13,23.27-6.67,43.94-11.98,61.62-.44,1.46-2.54,1.35-2.83-.15-1.86-9.4-3.71-18.81-5.57-28.21Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
@@ -571,16 +571,16 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
       <path className="cls-9" d="M454.44,695.76c5.58,4.89,11.46,9.75,17.64,14.55,14.98,11.63,30.09,21.6,45,30.17"
       />
       <path className="cls-7" d="M614.6,106.78l-5.37,22.75c-.87,3.7,1.31,7.44,5,8.56l5.68,1.73c4.49,1.37,9.12-1.71,9.51-6.32l2.01-23.69c.28-3.3-1.75-6.37-4.93-7.45-.75-.25-1.49-.51-2.24-.76-.03,0-.05-.02-.08-.03-4.13-1.4-8.59,1.02-9.58,5.21Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />
       <path className="cls-4" d="M619.12,134.11c-4.01,0-7.26-1.39-7.26-3.1s3.25-3.1,7.26-3.1,7.26,1.39,7.26,3.1-3.25,3.1-7.26,3.1Z"
-        style={getPartStyle('Frontscheinwerfer rechs')}
-        onClick={() => handlePartClick('Frontscheinwerfer rechs')}
-        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechs', e)}
+        style={getPartStyle('Frontscheinwerfer rechts')}
+        onClick={() => handlePartClick('Frontscheinwerfer rechts')}
+        onMouseEnter={(e) => handlePartHover('Frontscheinwerfer rechts', e)}
         onMouseLeave={handlePartLeave}
         onMouseMove={handleMouseMove}
       />

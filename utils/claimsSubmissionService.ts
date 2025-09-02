@@ -3,7 +3,7 @@ import { useGlobalFormStore } from '../types/state';
 import { ClaimsApi, Claimsdata } from '../openapi/generated';
 
 /**
- * Beispiel-Service für die Verwendung des ClaimsdataMapper
+ * Service für die Verwendung des ClaimsdataMapper
  */
 export class ClaimsSubmissionService {
 
@@ -17,9 +17,6 @@ export class ClaimsSubmissionService {
 
       const claimsdata = ClaimsdataMapper.mapToClaimsdata(globalForm);
 
-      // Validierung vor der Übermittlung
-    //   this.validateClaimsdata(claimsdata);
-
       console.log('📤 Übermittle Claims-Daten:', claimsdata);
 
       // Policennummer aus den Daten extrahieren
@@ -29,7 +26,6 @@ export class ClaimsSubmissionService {
         throw new Error('❌ Policennummer ist erforderlich für die Claims-Übermittlung. Bitte fülle die Versicherungsdaten vollständig aus.');
       }
 
-      // API-Call ausführen
       const api = new ClaimsApi();
       const response = await api.createClaimByPID({
         policyNumber: policyNumber,
@@ -61,9 +57,6 @@ export class ClaimsSubmissionService {
       throw new Error('Policyholder B ist erforderlich');
     }
 
-    // if (!claimsdata.claimsDetails?.accidentDate) {
-    //   throw new Error('Unfalldatum ist erforderlich');
-    // }
 
     if (!claimsdata.policyholder.policyNumber) {
       throw new Error('Policennummer ist erforderlich. Bitte fülle die Versicherungsdaten aus.');

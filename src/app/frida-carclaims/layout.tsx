@@ -9,12 +9,39 @@ export default function FridaLayout({
 }) {
   const theme = createTheme({
     components: {
+      MuiAccordion: {
+        styleOverrides: {
+          root: {
+            marginBottom: '16px',
+            boxShadow: 'none',
+            borderRadius: '10px',
+            border: '1px solid rgb(209, 213, 219)',
+            transition: 'all 0.2s ease-in-out',
+            '&:before': {
+              display: 'none',
+            },
+            '&:hover': {
+              backgroundColor: 'rgba(240, 240, 240, 0.3)',
+              borderColor: 'rgb(190, 200, 210)',
+            },
+          },
+        },
+      },
+      MuiAccordionDetails: {
+        styleOverrides: {
+          root: {
+            padding: '20px',
+            borderTop: '1px solid rgb(209, 213, 219)',
+            backgroundColor: 'white',
+            borderRadius: '10px',
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px'
+          },
+        },
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
-            // "& .MuiOutlinedInput-notchedOutline": {
-            //   borderColor: "rgb(26, 179, 185)",
-            // },
             "&:hover:not(.Mui-error) .MuiOutlinedInput-notchedOutline": {
               borderColor: "rgb(34, 217, 220)",
             },
@@ -43,7 +70,7 @@ export default function FridaLayout({
       //     },
       //   },
       // },
-      MuiLinearProgress:{
+      MuiLinearProgress: {
         styleOverrides: {
           root: {
             backgroundColor: "#C4C4C4", // Hintergrundfarbe der Leiste
@@ -56,5 +83,5 @@ export default function FridaLayout({
     },
   });
 
- return  <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }

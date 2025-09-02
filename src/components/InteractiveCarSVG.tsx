@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 interface InteractiveCarSVGProps {
   selectedParts: string[];
   onPartClick: (partName: string) => void;
+  interactive?: boolean;
 }
 
-const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, onPartClick }) => {
+const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, onPartClick, interactive = true }) => {
   const [hoveredPart, setHoveredPart] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -23,20 +24,26 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
   };
 
   const handlePartClick = (partName: string) => {
-    onPartClick(partName);
+    if (interactive) {
+      onPartClick(partName);
+    }
   };
 
   const handlePartHover = (partName: string, event: React.MouseEvent) => {
-    setHoveredPart(partName);
-    setMousePosition({ x: event.clientX, y: event.clientY });
+    if (interactive) {
+      setHoveredPart(partName);
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    }
   };
 
   const handlePartLeave = () => {
-    setHoveredPart(null);
+    if (interactive) {
+      setHoveredPart(null);
+    }
   };
 
   const handleMouseMove = (event: React.MouseEvent) => {
-    if (hoveredPart) {
+    if (interactive && hoveredPart) {
       setMousePosition({ x: event.clientX, y: event.clientY });
     }
   };
@@ -670,7 +677,7 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
     </svg>
 
       {/* Tooltip */}
-      {hoveredPart && (
+      {interactive && hoveredPart && (
         <div
           style={{
             position: 'fixed',

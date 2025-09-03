@@ -69,7 +69,7 @@ export default function SummaryPage() {
               <AccordionDetails>
                 <div className="container-grid">
                   <div className='display-row'><span className='display-label'>Sprache:</span>{displayValue(globalForm.language)}</div>
-                  <div className='display-row'><span className='display-label'>Bearbeitung-Nr.:</span>{displayValue(globalForm.accidentReportNumber)}</div>
+                  <div className='display-row'><span className='display-label'>Bearbeitungsnr.:</span>{displayValue(globalForm.accidentReportNumber)}</div>
                   <div className='display-row'><span className='display-label'>Unfall-Datum:</span>{displayValue(globalForm.accidentDate?.format?.('DD.MM.YYYY') ?? globalForm.accidentDate?.toString())}</div>
                   <div className='display-row'><span className='display-label'>Unfall-Uhrzeit:</span>{displayValue(globalForm.accidentTime?.format?.('HH:mm') ?? globalForm.accidentTime?.toString())}</div>
                   <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(globalForm.accidentStreetName)}</div>
@@ -129,11 +129,11 @@ export default function SummaryPage() {
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/vehicleinfo/a')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
             </Accordion>
-            {/* 4. Fahrzeuglenker Versicherungsnehmer A */}
+            {/* 4. Fahrer Versicherungsnehmer A */}
             <Accordion>
               <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                 <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center' }}>
-                  <UserCheck size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px' }} />Angaben zum Fahrzeuglenker (Versicherungsnehmer)
+                  <UserCheck size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px' }} />Angaben zum Fahrer (Versicherungsnehmer)
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -241,11 +241,11 @@ export default function SummaryPage() {
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/vehicleinfo/b')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
             </Accordion>
-            {/* 9. Fahrzeuglenker Geschädigter */}
+            {/* 9. Fahrer Geschädigter */}
             <Accordion>
               <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                 <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center' }}>
-                  <UserX size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px' }} />Angaben zum Fahrzeuglenker (Geschädigter)
+                  <UserX size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px' }} />Angaben zum Fahrer (Geschädigter)
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>

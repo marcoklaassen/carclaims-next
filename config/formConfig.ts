@@ -40,7 +40,9 @@ export const AVAILABLE_DAMAGE_PARTS = [
   'Griffschalen (hinten links)',
   'Griffschalen (hinten rechts)',
   'Schweller links',
-  'Schweller rechts'
+  'Schweller rechts',
+  'Kotflügel links',
+  'Kotflügel rechts',
 ];
 
 // =============================================================================
@@ -263,12 +265,10 @@ const VALIDATION_RULES = {
   isInsuredDriver: Yup.boolean().required('Bitte wählen Sie eine Option aus'),
 
   driverLicense: Yup.string()
-    .min(5, 'Führerscheinnummer muss mindestens 5 Zeichen lang sein')
-    .required('Führerscheinnummer ist erforderlich'),
+    .min(5, 'Führerscheinnummer muss mindestens 5 Zeichen lang sein'),
 
   licenseIssuingAuthority: Yup.string()
-    .min(3, 'Zulassungsbehörde muss mindestens 3 Zeichen lang sein')
-    .required('Zulassungsbehörde ist erforderlich'),
+    .min(3, 'Zulassungsbehörde muss mindestens 3 Zeichen lang sein'),
 
   // Damage Description rules
   damageDescription: Yup.string().min(
@@ -299,9 +299,8 @@ const VALIDATION_RULES = {
 
   // Damage Location rules
   damagedParts: Yup.array()
-    .of(Yup.string().oneOf(AVAILABLE_DAMAGE_PARTS, 'Bitte wählen Sie gültige Fahrzeugteile aus'))
-    .min(1, 'Bitte wählen Sie mindestens ein beschädigtes Fahrzeugteil aus')
-    .required('Beschädigte Fahrzeugteile sind erforderlich'),
+    .of(Yup.string().oneOf(AVAILABLE_DAMAGE_PARTS, 'Bitte wählen Sie gültige Fahrzeugteile aus')),
+    // .min(1, 'Bitte wählen Sie mindestens ein beschädigtes Fahrzeugteil aus'),
 
   // Miscellaneous Damages rules
   miscellaneousDamageDescription: Yup.string().when('miscellaneousDamages', {
@@ -446,8 +445,8 @@ export const FORM_LABELS = {
       b: 'Fahrerinformationen - Unfallbeteiligte:r',
     },
     isInsuredDriver: {
-      a: 'Ist der Versicherungsnehmer auch der Fahrlenker gewesen?',
-      b: 'Ist der Geschädigte auch der Fahrlenker gewesen?',
+      a: 'Ist der Versicherungsnehmer auch der Fahrer gewesen?',
+      b: 'Ist der Geschädigte auch der Fahrer gewesen?',
     },
     salutation: 'Anrede:',
     name: 'Vorname:',
@@ -479,7 +478,7 @@ export const FORM_LABELS = {
     },
     damageDescription: 'Beschreiben Sie sichtbare Schäden am Fahrzeug:',
     additionalComments: 'Weitere Bemerkungen:',
-    vehicleOperational: 'Ist das Fahrzeug vom Beschädigten fahrbereit?',
+    vehicleOperational: 'Ist das Fahrzeug vom Geschädigten fahrbereit?',
     damageType: 'Wie kam es zu dem Fahrzeugschaden?',
     fileUploads: 'Dateien hochladen:',
     uploadInstructions: 'Ziehen Sie Dateien hierher oder klicken Sie, um Dateien auszuwählen',

@@ -54,8 +54,7 @@ export default function AccidentlocationPage() {
                 <div className="info-box">
                   <div className="info-icon">i</div>
                   <p>
-                    Je genauer Sie den Ort angeben, umso schneller können wir Ihren Schaden
-                    bearbeiten.
+                    Sie können Ihren genauen Unfallort über GPS abfragen oder alle Felder manuell eingeben.
                   </p>
                 </div>
               </div>
@@ -83,10 +82,10 @@ export default function AccidentlocationPage() {
                 />
                 {((touched.accidentStreetName && errors.accidentStreetName) ||
                   (touched.accidentHouseNumber && errors.accidentHouseNumber)) && (
-                  <FormHelperText error={true}>
-                    {String(errors.accidentStreetName || errors.accidentHouseNumber)}
-                  </FormHelperText>
-                )}
+                    <FormHelperText error={true}>
+                      {String(errors.accidentStreetName || errors.accidentHouseNumber)}
+                    </FormHelperText>
+                  )}
               </div>
 
               <div className="location-button">
@@ -95,6 +94,7 @@ export default function AccidentlocationPage() {
                     name="geoloactionBtn"
                     variant="contained"
                     color="primary"
+                    style={{textAlign: 'left'}}
                     onClick={async () => {
                       const address = await getAddress();
                       if (address) {
@@ -102,9 +102,8 @@ export default function AccidentlocationPage() {
 
                         // Adresse Input aktualisieren
                         setAddressInput(
-                          `${address.address.road || ''} ${
-                            address.address.house_number || ''
-                          }`.trim(),
+                          `${address.address.road || ''} ${address.address.house_number || ''
+                            }`.trim(),
                         );
 
                         // Formik-Felder setzen
@@ -126,7 +125,7 @@ export default function AccidentlocationPage() {
                     disabled={loading}
                     className="geolocation-button"
                   >
-                    <MapPin size={20} style={{ color: 'black' }} />
+                    <MapPin size={20} style={{ color: 'black', minHeight: '24px', minWidth: '24px' }} />
                     Genauen Standort auf der Karte suchen
                   </Button>
                 </Tooltip>

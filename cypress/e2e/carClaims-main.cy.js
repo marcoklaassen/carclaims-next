@@ -314,10 +314,6 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     cy.contains('Zurück zur Startseite').should('be.visible')
     cy.contains('Weiter zur Wallet').should('be.visible')
 
-    // Test "Zurück zur Startseite" button
-    // cy.contains('Zurück zur Startseite').click()
-    // cy.url().should('include', '/frida-carclaims')
-    cy.pause();
     cy.log('✅ Komplette Schadensmeldung erfolgreich durchlaufen!')
   })
 })

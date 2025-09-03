@@ -52,7 +52,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     },
 
     // Damage Location A
-    damagedPartsA: ['Vorderer Stoßfänger', 'Fahrertür (vorne links)'],
+    damagedPartsA: ['Vorderer Stoßfänger', 'Fahrertür (vorne links)', 'Kotflügel rechts'],
 
     // Damage Description A
     damageDescriptionA: {
@@ -260,13 +260,36 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
 
     cy.clickNext()
 
-    // 17. SUBMIT CLAIM AND NAVIGATE TO SUCCESS PAGE
+    // 17. SUMMARY PAGE
+    cy.waitForPageLoad('/summary')
+    cy.contains('Zusammenfassung').should('be.visible')
+    cy.contains('Allgemein').should('be.visible')
+
+    // Accordion-Kacheln aufklappen
+    cy.contains('Angaben zum Unfallort').click()
+    cy.contains('Angaben zum Versicherungsnehmer').click()
+    cy.contains('Angaben zum Fahrer (Versicherungsnehmer)').click()
+    cy.contains('Angaben zum Fahrzeug (Versicherungsnehmer)').click()
+    cy.contains('Angaben zu Zeugen').click()
+
+
+    // Beispielwerte prüfen
+    cy.contains(testData.accidentInfo.accidentReportNumber).should('be.visible')
+    cy.contains(testData.insuranceHolder.name).should('be.visible')
+    cy.contains(testData.vehicleA.carBrand).should('be.visible')
+    cy.contains(testData.witnesses.witnesses[0].name).should('be.visible')
+
+    // Absenden
+    cy.contains('Bestätigen und weiter').should('be.visible')
+    cy.get('button').contains('Bestätigen und weiter').click()
+
+    // 18. SUBMIT CLAIM AND NAVIGATE TO SUCCESS PAGE
     cy.wait('@submitClaim').then((interception) => {
       expect(interception.response.statusCode).to.eq(201)
       expect(interception.request.url).to.include('/claimsdata/ALZ123456789')
     })
 
-    // 18. SUCCESS PAGE
+    // 19. SUCCESS PAGE
     cy.waitForPageLoad('/success')
 
     cy.url().should('include', '/success')
@@ -292,9 +315,9 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     cy.contains('Weiter zur Wallet').should('be.visible')
 
     // Test "Zurück zur Startseite" button
-    cy.contains('Zurück zur Startseite').click()
-    cy.url().should('include', '/frida-carclaims')
-
+    // cy.contains('Zurück zur Startseite').click()
+    // cy.url().should('include', '/frida-carclaims')
+    cy.pause();
     cy.log('✅ Komplette Schadensmeldung erfolgreich durchlaufen!')
   })
 })

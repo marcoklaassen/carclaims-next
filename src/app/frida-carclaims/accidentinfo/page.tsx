@@ -109,7 +109,7 @@ export default function AccidentInfoPage() {
             </div>
 
             <div className="form-group">
-              <label>Bearbeitung-Nr. des Unfallberichts:</label>
+              <label>Bearbeitungsnr. des Unfallberichts:</label>
               <TextField
                 name="accidentReportNumber"
                 fullWidth

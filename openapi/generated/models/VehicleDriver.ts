@@ -159,7 +159,9 @@ export const VehicleDriverDriverDamagedpartsGraphicEnum = {
     GriffschalenHintenLinks: 'Griffschalen (hinten links)',
     GriffschalenHintenRechts: 'Griffschalen (hinten rechts)',
     SchwellerLinks: 'Schweller links',
-    SchwellerRechts: 'Schweller rechts'
+    SchwellerRechts: 'Schweller rechts',
+    KotflgelLinks: 'Kotflügel links',
+    KotflgelRechts: 'Kotflügel rechts'
 } as const;
 export type VehicleDriverDriverDamagedpartsGraphicEnum = typeof VehicleDriverDriverDamagedpartsGraphicEnum[keyof typeof VehicleDriverDriverDamagedpartsGraphicEnum];
 

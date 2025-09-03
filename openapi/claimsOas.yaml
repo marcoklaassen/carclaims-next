@@ -393,6 +393,8 @@ components:
               - Griffschalen (hinten rechts)
               - Schweller links
               - Schweller rechts
+              - Kotflügel links
+              - Kotflügel rechts
             example: Vorderer Stoßfänger
         driverVisibleDamage:
           type: string

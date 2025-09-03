@@ -320,7 +320,9 @@ export class ClaimsdataMapper {
       'Griffschalen (hinten links)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenHintenLinks,
       'Griffschalen (hinten rechts)': VehicleDriverDriverDamagedpartsGraphicEnum.GriffschalenHintenRechts,
       'Schweller links': VehicleDriverDriverDamagedpartsGraphicEnum.SchwellerLinks,
-      'Schweller rechts': VehicleDriverDriverDamagedpartsGraphicEnum.SchwellerRechts
+      'Schweller rechts': VehicleDriverDriverDamagedpartsGraphicEnum.SchwellerRechts,
+      'Kotflügel links': VehicleDriverDriverDamagedpartsGraphicEnum.KotflgelLinks,
+      'Kotflügel rechts': VehicleDriverDriverDamagedpartsGraphicEnum.KotflgelRechts
     };
 
     return parts.map(part => mappings[part] || VehicleDriverDriverDamagedpartsGraphicEnum.Motorhaube);

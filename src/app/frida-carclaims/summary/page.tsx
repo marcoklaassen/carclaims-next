@@ -109,7 +109,7 @@ export default function SummaryPage() {
             <Accordion>
               <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                 <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center' }}>
-                  <Car size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px'}} />Angaben zum Fahrzeug (Versicherungsnehmer)
+                  <Car size={24} color='teal' style={{ marginRight: '8px', minWidth: '24px' }} />Angaben zum Fahrzeug (Versicherungsnehmer)
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -153,7 +153,7 @@ export default function SummaryPage() {
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/driverinfo/a')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
             </Accordion>
-            {/* 5. Schadensort Versicherungsnehmer A */}
+            {/* 5. Beschädigte Fahrzeugteile Versicherungsnehmer A */}
             <Accordion>
               <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                 <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center' }}>
@@ -265,7 +265,7 @@ export default function SummaryPage() {
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/driverinfo/b')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
             </Accordion>
-            {/* 10. Schadensort Geschädigter */}
+            {/* 10. Beschädigte Fahrzeugteile Geschädigter */}
             <Accordion>
               <AccordionSummary expandIcon={<ChevronDown size={20} />}>
                 <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center' }}>
@@ -274,7 +274,7 @@ export default function SummaryPage() {
               </AccordionSummary>
               <AccordionDetails>
                 <div className="container-grid">
-                  <div style={{ marginBottom: 4 }}><strong>Schadensort:</strong></div>
+                  <div style={{ marginBottom: 4 }}><strong>Fahrzeugteile:</strong></div>
                   {Array.isArray(globalForm.otherDriverDamagedParts) && globalForm.otherDriverDamagedParts.length > 0 ? (
                     <ul style={{ marginTop: 0, marginBottom: 12, paddingLeft: 20 }}>
                       {globalForm.otherDriverDamagedParts.map((part, idx) => (
@@ -299,10 +299,9 @@ export default function SummaryPage() {
                 <div className="container-grid">
                   <div className='display-row'><span className='display-label'>Fahrzeugschäden Beschreibung:</span>{displayValue(globalForm.otherDamageDescription)}</div>
                   <div className='display-row'><span className='display-label'>Bemerkungen:</span>{displayValue(globalForm.otherAdditionalComments)}</div>
-                  <div className='display-row'><span className='display-label'>Fahrbereitschaft:</span>{typeof globalForm.otherVehicleOperational === 'boolean' ? (globalForm.otherVehicleOperational ? 'Ja' : 'Nein') : displayValue(undefined)}</div>
+                  <div className='display-row'><span className='display-label'>Fahrbereitschaft:</span>{displayValue(globalForm.otherVehicleOperational)}</div>
                   <div className='display-row'><span className='display-label'>Hochgeladene Dateien:</span>{displayValue(globalForm.otherDriverFileUploads?.length)}</div>
                   <div className='display-row'><span className='display-label'>Fahrzeugschaden Grund:</span>{displayValue(globalForm.otherDamageType)}</div>
-                  <div className='display-row'><span className='display-label'>Verletzte vorhanden:</span>{displayValue(globalForm.hasInjured)}</div>
                 </div>
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/damagedescription/b')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
@@ -319,7 +318,6 @@ export default function SummaryPage() {
                 <div className="container-grid">
                   <div className='display-row'><span className='display-label'>Verletzte vorhanden:</span>{displayValue(globalForm.hasInjured)}</div>
                   <div className='display-row'><span className='display-label'>Anzahl:</span>{displayValue(globalForm.injuredCount)}</div>
-                  <div className='display-row'><span className='display-label'>Sachschäden:</span>{displayValue(globalForm.miscellaneousDamages)}</div>
                 </div>
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/injuredpersons')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
@@ -347,22 +345,26 @@ export default function SummaryPage() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div className="container-grid">
+                <div>
                   {(globalForm.witnessesCount ?? 0) > 0 && Array.isArray(globalForm.witnesses) && globalForm.witnesses.length > 0 ? (
                     <>
-                      {globalForm.witnesses.map((w, i) => (
-                        <div key={i} style={{ marginBottom: 16 }}>
-                          <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Zeuge {i + 1}</div>
-                          <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(w.salutation)}</div>
-                          <div className='display-row'><span className='display-label'>Name:</span>{displayValue(w.name)}</div>
-                          <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(w.surName)}</div>
-                          <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(w.streetName)}</div>
-                          <div className='display-row'><span className='display-label'>Hausnummer:</span>{displayValue(w.houseNumber)}</div>
-                          <div className='display-row'><span className='display-label'>PLZ:</span>{displayValue(w.postalCode)}</div>
-                          <div className='display-row'><span className='display-label'>Ort:</span>{displayValue(w.city)}</div>
-                          <div className='display-row'><span className='display-label'>Telefon:</span>{displayValue(w.telephone)}</div>
-                          <div className='display-row'><span className='display-label'>Email:</span>{displayValue(w.email)}</div>
-                        </div>
+                      {globalForm.witnesses.map((w, i, arr) => (
+                        <>
+                          <div style={{ fontWeight: 'bold', marginBottom: 12 }}>Zeuge {i + 1}</div>
+                          <div className='container-grid' key={i} style={{ marginBottom: 20 }}>
+                            <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(w.salutation)}</div>
+                            <div className='display-row'><span className='display-label'>Name:</span>{displayValue(w.name)}</div>
+                            <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(w.surName)}</div>
+                            <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(w.streetName)}</div>
+                            <div className='display-row'><span className='display-label'>Hausnummer:</span>{displayValue(w.houseNumber)}</div>
+                            <div className='display-row'><span className='display-label'>PLZ:</span>{displayValue(w.postalCode)}</div>
+                            <div className='display-row'><span className='display-label'>Ort:</span>{displayValue(w.city)}</div>
+                            <div className='display-row'><span className='display-label'>Telefon:</span>{displayValue(w.telephone)}</div>
+                            <div className='display-row'><span className='display-label'>Email:</span>{displayValue(w.email)}</div>
+                          </div>
+                          {/* Trennlinie */}
+                          {i < arr.length - 1 && <hr style={{ margin: '20px 0', borderTop: '1px solid #e0e0e0', borderBottom: 'none' }} />}
+                        </>
                       ))}
                     </>
                   ) : (

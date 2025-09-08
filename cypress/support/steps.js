@@ -20,6 +20,11 @@ Cypress.Commands.add('fillPersonalInfo', (formType, data) => {
     cy.get(`[name="${fields.salutation}"]`).parent().find('.MuiSelect-select').click()
     cy.get('[role="listbox"]').contains(data.salutation).click()
 
+    if (data.title) {
+      cy.get(`[name="${fields.title}"]`).parent().find('.MuiSelect-select').click()
+      cy.get('[role="listbox"]').contains(data.title).click()
+    }
+
     cy.get(`[name="${fields.name}"]`).clear().type(data.name)
     cy.get(`[name="${fields.surName}"]`).clear().type(data.surName)
     cy.get(`[name="address"]`).clear().type(`${data.streetName} ${data.houseNumber}`)
@@ -138,6 +143,12 @@ Cypress.Commands.add('fillWitnesses', (data) => {
       // Salutation dropdown
       cy.get(`[name="witnesses[${index}].salutation"]`).parent().find('.MuiSelect-select').click()
       cy.get('[role="listbox"]').contains(witness.salutation).click()
+
+      // Title dropdown (if title is provided)
+      if (witness.title) {
+        cy.get(`[name="witnesses[${index}].title"]`).parent().find('.MuiSelect-select').click()
+        cy.get('[role="listbox"]').contains(witness.title).click()
+      }
 
       // Fill witness personal data
       cy.get(`[name="witnesses[${index}].name"]`).type(witness.name)

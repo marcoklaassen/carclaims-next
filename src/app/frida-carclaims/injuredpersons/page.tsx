@@ -17,8 +17,6 @@ export default function InjuredPersonsPage() {
     injuredCount: globalForm.injuredCount || 0,
   };
 
-  // console.log(values.hasInjured);
-
   return (
     <Formik
       enableReinitialize

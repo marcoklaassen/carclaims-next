@@ -13,8 +13,6 @@ export default function DamageLocationPage() {
     notFound();
   }
 
-  console.log('DamageLocationPage type:', type);
-
   const formType: FormType = type as FormType;
 
   return <UnifiedDamageLocationPage formType={formType} />;

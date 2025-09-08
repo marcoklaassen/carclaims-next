@@ -3,6 +3,16 @@ import * as Yup from 'yup';
 export type FormType = 'a' | 'b';
 
 // =============================================================================
+// PERSON TITLE ENUM
+// =============================================================================
+
+export const PersonTitleEnum = [
+  'Dr.',
+  'Dr. Dr.',
+  'Prof.'
+];
+
+// =============================================================================
 // DAMAGE PARTS OPTIONS
 // =============================================================================
 
@@ -52,6 +62,7 @@ export const AVAILABLE_DAMAGE_PARTS = [
 export const PERSONAL_INFO_FIELDS = {
   a: {
     salutation: 'insuranceHolderSalutation',
+    title: 'insuranceHolderTitle',
     name: 'insuranceHolderName',
     surName: 'insuranceHolderSurName',
     streetName: 'insuranceHolderStreetName',
@@ -63,6 +74,7 @@ export const PERSONAL_INFO_FIELDS = {
   },
   b: {
     salutation: 'otherInsuranceHolderSalutation',
+    title: 'otherInsuranceHolderTitle',
     name: 'otherInsuranceHolderName',
     surName: 'otherInsuranceHolderSurName',
     streetName: 'otherInsuranceHolderStreetName',
@@ -414,6 +426,7 @@ export const FORM_LABELS = {
       b: 'Persönliche Daten - Unfallbeteiligte:r',
     },
     salutation: 'Anrede:',
+    personTitle: 'Titel:',
     name: 'Vorname:',
     surName: 'Name:',
     streetAndNumber: 'Straße, Hausnummer:',
@@ -501,6 +514,11 @@ export const FORM_LABELS = {
       mr: 'Herr',
       mrs: 'Frau',
       divers: 'Divers'
+    },
+    titles: {
+      dr: 'Dr.',
+      drdr: 'Dr. Dr.',
+      prof: 'Prof.'
     },
   },
 } as const;

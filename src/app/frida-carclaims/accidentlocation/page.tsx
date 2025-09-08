@@ -98,9 +98,7 @@ export default function AccidentlocationPage() {
                     onClick={async () => {
                       const address = await getAddress();
                       if (address) {
-                        console.log('Address from useGetAddress:', address.address.postcode);
-
-                        // Adresse Input aktualisieren
+                        // Adress-Input aktualisieren
                         setAddressInput(
                           `${address.address.road || ''} ${address.address.house_number || ''
                             }`.trim(),
@@ -117,7 +115,7 @@ export default function AccidentlocationPage() {
                         setFieldTouched('accidentCity', false);
                         setFieldTouched('accidentPostalCode', false);
 
-                        console.log('Address:', address);
+                        // console.log('Address:', address);
                       } else if (error) {
                         console.error('Fehler beim Abrufen der Adresse:', error);
                       }

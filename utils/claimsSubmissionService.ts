@@ -17,7 +17,7 @@ export class ClaimsSubmissionService {
 
       const claimsdata = ClaimsdataMapper.mapToClaimsdata(globalForm);
 
-      console.log('📤 Übermittle Claims-Daten:', claimsdata);
+      console.log('📤 Übermittle Claims-Daten');
 
       // Policennummer aus den Daten extrahieren
       const policyNumber = claimsdata.policyholder.policyNumber;
@@ -27,12 +27,12 @@ export class ClaimsSubmissionService {
       }
 
       const api = new ClaimsApi();
-      const response = await api.createClaimByPID({
+      const response = await api.createClaimByPIDRaw({
         policyNumber: policyNumber,
         claimsdata: claimsdata
       });
 
-      console.log('✅ Claims erfolgreich übermittelt:', response);
+      console.log('✅ Claims erfolgreich übermittelt:');
 
       return { success: true, data: response };
 

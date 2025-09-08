@@ -13,8 +13,6 @@ export default function VehicleInfoPage() {
     notFound();
   }
 
-  console.log('VehicleInfoPage type:', type);
-
   const formType: FormType = type as FormType;
 
   return <UnifiedVehicleInfoPage formType={formType} />;

@@ -20,6 +20,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     // Versicherungsnehmer (Party A)
     insuranceHolder: {
       salutation: 'Divers',
+      title: 'Prof.',
       name: 'Max',
       surName: 'Mustermann',
       streetName: 'Teststraße',
@@ -65,6 +66,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     // Unfallbeteiligte (Party B)
     otherParty: {
       salutation: 'Frau',
+      title: 'Dr.',
       name: 'Anna',
       surName: 'Schmidt',
       streetName: 'Beispielweg',
@@ -126,6 +128,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
       witnessesCount: 2,
       witnesses: [{
         salutation: 'Frau',
+        title: 'Dr. Dr.',
         name: 'Lisa',
         surName: 'Wagner',
         streetName: 'Zeugenstraße',
@@ -136,6 +139,7 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
         email: 'lisa.wagner@test.de'
       }, {
         salutation: 'Herr',
+        title: '',
         name: 'Thomas',
         surName: 'Becker',
         streetName: 'Beobachterweg',

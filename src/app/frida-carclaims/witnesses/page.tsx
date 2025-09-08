@@ -47,7 +47,6 @@ export default function WitnessesPage() {
 
         console.log({ WITNESSES_FORM_SUBMIT: limitedValues });
         setGlobalForm(formData);
-        // Nach Zeugen-Erfassung auf Zusammenfassungsseite weiterleiten
         router.push('/frida-carclaims/summary');
       }}
     >
@@ -111,15 +110,15 @@ export default function WitnessesPage() {
                         currentWitnesses.push(newWitness);
                         setFieldValue('witnesses', currentWitnesses);
 
-                        console.log('Adding new witness:', {
-                          newCount,
-                          newWitness,
-                          currentWitnesses,
-                        });
+                        // console.log('Adding new witness:', {
+                        //   newCount,
+                        //   newWitness,
+                        //   currentWitnesses,
+                        // });
                       }
                     }}
                   >
-                    <Plus size={24} />
+                    <Plus size={24} style={{color: 'black'}} />
                   </button>
                 </div>
               </div>

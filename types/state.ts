@@ -37,6 +37,7 @@ export interface GlobalFormState {
   witnessTelephone?: string;
   isInsuredDriver?: 'true' | 'false' | string;
   insuranceHolderSalutation?: string;
+  insuranceHolderTitle?: string;
   insuranceHolderName?: string;
   insuranceHolderSurName?: string;
   insuranceHolderStreetName?: string;
@@ -47,6 +48,7 @@ export interface GlobalFormState {
   insuranceHolderEmail?: string;
   otherIsInsuredDriver?: 'true' | 'false' | string;
   otherInsuranceHolderSalutation?: string;
+  otherInsuranceHolderTitle?: string;
   otherInsuranceHolderName?: string;
   otherInsuranceHolderSurName?: string;
   otherInsuranceHolderStreetName?: string;
@@ -137,6 +139,7 @@ export interface MiscellaneousDamagesFormState {
 
 export interface InsuranceHolderFormState {
   insuranceHolderSalutation?: string;
+  insuranceHolderTitle?: string;
   insuranceHolderName?: string;
   insuranceHolderSurName?: string;
   insuranceHolderStreetName?: string;
@@ -160,6 +163,7 @@ export interface InsuranceHolderFormState {
 
 export interface OtherInsuranceHolderFormState {
   otherInsuranceHolderSalutation?: string;
+  otherInsuranceHolderTitle?: string,
   otherInsuranceHolderName?: string;
   otherInsuranceHolderSurName?: string;
   otherInsuranceHolderStreetName?: string;

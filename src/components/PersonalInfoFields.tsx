@@ -85,41 +85,79 @@ export default function PersonalInfoFields({
 
   return (
     <>
-      {/* Anrede */}
-      <div className="form-group">
-        <label>{FORM_LABELS.personalInfo.salutation}</label>
-        <FormControl fullWidth variant="outlined">
-          <Select
-            name={getFieldName('salutation')}
-            displayEmpty
-            value={getFieldValue('salutation')}
-            onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
-            error={hasError('salutation')}
-            renderValue={(selected) => {
-              if (selected === '') {
-                return (
-                  <span
-                    style={{
-                      color: 'rgba(0, 0, 0, 0.87) !important',
-                      opacity: '0.5',
-                    }}
-                  >
-                    {FORM_LABELS.common.selectPlaceholder}
-                  </span>
-                );
-              }
-              return String(selected);
-            }}
-          >
-            <MenuItem value="">{FORM_LABELS.common.selectPlaceholder}</MenuItem>
-            <MenuItem value="Herr">{FORM_LABELS.common.salutations.mr}</MenuItem>
-            <MenuItem value="Frau">{FORM_LABELS.common.salutations.mrs}</MenuItem>
-            <MenuItem value="Divers">{FORM_LABELS.common.salutations.divers}</MenuItem>
-          </Select>
-          {hasError('salutation') && (
-            <FormHelperText error={true}>{String(getErrorMessage('salutation'))}</FormHelperText>
-          )}
-        </FormControl>
+      {/* Anrede und Titel */}
+      <div className="form-group-horizontal">
+        <div className="form-group-item-big">
+          <label>{FORM_LABELS.personalInfo.salutation}</label>
+          <FormControl fullWidth variant="outlined">
+            <Select
+              name={getFieldName('salutation')}
+              displayEmpty
+              value={getFieldValue('salutation')}
+              onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
+              error={hasError('salutation')}
+              renderValue={(selected) => {
+                if (selected === '') {
+                  return (
+                    <span
+                      style={{
+                        color: 'rgba(0, 0, 0, 0.87) !important',
+                        opacity: '0.5',
+                      }}
+                    >
+                      {FORM_LABELS.common.selectPlaceholder}
+                    </span>
+                  );
+                }
+                return String(selected);
+              }}
+            >
+              <MenuItem value="">{FORM_LABELS.common.selectPlaceholder}</MenuItem>
+              <MenuItem value="Herr">{FORM_LABELS.common.salutations.mr}</MenuItem>
+              <MenuItem value="Frau">{FORM_LABELS.common.salutations.mrs}</MenuItem>
+              <MenuItem value="Divers">{FORM_LABELS.common.salutations.divers}</MenuItem>
+            </Select>
+            {hasError('salutation') && (
+              <FormHelperText error={true}>{String(getErrorMessage('salutation'))}</FormHelperText>
+            )}
+          </FormControl>
+        </div>
+
+        <div className="form-group-item-big">
+          <label>{FORM_LABELS.personalInfo.personTitle}</label>
+          <FormControl fullWidth variant="outlined">
+            <Select
+              name={getFieldName('title')}
+              displayEmpty
+              value={getFieldValue('title')}
+              onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
+              error={hasError('title')}
+              renderValue={(selected) => {
+                if (selected === '') {
+                  return (
+                    <span
+                      style={{
+                        color: 'rgba(0, 0, 0, 0.87) !important',
+                        opacity: '0.5',
+                      }}
+                    >
+                      {FORM_LABELS.common.selectPlaceholder}
+                    </span>
+                  );
+                }
+                return String(selected);
+              }}
+            >
+              <MenuItem value="">{FORM_LABELS.common.selectPlaceholder}</MenuItem>
+              <MenuItem value="Dr.">{FORM_LABELS.common.titles.dr}</MenuItem>
+              <MenuItem value="Dr. Dr.">{FORM_LABELS.common.titles.drdr}</MenuItem>
+              <MenuItem value="Prof.">{FORM_LABELS.common.titles.prof}</MenuItem>
+            </Select>
+            {hasError('title') && (
+              <FormHelperText error={true}>{String(getErrorMessage('title'))}</FormHelperText>
+            )}
+          </FormControl>
+        </div>
       </div>
 
       {/* Vorname und Nachname */}

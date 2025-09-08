@@ -29,6 +29,7 @@ export function createPersonalInfoValues(globalForm: Partial<AllFormState>, form
   if (formType === 'a') {
     return {
       [fields.salutation]: globalForm.insuranceHolderSalutation || '',
+      [fields.title]: globalForm.insuranceHolderTitle || '',
       [fields.name]: globalForm.insuranceHolderName || '',
       [fields.surName]: globalForm.insuranceHolderSurName || '',
       [fields.streetName]: globalForm.insuranceHolderStreetName || '',
@@ -41,6 +42,7 @@ export function createPersonalInfoValues(globalForm: Partial<AllFormState>, form
   } else {
     return {
       [fields.salutation]: globalForm.otherInsuranceHolderSalutation || '',
+      [fields.title]: globalForm.otherInsuranceHolderTitle || '',
       [fields.name]: globalForm.otherInsuranceHolderName || '',
       [fields.surName]: globalForm.otherInsuranceHolderSurName || '',
       [fields.streetName]: globalForm.otherInsuranceHolderStreetName || '',

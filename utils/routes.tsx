@@ -40,6 +40,5 @@ export function getNextRoute(currentPath: string) {
 
 export function getPreviousRoute(currentStep: number) {
   const previousRoute = currentStep > 0 ? formRoutes[currentStep - 1].path : '';
-  console.log("Step to previous route:" + previousRoute);
   return previousRoute;
 };

@@ -11,6 +11,7 @@ import {
   ClaimsdataWitnessExistsEnum,
   ClaimsdetailsLanguageEnum,
   PersonFormOfAddressEnum,
+  PersonTitleEnum,
   PolicyholderInputTaxDeductionEnum,
   PolicyholderComprehensiveInsuranceEnum,
   VehicleDriverVehicleDrivingAbilityEnum,
@@ -68,6 +69,7 @@ export class ClaimsdataMapper {
    */
   private static mapToPerson(
     salutation?: string,
+    title?: string,
     name?: string,
     surName?: string,
     streetName?: string,
@@ -79,6 +81,7 @@ export class ClaimsdataMapper {
   ): Person {
     return {
       formOfAddress: this.mapSalutationToEnum(salutation),
+      title: this.mapTitleToEnum(title),
       lastName: name || undefined,
       firstName: surName || undefined,
       postalCode: postalCode || undefined,
@@ -98,6 +101,7 @@ export class ClaimsdataMapper {
 
     const personalInfo = this.mapToPerson(
       isOther ? globalForm.otherInsuranceHolderSalutation : globalForm.insuranceHolderSalutation,
+      isOther ? globalForm.otherInsuranceHolderTitle : globalForm.insuranceHolderTitle,
       isOther ? globalForm.otherInsuranceHolderName : globalForm.insuranceHolderName,
       isOther ? globalForm.otherInsuranceHolderSurName : globalForm.insuranceHolderSurName,
       isOther ? globalForm.otherInsuranceHolderStreetName : globalForm.insuranceHolderStreetName,
@@ -140,6 +144,7 @@ export class ClaimsdataMapper {
 
     const personalInfo = this.mapToPerson(
       isOther ? globalForm.otherDriverSalutation : globalForm.driverSalutation,
+      undefined, // Title für Fahrer (noch nicht im GlobalFormState definiert)
       isOther ? globalForm.otherDriverName : globalForm.driverName,
       isOther ? globalForm.otherDriverSurName : globalForm.driverSurName,
       isOther ? globalForm.otherDriverStreetName : globalForm.driverStreetName,
@@ -176,6 +181,7 @@ export class ClaimsdataMapper {
    */
   private static mapToWitnesses(witnesses: Array<{
     salutation?: string;
+    title?: string;
     name?: string;
     surName?: string;
     streetName?: string;
@@ -188,6 +194,7 @@ export class ClaimsdataMapper {
     return witnesses.map(witness => ({
       personalInformation: this.mapToPerson(
         witness.salutation,
+        witness.title,
         witness.name,
         witness.surName,
         witness.streetName,
@@ -351,6 +358,19 @@ export class ClaimsdataMapper {
         return PersonFormOfAddressEnum.Divers;
       default:
         return PersonFormOfAddressEnum.NotSpecified;
+    }
+  }
+
+  private static mapTitleToEnum(title?: string): PersonTitleEnum | undefined {
+    switch (title) {
+      case 'Dr.':
+        return PersonTitleEnum.Dr;
+      case 'Dr. Dr.':
+        return PersonTitleEnum.DrDr;
+      case 'Prof.':
+        return PersonTitleEnum.Prof;
+      default:
+        return undefined;
     }
   }
 

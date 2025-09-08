@@ -93,6 +93,7 @@ export default function SummaryPage() {
               <AccordionDetails>
                 <div className="container-grid">
                   <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(globalForm.insuranceHolderSalutation)}</div>
+                  <div className='display-row'><span className='display-label'>Titel:</span>{displayValue(globalForm.insuranceHolderTitle)}</div>
                   <div className='display-row'><span className='display-label'>Name:</span>{displayValue(globalForm.insuranceHolderName)}</div>
                   <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(globalForm.insuranceHolderSurName)}</div>
                   <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(globalForm.insuranceHolderStreetName)}</div>
@@ -205,6 +206,7 @@ export default function SummaryPage() {
               <AccordionDetails>
                 <div className="container-grid">
                   <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(globalForm.otherInsuranceHolderSalutation)}</div>
+                  <div className='display-row'><span className='display-label'>Titel:</span>{displayValue(globalForm.otherInsuranceHolderTitle)}</div>
                   <div className='display-row'><span className='display-label'>Name:</span>{displayValue(globalForm.otherInsuranceHolderName)}</div>
                   <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(globalForm.otherInsuranceHolderSurName)}</div>
                   <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(globalForm.otherInsuranceHolderStreetName)}</div>

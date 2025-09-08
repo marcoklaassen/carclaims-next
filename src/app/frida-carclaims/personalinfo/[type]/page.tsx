@@ -13,8 +13,6 @@ export default function PersonalInfoPage() {
     notFound();
   }
 
-  console.log('PersonalInfoPage type:', type);
-
   const formType: FormType = type as FormType;
 
   return <UnifiedPersonalInfoPage formType={formType} />;

@@ -13,8 +13,6 @@ export default function DamageDescriptionPage() {
     notFound();
   }
 
-  console.log('DamageDescriptionPage type:', type);
-
   const formType: FormType = type as FormType;
 
   return <UnifiedDamageDescriptionPage formType={formType} />;

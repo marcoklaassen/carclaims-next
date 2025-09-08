@@ -13,8 +13,6 @@ export default function DriverInfoPage() {
     notFound();
   }
 
-  console.log('DriverInfoPage type:', type);
-
   const formType: FormType = type as FormType;
 
   return <UnifiedDriverInfoPage formType={formType} />;

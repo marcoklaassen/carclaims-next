@@ -50,7 +50,6 @@ export class ClaimsdataMapper {
    * Mappt zu Claimsdetails
    */
   private static mapToClaimsdetails(globalForm: GlobalFormState): Claimsdetails {
-    console.log('📦 Mapping GlobalFormState to Claimsdata:',this.mapToLanguageEnum(globalForm.language));
     return {
       language: this.mapToLanguageEnum(globalForm.language),
       accidentDate: this.mapDayjsToDate(globalForm.accidentDate),

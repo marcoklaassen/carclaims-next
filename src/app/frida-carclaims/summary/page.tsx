@@ -345,32 +345,30 @@ export default function SummaryPage() {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <div>
-                  {(globalForm.witnessesCount ?? 0) > 0 && Array.isArray(globalForm.witnesses) && globalForm.witnesses.length > 0 ? (
-                    <>
-                      {globalForm.witnesses.map((w, i, arr) => (
-                        <>
-                          <div style={{ fontWeight: 'bold', marginBottom: 12 }}>Zeuge {i + 1}</div>
-                          <div className='container-grid' key={i} style={{ marginBottom: 20 }}>
-                            <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(w.salutation)}</div>
-                            <div className='display-row'><span className='display-label'>Name:</span>{displayValue(w.name)}</div>
-                            <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(w.surName)}</div>
-                            <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(w.streetName)}</div>
-                            <div className='display-row'><span className='display-label'>Hausnummer:</span>{displayValue(w.houseNumber)}</div>
-                            <div className='display-row'><span className='display-label'>PLZ:</span>{displayValue(w.postalCode)}</div>
-                            <div className='display-row'><span className='display-label'>Ort:</span>{displayValue(w.city)}</div>
-                            <div className='display-row'><span className='display-label'>Telefon:</span>{displayValue(w.telephone)}</div>
-                            <div className='display-row'><span className='display-label'>Email:</span>{displayValue(w.email)}</div>
-                          </div>
-                          {/* Trennlinie */}
-                          {i < arr.length - 1 && <hr style={{ margin: '20px 0', borderTop: '1px solid #e0e0e0', borderBottom: 'none' }} />}
-                        </>
-                      ))}
-                    </>
-                  ) : (
-                    <div>Keine Zeugen angegeben</div>
-                  )}
-                </div>
+                {(globalForm.witnessesCount ?? 0) > 0 && Array.isArray(globalForm.witnesses) && globalForm.witnesses.length > 0 ? (
+                  <>
+                    {globalForm.witnesses.map((w, i, arr) => (
+                      <React.Fragment key={i}>
+                        <div style={{ fontWeight: 'bold', marginBottom: 12 }}>Zeuge {i + 1}</div>
+                        <div className='container-grid' style={{ marginBottom: 20 }}>
+                          <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(w.salutation)}</div>
+                          <div className='display-row'><span className='display-label'>Name:</span>{displayValue(w.name)}</div>
+                          <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(w.surName)}</div>
+                          <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(w.streetName)}</div>
+                          <div className='display-row'><span className='display-label'>Hausnummer:</span>{displayValue(w.houseNumber)}</div>
+                          <div className='display-row'><span className='display-label'>PLZ:</span>{displayValue(w.postalCode)}</div>
+                          <div className='display-row'><span className='display-label'>Ort:</span>{displayValue(w.city)}</div>
+                          <div className='display-row'><span className='display-label'>Telefon:</span>{displayValue(w.telephone)}</div>
+                          <div className='display-row'><span className='display-label'>Email:</span>{displayValue(w.email)}</div>
+                        </div>
+                        {/* Trennlinie */}
+                        {i < arr.length - 1 && <hr style={{ margin: '20px 0', borderTop: '1px solid #e0e0e0', borderBottom: 'none' }} />}
+                      </React.Fragment>
+                    ))}
+                  </>
+                ) : (
+                  <div>Keine Zeugen angegeben</div>
+                )}
                 <Button variant="text" onClick={() => handleEdit('/frida-carclaims/witnesses')} startIcon={<SquarePen size={18} />} sx={{ display: 'flex', paddingY: 1, color: 'black', marginTop: '20px' }}>Angaben anpassen</Button>
               </AccordionDetails>
             </Accordion>

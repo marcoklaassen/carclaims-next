@@ -72,17 +72,17 @@ export default function MiscellaneousdamagesPage() {
                     if (!fieldWasCleared) {
                       // Nur wiederherstellen, wenn das Feld nicht bewusst gelöscht wurde
                       const savedDescription = getSavedDescription();
-                      console.log("Lade gespeicherte Beschreibung:", savedDescription);
+                      // console.log("Lade gespeicherte Beschreibung:", savedDescription);
                       setFieldValue("miscellaneousDamageDescription", savedDescription);
                     } else {
-                      console.log("Feld wurde bewusst gelöscht, behalte leeren Zustand");
+                      // console.log("Feld wurde bewusst gelöscht, behalte leeren Zustand");
                       // Stelle sicher, dass das Feld leer bleibt
                       setFieldValue("miscellaneousDamageDescription", "");
                     }
                   } else {
                     // Bei "Nein": Aktuelle Beschreibung in sessionStorage speichern und Feld leeren
                     if (values.miscellaneousDamageDescription.trim() !== '') {
-                      console.log("Speichere Beschreibung vor Wechsel zu Nein:", values.miscellaneousDamageDescription);
+                      // console.log("Speichere Beschreibung vor Wechsel zu Nein:", values.miscellaneousDamageDescription);
                       sessionStorage.setItem("miscellaneousDamageDescription", values.miscellaneousDamageDescription);
                     } else {
                       console.log("Leeres Feld beim Wechsel zu Nein, entferne aus Storage");

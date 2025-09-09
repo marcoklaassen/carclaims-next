@@ -47,7 +47,8 @@ function TokenProcessor() {
             console.error('Token konnte nicht verifiziert werden. Keine Daten gespeichert.');
           }
         } catch (err) {
-          console.error('Error processing JWT:', err);
+          // console.error('Error processing JWT:', err);
+          console.error('Error processing JWT: ', err);
         }
       } else {
         console.log('No token provided in URL');

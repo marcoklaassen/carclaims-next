@@ -29,14 +29,14 @@ export function useGetAddress() {
       const url = `/api/osm-reverse?lat=${lat}&lon=${lng}`;
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`Backend-Fehler: HTTP ${response.status}`);
       }
 
       const addressData: I_OSMAddressDetails = await response.json();
       setLoading(false);
       return addressData;
     } catch (err) {
-      console.error('Fehler beim Abrufen der Adresse:', err);
+      // console.error('Fehler beim Abrufen der Adresse:', err);
       setError(err as Error | GeolocationPositionError);
       setLoading(false);
       return null;

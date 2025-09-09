@@ -1,4 +1,3 @@
-import { relative } from 'path';
 import React, { useState } from 'react';
 
 interface InteractiveCarSVGProps {

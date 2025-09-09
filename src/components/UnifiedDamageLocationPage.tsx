@@ -64,29 +64,29 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
               </div>
             </div>
 
-            {/* Schadensbereiche als Auswahloptionen anzeigen */}
-            <div className="damage-options-grid">
-              {(values[fields.damagedParts] ?? []).map((part: string, index: number) => (
-                <div
-                  key={index}
-                  className="damage-option selected"
-                  onClick={() => {
-                    setFieldValue(
-                      fields.damagedParts,
-                      (values[fields.damagedParts] ?? []).filter(
-                        (element: string) => element !== part,
-                      ),
-                    );
-                    setFieldTouched(fields.damagedParts, true);
+            {/* Interaktives Fahrzeugbild */}
+            <div className="car-image-placeholder">
+              <div className='car-svg-container'>
+                <InteractiveCarSVG
+                  selectedParts={values[fields.damagedParts] ?? []}
+                  onPartClick={(partName: string) => {
+                    const currentParts = values[fields.damagedParts] ?? [];
+                    if (currentParts.includes(partName)) {
+                      const newParts = currentParts.filter((part: string) => part !== partName);
+                      setFieldValue(fields.damagedParts, newParts);
+                      setFieldTouched(fields.damagedParts, newParts.length === 0);
+                    } else {
+                      const newParts = [...currentParts, partName];
+                      setFieldValue(fields.damagedParts, newParts);
+                      setFieldTouched(fields.damagedParts, false);
+                    }
                   }}
-                >
-                  {part} <span className="check-icon">✓</span>
-                </div>
-              ))}
+                />
+              </div>
             </div>
 
             {/* Dropdown für die Auswahl weiterer Bereiche */}
-            <FormControl fullWidth variant="outlined" error={touched[fields.damagedParts] && Boolean(errors[fields.damagedParts])}>
+            <FormControl fullWidth variant="outlined" error={touched[fields.damagedParts] && Boolean(errors[fields.damagedParts])} style={{ marginTop: '24px' }}>
               <Select
                 value=""
                 displayEmpty
@@ -131,23 +131,25 @@ export default function UnifiedDamageLocationPage({ formType: propFormType }: Pr
               )}
             </FormControl>
 
-            {/* Interaktives Fahrzeugbild */}
-            <div className="car-image-placeholder">
-              <InteractiveCarSVG
-                selectedParts={values[fields.damagedParts] ?? []}
-                onPartClick={(partName: string) => {
-                  const currentParts = values[fields.damagedParts] ?? [];
-                  if (currentParts.includes(partName)) {
-                    const newParts = currentParts.filter((part: string) => part !== partName);
-                    setFieldValue(fields.damagedParts, newParts);
-                    setFieldTouched(fields.damagedParts, newParts.length === 0);
-                  } else {
-                    const newParts = [...currentParts, partName];
-                    setFieldValue(fields.damagedParts, newParts);
-                    setFieldTouched(fields.damagedParts, false);
-                  }
-                }}
-              />
+            {/* Schadensbereiche als Auswahloptionen anzeigen */}
+            <div className="damage-options-grid">
+              {(values[fields.damagedParts] ?? []).map((part: string, index: number) => (
+                <div
+                  key={index}
+                  className="damage-option selected"
+                  onClick={() => {
+                    setFieldValue(
+                      fields.damagedParts,
+                      (values[fields.damagedParts] ?? []).filter(
+                        (element: string) => element !== part,
+                      ),
+                    );
+                    setFieldTouched(fields.damagedParts, true);
+                  }}
+                >
+                  {part} <span className="check-icon">✓</span>
+                </div>
+              ))}
             </div>
           </div>
 

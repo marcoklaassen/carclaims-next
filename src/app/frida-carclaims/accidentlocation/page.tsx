@@ -34,6 +34,36 @@ export default function AccidentlocationPage() {
 
   const { getAddress, error, loading } = useGetAddress();
 
+  const getErrorMessage = (error: Error | GeolocationPositionError | undefined): string => {
+    if (!error) return '';
+
+    // GeolocationPositionError spezifische Nachrichten
+    if ('code' in error) {
+      const geoError = error as GeolocationPositionError;
+      switch (geoError.code) {
+        case geoError.PERMISSION_DENIED:
+          return 'Standortzugriff wurde verweigert. Bitte aktivieren Sie die Standortberechtigung in Ihren Browser-Einstellungen.';
+        case geoError.POSITION_UNAVAILABLE:
+          return 'Standort ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut oder geben Sie die Adresse manuell ein.';
+        case geoError.TIMEOUT:
+          return 'Standortermittlung hat zu lange gedauert. Bitte versuchen Sie es erneut oder geben Sie die Adresse manuell ein.';
+        default:
+          return 'Unbekannter Geolocation-Fehler. Bitte geben Sie die Adresse manuell ein.';
+      }
+    }
+
+    // Standard Error Messages
+    if (error.message.includes('nicht unterstützt')) {
+      return 'Ihr Browser unterstützt keine Standortermittlung. Bitte geben Sie die Adresse manuell ein.';
+    }
+    if (error.message.includes('Backend-Fehler')) {
+      return 'Fehler beim Laden der Adressdaten. Bitte versuchen Sie es erneut oder geben Sie die Adresse manuell ein.';
+    }
+
+    // Fallback
+    return 'Standort konnte nicht ermittelt werden. Bitte geben Sie die Adresse manuell ein.';
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -88,47 +118,6 @@ export default function AccidentlocationPage() {
                   )}
               </div>
 
-              <div className="location-button">
-                <Tooltip title="Geolocation erfassen">
-                  <Button
-                    name="geoloactionBtn"
-                    variant="contained"
-                    color="primary"
-                    style={{textAlign: 'left'}}
-                    onClick={async () => {
-                      const address = await getAddress();
-                      if (address) {
-                        // Adress-Input aktualisieren
-                        setAddressInput(
-                          `${address.address.road || ''} ${address.address.house_number || ''
-                            }`.trim(),
-                        );
-
-                        // Formik-Felder setzen
-                        setFieldValue('accidentStreetName', address.address.road || '');
-                        setFieldValue('accidentHouseNumber', address.address.house_number || '');
-                        setFieldValue('accidentCity', address.address.town || '');
-                        setFieldValue('accidentPostalCode', address.address.postcode || '');
-
-                        setFieldTouched('accidentStreetName', false);
-                        setFieldTouched('accidentHouseNumber', false);
-                        setFieldTouched('accidentCity', false);
-                        setFieldTouched('accidentPostalCode', false);
-
-                        // console.log('Address:', address);
-                      } else if (error) {
-                        console.error('Fehler beim Abrufen der Adresse:', error);
-                      }
-                    }}
-                    disabled={loading}
-                    className="geolocation-button"
-                  >
-                    <MapPin size={20} style={{ color: 'black', minHeight: '24px', minWidth: '24px' }} />
-                    Genauen Standort auf der Karte suchen
-                  </Button>
-                </Tooltip>
-              </div>
-
               <div className="form-group">
                 <label>PLZ:</label>
                 <TextField
@@ -158,6 +147,50 @@ export default function AccidentlocationPage() {
                 />
                 {touched.accidentCity && errors.accidentCity && (
                   <FormHelperText error={true}>{String(errors.accidentCity)}</FormHelperText>
+                )}
+              </div>
+
+              <div className="location-button" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <Tooltip title="Geolocation erfassen">
+                  <Button
+                    name="geoloactionBtn"
+                    variant="contained"
+                    color="primary"
+                    style={{ textAlign: 'left' }}
+                    onClick={async () => {
+                      const address = await getAddress();
+                      if (address) {
+                        // Adress-Input aktualisieren
+                        setAddressInput(
+                          `${address.address.road || ''} ${address.address.house_number || ''
+                            }`.trim(),
+                        );
+
+                        // Formik-Felder setzen
+                        setFieldValue('accidentStreetName', address.address.road || '');
+                        setFieldValue('accidentHouseNumber', address.address.house_number || '');
+                        setFieldValue('accidentCity', address.address.town || '');
+                        setFieldValue('accidentPostalCode', address.address.postcode || '');
+
+                        setFieldTouched('accidentStreetName', false);
+                        setFieldTouched('accidentHouseNumber', false);
+                        setFieldTouched('accidentCity', false);
+                        setFieldTouched('accidentPostalCode', false);
+
+                        // console.log('Address:', address);
+                      }
+                    }}
+                    disabled={loading}
+                    className="geolocation-button"
+                  >
+                    <MapPin size={20} style={{ color: 'black', minHeight: '24px', minWidth: '24px' }} />
+                    Mein Standort
+                  </Button>
+                </Tooltip>
+                {error && (
+                  <FormHelperText error={true} style={{ marginTop: '8px' }}>
+                    {getErrorMessage(error)}
+                  </FormHelperText>
                 )}
               </div>
 

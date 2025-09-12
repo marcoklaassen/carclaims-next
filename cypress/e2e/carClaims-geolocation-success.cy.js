@@ -36,7 +36,7 @@ describe('CarClaims - Geolocation Erfolg', () => {
 
   it('sollte Geolocation-Feature korrekt funktionieren', () => {
     // Mock geolocation API BEVOR die Seite geladen wird
-    cy.visit('/frida-carclaims/accidentlocation', {
+    cy.visit('/accidentlocation', {
       onBeforeLoad: (win) => {
         cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((success) => {
           console.log('Geolocation getCurrentPosition called')

@@ -178,24 +178,24 @@ export const DAMAGE_DESCRIPTION_FIELDS = {
 
 export const FORM_ROUTES = {
   personalInfo: {
-    a: '/frida-carclaims/vehicleinfo/a',
-    b: '/frida-carclaims/vehicleinfo/b',
+    a: '/vehicleinfo/a',
+    b: '/vehicleinfo/b',
   },
   vehicleInfo: {
-    a: '/frida-carclaims/driverinfo/a',
-    b: '/frida-carclaims/driverinfo/b',
+    a: '/driverinfo/a',
+    b: '/driverinfo/b',
   },
   driverInfo: {
-    a: '/frida-carclaims/damagelocation/a',
-    b: '/frida-carclaims/damagelocation/b',
+    a: '/damagelocation/a',
+    b: '/damagelocation/b',
   },
   damageLocation: {
-    a: '/frida-carclaims/damagedescription/a',
-    b: '/frida-carclaims/damagedescription/b',
+    a: '/damagedescription/a',
+    b: '/damagedescription/b',
   },
   damageDescription: {
-    a: '/frida-carclaims/personalinfo/b',
-    b: '/frida-carclaims/injuredpersons',
+    a: '/personalinfo/b',
+    b: '/injuredpersons',
   },
 } as const;
 

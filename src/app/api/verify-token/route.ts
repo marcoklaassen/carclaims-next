@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     const { token } = data;
 
-    if (!token) {
+    if (!JWT_SECRET) {
       return NextResponse.json(
         { success: false, message: 'Kein Token übermittelt' },
         { status: 400 },

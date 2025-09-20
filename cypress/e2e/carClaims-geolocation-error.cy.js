@@ -1,6 +1,6 @@
 describe('CarClaims - Geolocation Fehler', () => {
   it('sollte Geolocation-Fehler korrekt behandeln', () => {
-    cy.visit('/frida-carclaims/accidentlocation')
+    cy.visit('/accidentlocation')
 
     cy.window().then((win) => {
       cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake((success, error) => {

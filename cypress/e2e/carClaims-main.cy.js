@@ -177,8 +177,8 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
 
   it('sollte eine komplette Schadensmeldung erfolgreich durchlaufen', () => {
     // 1. START: Disclaimer Page
-    cy.visit('/frida-carclaims/disclaimer')
-    cy.get('h3').should('contain', 'Belehrung')
+    cy.visit('/disclaimer')
+    cy.get('h1').should('contain', 'Belehrung')
     cy.clickNext()
 
     // 2. ACCIDENT INFO

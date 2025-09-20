@@ -1,7 +1,7 @@
 describe('CarClaims - Validierung', () => {
   it('sollte Validierungsfehler korrekt anzeigen', () => {
     // Test validation on empty forms
-    cy.visit('/frida-carclaims/accidentlocation')
+    cy.visit('/accidentlocation')
     cy.clickNext()
 
     // Should show validation errors

@@ -8,10 +8,7 @@ const nextConfig: NextConfig = {
         hostname: '**',
       },
     ],
-  },
-  env: {
-    JWT_SECRET: process.env.JWT_SECRET,
-  },
+  }
 };
 
 export default nextConfig;

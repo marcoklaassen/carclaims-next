@@ -15,6 +15,9 @@ export async function POST(request: NextRequest) {
     const { token } = data;
 
     try {
+      if(!JWT_SECRET) {
+        throw new Error("JWT_SECRET is not defined in environment variables");
+      }
       const decoded = jwt.verify(token, JWT_SECRET);
 
       // Überprüfe, ob die erforderlichen Felder vorhanden sind

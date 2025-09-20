@@ -5,15 +5,14 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
-    const { token } = data;
-
     if (!JWT_SECRET) {
       return NextResponse.json(
         { success: false, message: 'Kein Token übermittelt' },
         { status: 400 },
       );
     }
+    const data = await request.json();
+    const { token } = data;
 
     try {
       const decoded = jwt.verify(token, JWT_SECRET);

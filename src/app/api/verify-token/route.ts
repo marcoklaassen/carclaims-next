@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_TOKEN = process.env.JWT_TOKEN as string;
 
 export async function POST(request: NextRequest) {
   try {
-    if (!JWT_SECRET) {
+    if (!JWT_TOKEN) {
       return NextResponse.json(
         {
           success: false,
           message: 'Kein Token übermittelt',
           debug: {
             nodeEnv: process.env.NODE_ENV,
-            jwtSecretExists: !!process.env.JWT_SECRET,
-            jwtSecretLength: process.env.JWT_SECRET?.length || 0,
+            jwtSecretExists: !!process.env.JWT_TOKEN,
+            jwtSecretLength: process.env.JWT_TOKEN?.length || 0,
             allJwtEnvVars: Object.keys(process.env).filter((k) => k.includes('JWT')),
             allEnvVars: Object.keys(process.env).slice(0, 10), // Erste 10 Env Vars
           },
@@ -25,10 +25,10 @@ export async function POST(request: NextRequest) {
     const { token } = data;
 
     try {
-      if (!JWT_SECRET) {
-        throw new Error('JWT_SECRET is not defined in environment variables');
+      if (!JWT_TOKEN) {
+        throw new Error('JWT_TOKEN is not defined in environment variables');
       }
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = jwt.verify(token, JWT_TOKEN);
 
       // Überprüfe, ob die erforderlichen Felder vorhanden sind
       if (!decoded || typeof decoded !== 'object') {

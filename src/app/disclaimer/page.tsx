@@ -9,7 +9,7 @@ export default function DisclaimerPage() {
   return (
     <div className="form-wrapper">
       <div className="form-content">
-        <div className="my-3" style={{ marginBottom: "24px" }}>
+        <div style={{ marginBottom: "24px", paddingLeft: '4px', paddingRight: '4px' }}>
           <h1 style={{ marginBottom: "16px" }}>Belehrung</h1>
           <Typography variant="body1">
             Wir sind verpflichtet, Sie auf folgende Belehrung aufmerksam zu

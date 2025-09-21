@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface InteractiveCarSVGProps {
   selectedParts: string[];
@@ -9,6 +9,18 @@ interface InteractiveCarSVGProps {
 const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, onPartClick, interactive = true }) => {
   const [hoveredPart, setHoveredPart] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHoverEnabled, setIsHoverEnabled] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsHoverEnabled(window.innerWidth >= 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const getPartStyle = (partName: string) => {
     const isSelected = selectedParts.includes(partName);
@@ -30,20 +42,20 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
   };
 
   const handlePartHover = (partName: string, event: React.MouseEvent) => {
-    if (interactive) {
+    if (interactive && isHoverEnabled) {
       setHoveredPart(partName);
       setMousePosition({ x: event.clientX, y: event.clientY });
     }
   };
 
   const handlePartLeave = () => {
-    if (interactive) {
+    if (interactive && isHoverEnabled) {
       setHoveredPart(null);
     }
   };
 
   const handleMouseMove = (event: React.MouseEvent) => {
-    if (interactive && hoveredPart) {
+    if (interactive && isHoverEnabled && hoveredPart) {
       setMousePosition({ x: event.clientX, y: event.clientY });
     }
   };

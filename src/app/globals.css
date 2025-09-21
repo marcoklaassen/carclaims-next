@@ -446,8 +446,6 @@ body {
   height: 100%;
 }
 
-
-
 .car-image{
   width: 60%;
   height: 60%;
@@ -531,6 +529,12 @@ body {
   .car-image{
     width: 100%;
     height: 100%;
+  }
+  .car-image-placeholder{
+    padding: 12px;
+  }
+  .car-svg-container{
+    padding: 20px;
   }
 }
 

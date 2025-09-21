@@ -14,9 +14,20 @@ export async function POST(request: NextRequest) {
       Object.keys(process.env).filter((k) => k.includes('JWT')),
     );
     console.log('=== END DEBUG ===');
+
     if (!JWT_SECRET) {
       return NextResponse.json(
-        { success: false, message: 'Kein Token übermittelt' },
+        {
+          success: false,
+          message: 'Kein Token übermittelt',
+          debug: {
+            nodeEnv: process.env.NODE_ENV,
+            jwtSecretExists: !!process.env.JWT_SECRET,
+            jwtSecretLength: process.env.JWT_SECRET?.length || 0,
+            allJwtEnvVars: Object.keys(process.env).filter((k) => k.includes('JWT')),
+            allEnvVars: Object.keys(process.env).slice(0, 10), // Erste 10 Env Vars
+          },
+        },
         { status: 400 },
       );
     }

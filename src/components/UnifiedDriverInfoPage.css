@@ -1,58 +1,49 @@
-.insurance-holder-display {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 24px !important;
+.container-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    column-gap: 32px;
+    border-radius: 10px;
+
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 20px;
+    margin-bottom: 24px !important;
 }
 
-.insurance-holder-display .form-group {
-  margin-bottom: 18px;
+.display-value-empty {
+    font-size: 16px;
+    word-break: break-word;
+    white-space: pre-line;
+    font-weight: 500;
+    color: #787;
 }
 
-/* .insurance-holder-display .form-group:last-child {
-  margin-bottom: 0;
-} */
-
-.insurance-holder-display label,
-.insurance-holder-display .display-label {
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  /* line-height: 14px; */
-  color: #1A1A1A;
-  margin-bottom: 0px !important;
-  display: block;
+.display-value{
+    font-size: 16px;
+    word-break: break-word;
+    white-space: pre-line;
+    font-weight: 500;
 }
 
-.display-value {
-  font-size: 16px;
-  /* line-height: 16px !important; */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.display-label{
+    font-size: 14px;
 }
 
-/* Responsive Anpassungen für sehr kleine Bildschirme */
-@media (max-width: 480px) {
-  /* .insurance-holder-display {
-    padding: 12px;
-     margin: 12px 0;
-  } */
-
-  .display-value {
-    /* font-size: 14px; */
-    max-width: calc(100vw - 80px);
-  }
-
-  .insurance-holder-display .display-value {
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-  }
+.display-row{
+    display: flex;
+    flex-direction: column;
 }
 
-@media (max-width: 320px) {
-  .display-value {
-    /* font-size: 13px; */
-    max-width: calc(100vw - 60px);
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container-grid{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@media (max-width: 750px) {
+  .container-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

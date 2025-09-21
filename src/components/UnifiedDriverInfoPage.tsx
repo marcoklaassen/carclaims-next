@@ -42,6 +42,11 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
   const validationSchema = createDriverInfoValidationSchema(formType);
   const values = createDriverInfoValues(globalForm, formType);
 
+  // Helper function for displaying values
+  const displayValue = (value: string | undefined) => {
+    return value ? <span className="display-value">{value}</span> : <span className="display-value-empty">-</span>;
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -152,59 +157,17 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
 
               {isInsuredDriver ? (
                 /* Anzeige der bereits erfassten Versicherungsnehmer-Daten */
-                <div className="insurance-holder-display">
-                  <div className="form-group">
-                    <span className="display-label">Anrede:</span>
-                    <div className="display-value">
-                      {formType === 'a'
-                        ? globalForm.insuranceHolderSalutation
-                        : globalForm.otherInsuranceHolderSalutation}
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <span className="display-label">Nach- und Vorname:</span>
-                    <div className="display-value">
-                      {formType === 'a'
-                        ? `${globalForm.insuranceHolderSurName}, ${globalForm.insuranceHolderName}`
-                        : `${globalForm.otherInsuranceHolderSurName}, ${globalForm.otherInsuranceHolderName}`}
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <span className="display-label">Anschrift:</span>
-                    <div className="display-value">
-                      {formType === 'a'
-                        ? `${globalForm.insuranceHolderStreetName} ${globalForm.insuranceHolderHouseNumber}, ${globalForm.insuranceHolderPostalCode} ${globalForm.insuranceHolderCity}`
-                        : `${globalForm.otherInsuranceHolderStreetName} ${globalForm.otherInsuranceHolderHouseNumber}, ${globalForm.otherInsuranceHolderPostalCode} ${globalForm.otherInsuranceHolderCity}`}
-                    </div>
-                  </div>
-
-                  {(formType === 'a'
-                    ? globalForm.insuranceHolderTelephone
-                    : globalForm.otherInsuranceHolderTelephone) && (
-                    <div className="form-group">
-                      <span className="display-label">Telefon:</span>
-                      <div className="display-value">
-                        {formType === 'a'
-                          ? globalForm.insuranceHolderTelephone
-                          : globalForm.otherInsuranceHolderTelephone}
-                      </div>
-                    </div>
-                  )}
-
-                  {(formType === 'a'
-                    ? globalForm.insuranceHolderEmail
-                    : globalForm.otherInsuranceHolderEmail) && (
-                    <div className="form-group">
-                      <span className="display-label">E-Mail:</span>
-                      <div className="display-value">
-                        {formType === 'a'
-                          ? globalForm.insuranceHolderEmail
-                          : globalForm.otherInsuranceHolderEmail}
-                      </div>
-                    </div>
-                  )}
+                <div className="container-grid">
+                  <div className='display-row'><span className='display-label'>Titel:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderTitle : globalForm.otherInsuranceHolderTitle)}</div>
+                  <div className='display-row'><span className='display-label'>Anrede:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderSalutation : globalForm.otherInsuranceHolderSalutation)}</div>
+                  <div className='display-row'><span className='display-label'>Name:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderName : globalForm.otherInsuranceHolderName)}</div>
+                  <div className='display-row'><span className='display-label'>Nachname:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderSurName : globalForm.otherInsuranceHolderSurName)}</div>
+                  <div className='display-row'><span className='display-label'>Straße:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderStreetName : globalForm.otherInsuranceHolderStreetName)}</div>
+                  <div className='display-row'><span className='display-label'>Hausnummer:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderHouseNumber : globalForm.otherInsuranceHolderHouseNumber)}</div>
+                  <div className='display-row'><span className='display-label'>PLZ:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderPostalCode : globalForm.otherInsuranceHolderPostalCode)}</div>
+                  <div className='display-row'><span className='display-label'>Ort:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderCity : globalForm.otherInsuranceHolderCity)}</div>
+                  <div className='display-row'><span className='display-label'>Telefon:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderTelephone : globalForm.otherInsuranceHolderTelephone)}</div>
+                  <div className='display-row'><span className='display-label'>Email:</span>{displayValue(formType === 'a' ? globalForm.insuranceHolderEmail : globalForm.otherInsuranceHolderEmail)}</div>
                 </div>
               ) : (
                 <>

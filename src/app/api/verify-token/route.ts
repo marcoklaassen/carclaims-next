@@ -95,19 +95,59 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       console.error('JWT-Verifizierungsfehler:', error);
 
+      // Debug-Informationen in die Response einbauen
+      const debugInfo = {
+        NODE_ENV: process.env.NODE_ENV,
+        AWS_REGION: process.env.AWS_REGION,
+        JWT_SECRET_NAME: process.env.JWT_SECRET_NAME,
+        AWS_VARS: Object.keys(process.env).filter(key => key.startsWith('AWS_')),
+        JWT_VARS: Object.keys(process.env).filter(key => key.includes('JWT')),
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
+        errorName: error instanceof Error ? error.name : 'Unknown',
+        timestamp: new Date().toISOString()
+      };
+
       if (error instanceof jwt.JsonWebTokenError) {
-        return NextResponse.json({ success: false, message: 'Ungültiges Token' }, { status: 400 });
+        return NextResponse.json({
+          success: false,
+          message: 'Ungültiges Token',
+          debug: debugInfo
+        }, { status: 400 });
       } else if (error instanceof jwt.TokenExpiredError) {
-        return NextResponse.json({ success: false, message: 'Token abgelaufen' }, { status: 401 });
+        return NextResponse.json({
+          success: false,
+          message: 'Token abgelaufen',
+          debug: debugInfo
+        }, { status: 401 });
       }
 
       return NextResponse.json(
-        { success: false, message: 'Fehler bei der Token-Verifizierung' },
+        {
+          success: false,
+          message: 'Fehler bei der Token-Verifizierung',
+          debug: debugInfo
+        },
         { status: 500 },
       );
     }
   } catch (error) {
     console.error('Server error:', error);
-    return NextResponse.json({ success: false, message: 'Interner Serverfehler' }, { status: 500 });
+
+    const debugInfo = {
+      NODE_ENV: process.env.NODE_ENV,
+      AWS_REGION: process.env.AWS_REGION,
+      JWT_SECRET_NAME: process.env.JWT_SECRET_NAME,
+      AWS_VARS: Object.keys(process.env).filter(key => key.startsWith('AWS_')),
+      JWT_VARS: Object.keys(process.env).filter(key => key.includes('JWT')),
+      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      errorName: error instanceof Error ? error.name : 'Unknown',
+      timestamp: new Date().toISOString()
+    };
+
+    return NextResponse.json({
+      success: false,
+      message: 'Interner Serverfehler',
+      debug: debugInfo
+    }, { status: 500 });
   }
 }

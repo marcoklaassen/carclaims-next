@@ -1,34 +1,59 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
-const JWT_TOKEN = process.env.JWT_TOKEN as string;
+console.log('AWS_REGION:', process.env.AWS_REGION);
+
+const secretsManagerClient = new SecretsManagerClient({ region: process.env.AWS_REGION });
+
+async function getJwtSecret(): Promise<string> {
+  try {
+    const secretName = process.env.JWT_SECRET_NAME;
+
+    console.log('Name of the JWT Secret from environment variables:', secretName);
+
+    const command = new GetSecretValueCommand({
+      SecretId: secretName,
+    });
+
+    const response = await secretsManagerClient.send(command);
+
+    if (response.SecretString) {
+      try {
+        const secretObj = JSON.parse(response.SecretString);
+        return secretObj.jwt_secret || secretObj.JWT_SECRET || response.SecretString;
+      } catch {
+        return response.SecretString;
+      }
+    }
+
+    throw new Error('Secret value not found');
+  } catch (error) {
+    console.error('Error retrieving JWT secret from AWS Secrets Manager:', error);
+    throw new Error('JWT secret not available from Secrets Manager');
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
-    if (!JWT_TOKEN) {
+    const data = await request.json();
+    const { token } = data;
+
+    if (!token) {
       return NextResponse.json(
         {
           success: false,
           message: 'Kein Token übermittelt',
-          debug: {
-            nodeEnv: process.env.NODE_ENV,
-            jwtSecretExists: !!process.env.JWT_TOKEN,
-            jwtSecretLength: process.env.JWT_TOKEN?.length || 0,
-            allJwtEnvVars: Object.keys(process.env).filter((k) => k.includes('JWT')),
-            allEnvVars: Object.keys(process.env).slice(0, 10), // Erste 10 Env Vars
-          },
         },
         { status: 400 },
       );
     }
-    const data = await request.json();
-    const { token } = data;
 
     try {
-      if (!JWT_TOKEN) {
-        throw new Error('JWT_TOKEN is not defined in environment variables');
-      }
-      const decoded = jwt.verify(token, JWT_TOKEN);
+      // JWT Secret aus AWS Secrets Manager abrufen
+      const jwtSecret = await getJwtSecret();
+
+      const decoded = jwt.verify(token, jwtSecret);
 
       // Überprüfe, ob die erforderlichen Felder vorhanden sind
       if (!decoded || typeof decoded !== 'object') {

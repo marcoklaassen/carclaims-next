@@ -7,7 +7,6 @@ const secretsManagerClient = new SecretsManagerClient({ region: process.env.AWS_
 async function getJwtSecret(): Promise<string> {
   try {
 
-    console.log('AWS_REGION:', process.env.AWS_REGION);
     const secretName = process.env.JWT_SECRET_NAME;
 
     console.log('Name of the JWT Secret from environment variables:', secretName);
@@ -51,6 +50,7 @@ export async function POST(request: NextRequest) {
 
     try {
       // JWT Secret aus AWS Secrets Manager abrufen
+      console.log('AWS_REGION:', process.env.AWS_REGION);
       const jwtSecret = await getJwtSecret();
 
       const decoded = jwt.verify(token, jwtSecret);

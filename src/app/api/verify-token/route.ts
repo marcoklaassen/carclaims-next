@@ -2,14 +2,34 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
-const secretsManagerClient = new SecretsManagerClient({ region: process.env.AWS_REGION });
+// AWS Secrets Manager Client konfigurieren
+const secretsManagerClient = new SecretsManagerClient({
+  region: process.env.AWS_REGION || 'eu-central-1' // Fallback-Region
+});
+
+// Initial Debug beim Import
+console.log('=== Secrets Manager Client Debug ===');
+console.log('Client initialized with region:', process.env.AWS_REGION || 'eu-central-1 (fallback)');
+console.log('====================================');
 
 async function getJwtSecret(): Promise<string> {
   try {
+    // Debug-Informationen für Produktion
+    console.log('=== AWS Secrets Manager Debug ===');
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('AWS_REGION:', process.env.AWS_REGION);
+    console.log('JWT_SECRET_NAME:', process.env.JWT_SECRET_NAME);
+    console.log('Available AWS env vars:', Object.keys(process.env).filter(key => key.startsWith('AWS_')));
+    console.log('Available JWT env vars:', Object.keys(process.env).filter(key => key.includes('JWT')));
+    console.log('================================');
 
     const secretName = process.env.JWT_SECRET_NAME;
 
-    console.log('Name of the JWT Secret from environment variables:', secretName);
+    if (!secretName) {
+      throw new Error('JWT_SECRET_NAME environment variable is not set');
+    }
+
+    console.log('Retrieving secret with name:', secretName);
 
     const command = new GetSecretValueCommand({
       SecretId: secretName,
@@ -50,7 +70,12 @@ export async function POST(request: NextRequest) {
 
     try {
       // JWT Secret aus AWS Secrets Manager abrufen
-      console.log('AWS_REGION:', process.env.AWS_REGION);
+      console.log('=== POST Debug Info ===');
+      console.log('Request received at:', new Date().toISOString());
+      console.log('AWS_REGION from POST:', process.env.AWS_REGION);
+      console.log('JWT_SECRET_NAME from POST:', process.env.JWT_SECRET_NAME);
+      console.log('=======================');
+
       const jwtSecret = await getJwtSecret();
 
       const decoded = jwt.verify(token, jwtSecret);

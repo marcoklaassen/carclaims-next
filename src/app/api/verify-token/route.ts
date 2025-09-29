@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 
-console.log('AWS_REGION:', process.env.AWS_REGION);
-
 const secretsManagerClient = new SecretsManagerClient({ region: process.env.AWS_REGION });
 
 async function getJwtSecret(): Promise<string> {
   try {
+
+    console.log('AWS_REGION:', process.env.AWS_REGION);
     const secretName = process.env.JWT_SECRET_NAME;
 
     console.log('Name of the JWT Secret from environment variables:', secretName);

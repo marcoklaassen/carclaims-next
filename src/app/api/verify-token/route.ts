@@ -94,6 +94,7 @@ export async function POST(request: NextRequest) {
         AWS_VARS: Object.keys(process.env).filter(key => key.startsWith('AWS_')),
         JWT_VARS: Object.keys(process.env).filter(key => key.includes('JWT')),
         errorMessage: error instanceof Error ? error.message : 'Unknown error',
+        errorCause: error instanceof Error ? error.cause : 'Unknown error',
         errorName: error instanceof Error ? error.name : 'Unknown',
         timestamp: new Date().toISOString()
       };

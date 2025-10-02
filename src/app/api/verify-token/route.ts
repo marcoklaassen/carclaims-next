@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { STSClient, GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 
 // AWS Secrets Manager Client konfigurieren
 const secretsManagerClient = new SecretsManagerClient({
@@ -84,7 +85,9 @@ export async function POST(request: NextRequest) {
         data: decoded,
       });
     } catch (error) {
-      console.error('JWT-Verifizierungsfehler:', error);
+
+      const sts = new STSClient({ region: process.env.AWS_REGION });
+      const identity = await sts.send(new GetCallerIdentityCommand({}));
 
       // Debug-Informationen in die Response einbauen
       const debugInfo = {
@@ -95,6 +98,7 @@ export async function POST(request: NextRequest) {
         JWT_VARS: Object.keys(process.env).filter(key => key.includes('JWT')),
         errorMessage: error instanceof Error ? error.message : 'Unknown error',
         errorCause: error instanceof Error ? error.cause : 'Unknown error',
+        identity: identity,
         errorName: error instanceof Error ? error.name : 'Unknown',
         timestamp: new Date().toISOString()
       };

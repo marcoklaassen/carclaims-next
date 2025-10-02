@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
-import { STSClient, GetCallerIdentityCommand } from '@aws-sdk/client-sts';
 
 // AWS Secrets Manager Client konfigurieren
 const secretsManagerClient = new SecretsManagerClient({
@@ -15,7 +14,7 @@ console.log('====================================');
 
 async function getJwtSecret(): Promise<string> {
   try {
-    const secretName = 'JWT_SECRET';
+    const secretName = "prod/carclaims/jwt_secret";
 
     if (!secretName) {
       throw new Error('JWT_SECRET_NAME environment variable is not set');
@@ -85,8 +84,6 @@ export async function POST(request: NextRequest) {
         data: decoded,
       });
     } catch (error) {
-      const sts = new STSClient({ region: process.env.AWS_REGION });
-      const identity = await sts.send(new GetCallerIdentityCommand({}));
 
       // Debug-Informationen in die Response einbauen
       const debugInfo = {
@@ -97,7 +94,6 @@ export async function POST(request: NextRequest) {
         JWT_VARS: Object.keys(process.env).filter((key) => key.includes('JWT')),
         errorMessage: error instanceof Error ? error.message : 'Unknown error',
         errorCause: error instanceof Error ? error.cause : 'Unknown error',
-        identity: identity,
         errorName: error instanceof Error ? error.name : 'Unknown',
         timestamp: new Date().toISOString(),
       };
@@ -134,9 +130,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Server error:', error);
 
-    const sts = new STSClient({ region: process.env.AWS_REGION });
-    const identity = await sts.send(new GetCallerIdentityCommand({}));
-
     const debugInfo = {
       NODE_ENV: process.env.NODE_ENV,
       AWS_REGION: process.env.AWS_REGION,
@@ -144,7 +137,6 @@ export async function POST(request: NextRequest) {
       AWS_VARS: Object.keys(process.env).filter((key) => key.startsWith('AWS_')),
       JWT_VARS: Object.keys(process.env).filter((key) => key.includes('JWT')),
       errorMessage: error instanceof Error ? error.message : 'Unknown error',
-      identity: identity,
       errorName: error instanceof Error ? error.name : 'Unknown',
       timestamp: new Date().toISOString(),
     };

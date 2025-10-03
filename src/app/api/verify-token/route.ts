@@ -7,14 +7,13 @@ const secretsManagerClient = new SecretsManagerClient({
   region: process.env.AWS_REGION || 'eu-central-1', // Fallback-Region
 });
 
-// Initial Debug beim Import
 console.log('=== Secrets Manager Client Debug ===');
 console.log('Client initialized with region:', process.env.AWS_REGION || 'eu-central-1 (fallback)');
 console.log('====================================');
 
 async function getJwtSecret(): Promise<string> {
   try {
-    const secretName = "prod/carclaims/jwt_secret";
+    const secretName = 'prod/carclaims/jwt_secret';
 
     if (!secretName) {
       throw new Error('JWT_SECRET_NAME environment variable is not set');
@@ -25,6 +24,7 @@ async function getJwtSecret(): Promise<string> {
     const command = new GetSecretValueCommand({
       SecretId: secretName,
     });
+    console.log('Command:', secretName);
 
     const response = await secretsManagerClient.send(command);
 
@@ -60,13 +60,6 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // JWT Secret aus AWS Secrets Manager abrufen
-      console.log('=== POST Debug Info ===');
-      console.log('Request received at:', new Date().toISOString());
-      console.log('AWS_REGION from POST:', process.env.AWS_REGION);
-      console.log('JWT_SECRET_NAME from POST:', process.env.JWT_SECRET_NAME);
-      console.log('=======================');
-
       const jwtSecret = await getJwtSecret();
 
       const decoded = jwt.verify(token, jwtSecret);
@@ -84,7 +77,6 @@ export async function POST(request: NextRequest) {
         data: decoded,
       });
     } catch (error) {
-
       // Debug-Informationen in die Response einbauen
       const debugInfo = {
         NODE_ENV: process.env.NODE_ENV,
@@ -97,6 +89,12 @@ export async function POST(request: NextRequest) {
         errorName: error instanceof Error ? error.name : 'Unknown',
         timestamp: new Date().toISOString(),
       };
+
+      console.log('=== POST Debug Info ===');
+      console.log('Request received at:', new Date().toISOString());
+      console.log('AWS_REGION from POST:', process.env.AWS_REGION);
+      console.log('Debuginfo:', debugInfo);
+      console.log('=======================');
 
       if (error instanceof jwt.JsonWebTokenError) {
         return NextResponse.json(

@@ -24,7 +24,7 @@ async function getJwtSecret(): Promise<string> {
     const command = new GetSecretValueCommand({
       SecretId: secretName,
     });
-    console.log('Command:', secretName);
+    console.log('Command:', command);
 
     const response = await secretsManagerClient.send(command);
 
@@ -39,7 +39,7 @@ async function getJwtSecret(): Promise<string> {
 
     throw new Error('Secret value not found');
   } catch (error) {
-    // console.error('Error retrieving JWT secret from AWS Secrets Manager:', error);
+    console.log('Error retrieving JWT secret from AWS Secrets Manager:', error);
     throw new Error('JWT secret not available from Secrets Manager', { cause: error });
   }
 }
@@ -81,7 +81,6 @@ export async function POST(request: NextRequest) {
       const debugInfo = {
         NODE_ENV: process.env.NODE_ENV,
         AWS_REGION: process.env.AWS_REGION,
-        JWT_SECRET_NAME: process.env.JWT_SECRET_NAME,
         AWS_VARS: Object.keys(process.env).filter((key) => key.startsWith('AWS_')),
         JWT_VARS: Object.keys(process.env).filter((key) => key.includes('JWT')),
         errorMessage: error instanceof Error ? error.message : 'Unknown error',

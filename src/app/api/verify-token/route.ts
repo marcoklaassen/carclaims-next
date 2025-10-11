@@ -13,7 +13,7 @@ console.log('====================================');
 
 async function getJwtSecret(): Promise<string> {
   try {
-    const secretName = 'prod/carclaims/jwt_secret';
+    const secretName = 'JWT_SECRET';
 
     if (!secretName) {
       throw new Error('JWT_SECRET_NAME environment variable is not set');

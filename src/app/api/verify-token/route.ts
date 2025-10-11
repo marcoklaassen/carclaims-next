@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { STSClient, GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 
 // AWS Secrets Manager Client konfigurieren
 const secretsManagerClient = new SecretsManagerClient({
@@ -127,6 +128,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Server error:', error);
 
+    const stsClient = new STSClient({ region: 'eu-north-1' });
+    const identity = await stsClient.send(new GetCallerIdentityCommand({}));
+
     const debugInfo = {
       NODE_ENV: process.env.NODE_ENV,
       AWS_REGION: process.env.AWS_REGION,
@@ -136,6 +140,7 @@ export async function POST(request: NextRequest) {
       errorMessage: error instanceof Error ? error.message : 'Unknown error',
       errorName: error instanceof Error ? error.name : 'Unknown',
       timestamp: new Date().toISOString(),
+      identity: identity,
     };
 
     return NextResponse.json(

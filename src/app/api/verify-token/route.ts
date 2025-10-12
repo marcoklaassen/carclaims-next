@@ -14,7 +14,7 @@ console.log('====================================');
 
 async function getJwtSecret(): Promise<string> {
   try {
-    const secretName = 'JWT_SECRET';
+    const secretName = 'arn:aws:secretsmanager:eu-north-1:905418106716:secret:JWT_SECRET-UrWlWZ';
 
     if (!secretName) {
       throw new Error('JWT_SECRET_NAME environment variable is not set');

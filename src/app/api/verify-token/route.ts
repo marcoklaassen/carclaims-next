@@ -1,40 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
 
-// Lambda Client konfigurieren
 const lambdaClient = new LambdaClient({
   region: process.env.AWS_REGION || 'eu-north-1',
 });
 
 async function invokeVerifyTokenFunction(token: string) {
-  try {
-    const payload = {
-      body: JSON.stringify({ token }),
-      httpMethod: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+  const payload = {
+    body: JSON.stringify({ token }),
+    httpMethod: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  };
 
-    const command = new InvokeCommand({
-      FunctionName: process.env.VERIFY_TOKEN_FUNCTION_NAME || 'verifyTokenFunction',
-      Payload: new TextEncoder().encode(JSON.stringify(payload)),
-    });
+  const command = new InvokeCommand({
+    FunctionName: process.env.VERIFY_TOKEN_FUNCTION_NAME || 'verifyTokenFunction',
+    Payload: new TextEncoder().encode(JSON.stringify(payload)), // Uint8Array expected
+    // InvocationType: 'RequestResponse' // default = sync
+  });
 
-    console.log('Invoking Amplify Function with payload:', payload);
-    const response = await lambdaClient.send(command);
+  const response = await lambdaClient.send(command);
 
-    if (response.Payload) {
-      const result = JSON.parse(new TextDecoder().decode(response.Payload));
-      console.log('Function response:', result);
-      return result;
-    }
+  if (!response.Payload) throw new Error('No response from function');
 
-    throw new Error('No response from function');
-  } catch (error) {
-    console.error('Error invoking Amplify Function:', error);
-    throw error;
-  }
+  // response.Payload ist Uint8Array — zuverlässig decoden:
+  const decoded = Buffer.from(response.Payload as Uint8Array).toString('utf-8');
+  // Lambda returns a JSON string for the Lambda Proxy response { statusCode, body }
+  return JSON.parse(decoded);
 }
 
 export async function POST(request: NextRequest) {
@@ -63,11 +54,9 @@ export async function POST(request: NextRequest) {
       const functionResult = await invokeVerifyTokenFunction(token);
 
       // Function Result direkt zurückgeben
-      return NextResponse.json(
-        JSON.parse(functionResult.body),
-        { status: functionResult.statusCode }
-      );
-
+      return NextResponse.json(JSON.parse(functionResult.body), {
+        status: functionResult.statusCode,
+      });
     } catch (error) {
       // Debug-Informationen in die Response einbauen
       const debugInfo = {

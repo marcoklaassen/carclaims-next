@@ -1,31 +1,48 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda';
+import jwt from 'jsonwebtoken';
+import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
+import { STSClient, GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 
-const lambdaClient = new LambdaClient({
-  region: process.env.AWS_REGION || 'eu-north-1',
+// AWS Secrets Manager Client konfigurieren
+const secretsManagerClient = new SecretsManagerClient({
+  region: process.env.AWS_REGION || 'eu-central-1', // Fallback-Region
 });
 
-async function invokeVerifyTokenFunction(token: string) {
-  const payload = {
-    body: JSON.stringify({ token }),
-    httpMethod: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-  };
+console.log('=== Secrets Manager Client Debug ===');
+console.log('Client initialized with region:', process.env.AWS_REGION || 'eu-central-1 (fallback)');
+console.log('====================================');
 
-  const command = new InvokeCommand({
-    FunctionName: process.env.VERIFY_TOKEN_FUNCTION_NAME || 'verifyTokenFunction',
-    Payload: new TextEncoder().encode(JSON.stringify(payload)), // Uint8Array expected
-    // InvocationType: 'RequestResponse' // default = sync
-  });
+async function getJwtSecret(): Promise<string> {
+  try {
+    const secretName = 'arn:aws:secretsmanager:eu-north-1:905418106716:secret:JWT_SECRET-UrWlWZ';
 
-  const response = await lambdaClient.send(command);
+    if (!secretName) {
+      throw new Error('JWT_SECRET_NAME environment variable is not set');
+    }
 
-  if (!response.Payload) throw new Error('No response from function');
+    console.log('Retrieving secret with name:', secretName);
 
-  // response.Payload ist Uint8Array — zuverlässig decoden:
-  const decoded = Buffer.from(response.Payload as Uint8Array).toString('utf-8');
-  // Lambda returns a JSON string for the Lambda Proxy response { statusCode, body }
-  return JSON.parse(decoded);
+    const command = new GetSecretValueCommand({
+      SecretId: secretName,
+    });
+    console.log('Command:', command);
+
+    const response = await secretsManagerClient.send(command);
+
+    if (response.SecretString) {
+      try {
+        const secretObj = JSON.parse(response.SecretString);
+        return secretObj.jwt_secret || secretObj.JWT_SECRET || response.SecretString;
+      } catch {
+        return response.SecretString;
+      }
+    }
+
+    throw new Error('Secret value not found');
+  } catch (error) {
+    console.log('Error retrieving JWT secret from AWS Secrets Manager:', error);
+    throw new Error('JWT secret not available from Secrets Manager', { cause: error });
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -44,25 +61,27 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // Amplify Function aufrufen
-      console.log('=== POST Debug Info ===');
-      console.log('Request received at:', new Date().toISOString());
-      console.log('AWS_REGION from POST:', process.env.AWS_REGION);
-      console.log('VERIFY_TOKEN_FUNCTION_NAME:', process.env.VERIFY_TOKEN_FUNCTION_NAME);
-      console.log('=======================');
+      const jwtSecret = await getJwtSecret();
 
-      const functionResult = await invokeVerifyTokenFunction(token);
+      const decoded = jwt.verify(token, jwtSecret);
 
-      // Function Result direkt zurückgeben
-      return NextResponse.json(JSON.parse(functionResult.body), {
-        status: functionResult.statusCode,
+      // Überprüfe, ob die erforderlichen Felder vorhanden sind
+      if (!decoded || typeof decoded !== 'object') {
+        return NextResponse.json(
+          { success: false, message: 'Ungültiges Token-Format' },
+          { status: 400 },
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: decoded,
       });
     } catch (error) {
       // Debug-Informationen in die Response einbauen
       const debugInfo = {
         NODE_ENV: process.env.NODE_ENV,
         AWS_REGION: process.env.AWS_REGION,
-        VERIFY_TOKEN_FUNCTION_NAME: process.env.VERIFY_TOKEN_FUNCTION_NAME,
         AWS_VARS: Object.keys(process.env).filter((key) => key.startsWith('AWS_')),
         JWT_VARS: Object.keys(process.env).filter((key) => key.includes('JWT')),
         errorMessage: error instanceof Error ? error.message : 'Unknown error',
@@ -71,10 +90,31 @@ export async function POST(request: NextRequest) {
         timestamp: new Date().toISOString(),
       };
 
-      console.log('=== ERROR Debug Info ===');
-      console.log('Error invoking function:', error);
+      console.log('=== POST Debug Info ===');
+      console.log('Request received at:', new Date().toISOString());
+      console.log('AWS_REGION from POST:', process.env.AWS_REGION);
       console.log('Debuginfo:', debugInfo);
-      console.log('========================');
+      console.log('=======================');
+
+      if (error instanceof jwt.JsonWebTokenError) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Ungültiges Token',
+            debug: debugInfo,
+          },
+          { status: 400 },
+        );
+      } else if (error instanceof jwt.TokenExpiredError) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Token abgelaufen',
+            debug: debugInfo,
+          },
+          { status: 401 },
+        );
+      }
 
       return NextResponse.json(
         {
@@ -88,15 +128,19 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Server error:', error);
 
+    const stsClient = new STSClient({ region: 'eu-north-1' });
+    const identity = await stsClient.send(new GetCallerIdentityCommand({}));
+
     const debugInfo = {
       NODE_ENV: process.env.NODE_ENV,
       AWS_REGION: process.env.AWS_REGION,
-      VERIFY_TOKEN_FUNCTION_NAME: process.env.VERIFY_TOKEN_FUNCTION_NAME,
+      JWT_SECRET_NAME: process.env.JWT_SECRET_NAME,
       AWS_VARS: Object.keys(process.env).filter((key) => key.startsWith('AWS_')),
       JWT_VARS: Object.keys(process.env).filter((key) => key.includes('JWT')),
       errorMessage: error instanceof Error ? error.message : 'Unknown error',
       errorName: error instanceof Error ? error.name : 'Unknown',
       timestamp: new Date().toISOString(),
+      identity: identity,
     };
 
     return NextResponse.json(

@@ -15,11 +15,6 @@ jobs:
     name: Cypress E2E Tests
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        # Run tests in parallel
-        containers: [1, 2]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,9 +42,6 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome
-          record: false
-          parallel: true
-          ci-build-id: '${{ github.sha }}-${{ github.run_id }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -58,7 +50,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-${{ matrix.containers }}
+          name: cypress-screenshots
           path: cypress/screenshots
           retention-days: 30
 
@@ -67,6 +59,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-results-${{ matrix.containers }}
+          name: cypress-results
           path: cypress/results
           retention-days: 30

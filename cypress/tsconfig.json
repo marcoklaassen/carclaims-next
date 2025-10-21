@@ -1,11 +1,21 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": ["es5", "dom"],
-    "types": ["cypress", "node"]
+    "types": ["cypress", "node"],
+    "baseUrl": "..",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/context/*": ["./context/*"],
+      "@/types/*": ["./types/*"],
+      "@/config/*": ["./config/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.js"],
   "exclude": [
-    "../node_modules",
+    "../node_modules"
   ]
 }

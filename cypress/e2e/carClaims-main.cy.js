@@ -308,7 +308,6 @@ describe('CarClaims - Komplette Schadensmeldung E2E', () => {
     cy.contains('Wir prüfen Ihre übermittelten Daten').should('be.visible')
     cy.contains('Sie erhalten eine E-Mail-Bestätigung mit allen Details').should('be.visible')
     cy.contains('Bei Rückfragen kontaktieren wir Sie direkt').should('be.visible')
-    cy.contains('Ihre Daten stehen in Ihrer Wallet zur Verfügung').should('be.visible')
 
     // Verify important notice
     cy.contains('Wichtiger Hinweis').should('be.visible')

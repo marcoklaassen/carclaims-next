@@ -78,9 +78,6 @@ export default function SuccessPage() {
               <li style={{ marginBottom: "8px" }}>
                 Bei Rückfragen kontaktieren wir Sie direkt
               </li>
-              <li style={{ marginBottom: "8px" }}>
-                Ihre Daten stehen in Ihrer Wallet zur Verfügung
-              </li>
             </ul>
           </div>
 

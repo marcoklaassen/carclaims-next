@@ -10,6 +10,7 @@ export default defineConfig({
     responseTimeout: 10000,
     video: false,
     screenshotOnRunFailure: true,
+    screenshotsFolder: 'cypress/screenshots',
     retries: {
       runMode: 1,
       openMode: 0

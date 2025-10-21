@@ -47,17 +47,26 @@ jobs:
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
           browser: chrome
-          record: true
+          record: false
           parallel: true
           ci-build-id: '${{ github.sha }}-${{ github.run_id }}'
         env:
-          # GitHub token for Cypress Dashboard
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Upload Test Results (Screenshots)
       - name: Upload Cypress screenshots
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots-${{ matrix.containers }}
           path: cypress/screenshots
-          retention-days: 7
+          retention-days: 30
+
+      # Upload Test Results (Reports)
+      - name: Upload Cypress test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results-${{ matrix.containers }}
+          path: cypress/results
+          retention-days: 30

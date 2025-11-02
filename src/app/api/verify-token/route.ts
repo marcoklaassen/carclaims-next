@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
-import { STSClient, GetCallerIdentityCommand } from "@aws-sdk/client-sts";
 
 // AWS Secrets Manager Client konfigurieren
 const secretsManagerClient = new SecretsManagerClient({

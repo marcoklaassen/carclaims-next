@@ -307,8 +307,18 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
         <path className="cls-9" d="M244.86,479.62l-62.97-5.41c-4.51-1.2-11.04-2.79-19.02-4.21,0,0-13.74-2.45-29.9-3.37-32.53-1.86-69.14,2.19-71.34,2.42"
         />
         <path className="cls-7" d="M169.73,306.16c-3.01-1.04-7.38-2.44-12.75-3.75-10.41-2.55-24.79-4.82-50.95-3.37-12.32.68-28.21,2.25-46.78,5.83"
+          style={getPartStyle('Fahrertür (vorne links)')}
+          onClick={() => handlePartClick('Fahrertür (vorne links)')}
+          onMouseEnter={(e) => handlePartHover('Fahrertür (vorne links)', e)}
+          onMouseLeave={handlePartLeave}
+          onMouseMove={handleMouseMove}
         />
         <path className="cls-7" d="M155.43,161.76c2.08,10.63,3.97,21.67,5.61,33.13,4.21,29.39,6.14,56.96,6.58,82.26"
+          style={getPartStyle('Kotflügel links')}
+          onClick={() => handlePartClick('Kotflügel links')}
+          onMouseEnter={(e) => handlePartHover('Kotflügel links', e)}
+          onMouseLeave={handlePartLeave}
+          onMouseMove={handleMouseMove}
         />
         <path className="cls-4" d="M155.12,162.31c.03-.17.04-.33.01-.5-1.2-8.11-3.33-17.93-7.18-28.7-3.53-9.88-7.69-18.26-11.68-25.1-.76-1.31-2.77-.75-2.73.76.17,6.51.55,13.28,1.19,20.29,2.13,23.27,6.67,43.94,11.98,61.62.44,1.46,2.54,1.35,2.83-.15,1.86-9.4,3.71-18.81,5.57-28.21Z"
           style={getPartStyle('Frontscheinwerfer links')}

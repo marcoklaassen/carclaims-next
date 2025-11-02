@@ -128,7 +128,6 @@ export default function SuccessPage() {
             textTransform: "none",
             padding: "12px"
           }}
-          onClick={() => window.open("https://wallet.example.com", "_blank")}
         >
           <FileText size={20} style={{ marginRight: "8px" }} />
           Weiter zur Wallet

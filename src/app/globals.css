@@ -4,7 +4,7 @@
 /* Base styles and variables */
 :root {
   --primary-color: rgb(26, 179, 185);
-  --primary-color-light: rgb(34, 217, 224);
+  --primary-color-light:#29b3b8;
   --primary-color-dark: rgb(24, 170, 175);
   --primary-color-light--50: rgba(34, 217, 224, 0.25);
   --primary-color-light--75: rgba(34, 217, 224, 0.4);
@@ -112,6 +112,10 @@ body {
   font-weight: 500;
   flex-grow: 1;
   text-align: center;
+}
+
+.carclaims-icon {
+ margin-left: 8px;
 }
 
 /* Progress bar */

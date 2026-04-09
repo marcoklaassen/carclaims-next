@@ -88,7 +88,7 @@ export default function WitnessesPage() {
                       setFieldValue('witnessesCount', newCount);
                     }}
                   >
-                    <Minus size={24} />
+                    <Minus size={24} style={{color: 'black'}}/>
                   </button>
                   <input
                     name="witnessesCount"

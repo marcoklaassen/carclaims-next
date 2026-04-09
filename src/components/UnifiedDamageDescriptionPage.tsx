@@ -163,6 +163,7 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
             onChange={formik.handleChange}
             error={formik.touched.damageDescription && Boolean(formik.errors.damageDescription)}
             helperText={formik.touched.damageDescription && formik.errors.damageDescription}
+            autoComplete={'off'}
           />
         </div>
 
@@ -177,6 +178,7 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
             variant="outlined"
             value={formik.values[fields.additionalComments]}
             onChange={formik.handleChange}
+            autoComplete={'off'}
           />
         </div>
 

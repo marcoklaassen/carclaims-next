@@ -135,6 +135,7 @@ export default function MiscellaneousdamagesPage() {
                       sessionStorage.setItem("miscellaneousDamageDescription", e.target.value);
                     }
                   }}
+                  autoComplete={"off"}
                 />
               </div>
             )}

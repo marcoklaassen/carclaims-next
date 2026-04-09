@@ -232,6 +232,7 @@ export default function UnifiedVehicleInfoPage({ formType: propFormType }: Props
                   placeholder={FORM_LABELS.common.fillPlaceholder}
                   variant="outlined"
                   value={values[fields.greenCardNumber] || ''}
+                  autoComplete={"off"}
                   onChange={handleChange}
                   error={!!(errors[fields.greenCardNumber] && touched[fields.greenCardNumber])}
                   helperText={

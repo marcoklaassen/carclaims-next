@@ -244,6 +244,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                       ? errors[fields.driverLicense]
                       : ''
                   }
+                  autoComplete={"off"}
                 />
               </div>
 
@@ -268,6 +269,7 @@ export default function UnifiedDriverInfoPage({ formType: propFormType }: Props)
                       ? errors[fields.licenseIssuingAuthority]
                       : ''
                   }
+                  autoComplete={"off"}
                 />
               </div>
             </div>

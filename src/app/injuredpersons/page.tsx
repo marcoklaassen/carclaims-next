@@ -70,7 +70,7 @@ export default function InjuredPersonsPage() {
                       setFieldValue('injuredCount', Math.max(0, values.injuredCount - 1))
                     }
                   >
-                    <Minus size={24} />
+                    <Minus size={24} style={{color: 'black'}} />
                   </button>
                   <input
                     name="injuredCount"
@@ -86,7 +86,7 @@ export default function InjuredPersonsPage() {
                       setFieldValue('injuredCount', (values.injuredCount || 0) + 1)
                     }
                   >
-                    <Plus size={24} />
+                    <Plus size={24} style={{color: 'black'}} />
                   </button>
                 </div>
               </div>

@@ -360,9 +360,15 @@ export const createVehicleInfoValidationSchema = (formType: FormType) => {
     [fields.carModel]: VALIDATION_RULES.carModel,
     [fields.licensePlate]: VALIDATION_RULES.licensePlate,
     [fields.insuranceCompany]: VALIDATION_RULES.insuranceCompany,
-    [fields.insuranceNumber]: VALIDATION_RULES.insuranceNumber,
-    [fields.chassisNumber]: VALIDATION_RULES.chassisNumber,
-    [fields.odometerReading]: VALIDATION_RULES.odometerReading,
+    [fields.insuranceNumber]: formType === 'a'
+      ? VALIDATION_RULES.insuranceNumber
+      : VALIDATION_RULES.insuranceNumber.optional(),
+    [fields.chassisNumber]: formType === 'a'
+      ? VALIDATION_RULES.chassisNumber
+      : VALIDATION_RULES.chassisNumber.optional(),
+    [fields.odometerReading]: formType === 'a'
+      ? VALIDATION_RULES.odometerReading
+      : VALIDATION_RULES.odometerReading.optional(),
     [fields.greenCardNumber]: VALIDATION_RULES.greenCardNumber,
     // [fields.validDateGreenCard]: VALIDATION_RULES.validDateGreenCard,
     [fields.allRiskInsurance]: VALIDATION_RULES.allRiskInsurance,

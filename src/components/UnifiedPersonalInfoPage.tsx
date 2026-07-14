@@ -16,6 +16,7 @@ import {
 import { createPersonalInfoValues } from '@/utils/formHelpers';
 import PersonalInfoFields from './PersonalInfoFields';
 
+
 interface Props {
   formType?: FormType;
 }

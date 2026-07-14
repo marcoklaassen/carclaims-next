@@ -1,5 +1,6 @@
 import { FormProgressProvider } from '@/context/FormProgressContext';
 import Header from '../components/header';
+import LayoutVoiceButton from '../components/LayoutVoiceButton';
 import './globals.css';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <FormProgressProvider>
             <Header />
             <main className="insurance-form-container">{children}</main>
+            <LayoutVoiceButton />
           </FormProgressProvider>
         </ThemeProvider>
       </body>

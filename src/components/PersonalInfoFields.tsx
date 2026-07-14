@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
 import { FormikErrors, FormikTouched } from 'formik';
 import { parseAddress } from '@/utils/adress';
@@ -67,11 +67,12 @@ export default function PersonalInfoFields({
   };
 
   // State for combined address input
-  const [addressInput, setAddressInput] = useState(() => {
-    const streetName = getFieldValue('streetName');
-    const houseNumber = getFieldValue('houseNumber');
-    return `${streetName} ${houseNumber}`.trim();
-  });
+  const computedAddress = `${getFieldValue('streetName')} ${getFieldValue('houseNumber')}`.trim();
+  const [addressInput, setAddressInput] = useState(computedAddress);
+
+  useEffect(() => {
+    setAddressInput(computedAddress);
+  }, [computedAddress]);
 
   const handleAddressInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

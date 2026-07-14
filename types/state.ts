@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { create } from 'zustand';
 
 export const MAXFILES = 5;
@@ -252,11 +252,33 @@ type FormStore = {
   resetGlobalForm: () => void;
 };
 
+const DATE_KEYS: ReadonlySet<string> = new Set(['accidentDate', 'validDateGreenCard', 'otherValidDateGreenCard']);
+const TIME_KEYS: ReadonlySet<string> = new Set(['accidentTime']);
+
+function coerceDates(values: Partial<GlobalFormState>): Partial<GlobalFormState> {
+  const out = { ...values };
+  for (const key of DATE_KEYS) {
+    const v = (out as Record<string, unknown>)[key];
+    if (typeof v === 'string') {
+      (out as Record<string, unknown>)[key] = dayjs(v);
+    }
+  }
+  for (const key of TIME_KEYS) {
+    const v = (out as Record<string, unknown>)[key];
+    if (typeof v === 'string') {
+      const s = v as string;
+      // bare time "HH:mm:ss" needs a date prefix; full ISO strings work as-is
+      (out as Record<string, unknown>)[key] = s.includes('T') ? dayjs(s) : dayjs(`1970-01-01T${s}`);
+    }
+  }
+  return out;
+}
+
 export const useGlobalFormStore = create<FormStore>((set) => ({
   form: {},
   setGlobalForm: (values) =>
     set((state) => ({
-      form: { ...state.form, ...values },
+      form: { ...state.form, ...coerceDates(values) },
     })),
   resetGlobalForm: () =>
     set({

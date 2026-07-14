@@ -1,0 +1,80 @@
+import { Claimsdata } from '@/types/models';
+import { getAudioFilename, validateAudioBlob } from '@/utils/audioUpload';
+
+// Relative path: nginx (container) or Next.js rewrites forward /api/ to the backend.
+// Override with NEXT_PUBLIC_VOICE_API_URL only when not using a reverse proxy.
+const VOICE_API_URL =
+  process.env.NEXT_PUBLIC_VOICE_API_URL || '/api/voice/extract';
+
+export type VoiceExtractRequest = {
+  language?: string;
+  currentState?: Record<string, unknown>;
+  stepKey?: string;
+};
+
+type VoiceExtractResponse = {
+  transcript?: string;
+  claimsData?: Record<string, unknown>;
+};
+
+export class VoiceApiError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'VoiceApiError';
+  }
+}
+
+export async function submitVoiceAudio(
+  audio: Blob,
+  options: VoiceExtractRequest = {}
+): Promise<Partial<Claimsdata>> {
+  const validationError = validateAudioBlob(audio);
+  if (validationError) {
+    throw new VoiceApiError(validationError);
+  }
+
+  const formData = new FormData();
+  formData.append('audio', audio, getAudioFilename(audio));
+
+  if (options.currentState && Object.keys(options.currentState).length > 0) {
+    formData.append('currentState', JSON.stringify(options.currentState));
+  }
+
+  if (options.language) {
+    formData.append('language', options.language);
+  }
+
+  if (options.stepKey) {
+    formData.append('stepKey', options.stepKey);
+  }
+
+  const response = await fetch(VOICE_API_URL, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let message = `Voice API error (${response.status})`;
+    try {
+      const body = await response.json();
+      if (body?.errors?.[0]?.detail) {
+        message = body.errors[0].detail;
+      } else if (body?.message) {
+        message = body.message;
+      } else if (typeof body?.error === 'string') {
+        message = body.error;
+      }
+    } catch {
+      // use default message
+    }
+    throw new VoiceApiError(message);
+  }
+
+  const json = (await response.json()) as VoiceExtractResponse;
+
+  if (!json.claimsData) {
+    throw new VoiceApiError('Voice API response missing claimsData');
+  }
+
+  return json.claimsData as Partial<Claimsdata>;
+}

@@ -37,6 +37,7 @@ export default function WitnessesPage() {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={values}
       onSubmit={(formData) => {
         const limitedValues = {

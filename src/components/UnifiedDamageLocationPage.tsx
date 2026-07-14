@@ -17,6 +17,7 @@ import {
 import { createDamageLocationValues } from '@/utils/formHelpers';
 import InteractiveCarSVG from './InteractiveCarSVG';
 
+
 interface Props {
   formType?: FormType;
 }

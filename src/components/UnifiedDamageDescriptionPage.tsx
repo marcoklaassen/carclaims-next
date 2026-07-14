@@ -19,6 +19,7 @@ import { useDropzone } from 'react-dropzone';
 import React from 'react';
 import './upload-file-section.css';
 import { MAXFILES, useGlobalFormStore } from '@/types/state';
+
 import {
   FormType,
   DAMAGE_DESCRIPTION_FIELDS,
@@ -57,6 +58,7 @@ export default function UnifiedDamageDescriptionPage({ formType: propFormType }:
   const blobUrlsRef = React.useRef<Record<string, string>>({});
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: values,
     onSubmit: (formData) => {
       console.log({ DAMAGEDESCRIPTION_FORM_SUBMIT: formData, TYPE: formType });

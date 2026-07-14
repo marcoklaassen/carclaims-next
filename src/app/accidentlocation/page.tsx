@@ -28,9 +28,12 @@ export default function AccidentlocationPage() {
   };
 
   const validationSchema = createAccidentLocationValidationSchema();
-  const [addressInput, setAddressInput] = useState(
-    `${values.accidentStreetName || ''} ${values.accidentHouseNumber || ''}`.trim(),
-  );
+  const combinedAddress = `${values.accidentStreetName || ''} ${values.accidentHouseNumber || ''}`.trim();
+  const [addressInput, setAddressInput] = useState(combinedAddress);
+
+  useEffect(() => {
+    setAddressInput(combinedAddress);
+  }, [combinedAddress]);
 
   const { getAddress, error, loading } = useGetAddress();
 
@@ -103,8 +106,6 @@ export default function AccidentlocationPage() {
                   }
                   onChange={(e) => {
                     setAddressInput(e.target.value);
-                  }}
-                  onBlur={(e) => {
                     const { streetName, houseNumber } = parseAddress(e.target.value);
                     setFieldValue('accidentStreetName', streetName);
                     setFieldValue('accidentHouseNumber', houseNumber);

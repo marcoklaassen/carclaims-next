@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+.env
+.env.*
+!.env.example
+docker
+Dockerfile
+cypress
+cypress.config.*
+.github
+.vscode
+.idea
+*.log

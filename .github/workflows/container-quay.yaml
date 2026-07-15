@@ -1,0 +1,60 @@
+name: Build and Push Container Image
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+env:
+  IMAGE_NAME: quay.io/mklaasse/carclaims-next
+  REGISTRY_USER: ${{ secrets.QUAY_USER }}
+  REGISTRY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+jobs:
+  build-and-push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Red Hat Registry
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: registry.access.redhat.com
+          username: ${{ secrets.RH_REGISTRY_USER }}
+          password: ${{ secrets.RH_REGISTRY_PASSWORD }}
+
+      - name: Log in to Quay.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: quay.io
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+
+      - name: Determine image tags
+        id: tags
+        run: |
+          TAGS="${IMAGE_NAME}:latest"
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+            TAGS="${TAGS},${IMAGE_NAME}:${VERSION}"
+          fi
+          SHA_SHORT=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          TAGS="${TAGS},${IMAGE_NAME}:${SHA_SHORT}"
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
+      - name: Build container image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: carclaims-next
+          tags: latest ${{ github.sha }}
+          containerfiles: ./Dockerfile
+
+      - name: Push to Quay.io
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: carclaims-next
+          tags: ${{ steps.tags.outputs.tags }}
+          registry: quay.io/mklaasse

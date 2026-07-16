@@ -25,9 +25,10 @@ const pulse = keyframes`
 
 export type VoiceInputButtonProps = {
   language?: string;
+  stepKey?: string;
 };
 
-export function VoiceInputButton({ language }: VoiceInputButtonProps) {
+export function VoiceInputButton({ language, stepKey }: VoiceInputButtonProps) {
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
@@ -62,6 +63,7 @@ export function VoiceInputButton({ language }: VoiceInputButtonProps) {
         const response = await submitVoiceAudio(blob, {
           language: language ?? globalForm.language,
           currentState: globalForm as Record<string, unknown>,
+          stepKey,
         });
         setGlobalForm(response);
         showMessage('Angaben übernommen', 'success');

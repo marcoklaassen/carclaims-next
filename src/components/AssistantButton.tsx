@@ -5,12 +5,18 @@ import StopIcon from '@mui/icons-material/Stop';
 import Fab from '@mui/material/Fab';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAssistantStore } from '@/stores/assistantStore';
-import { useAssistantLoop } from '@/hooks/useAssistantLoop';
 
-export default function AssistantButton() {
+interface AssistantButtonProps {
+  startAssistant: () => void;
+  stopAssistant: () => void;
+}
+
+export default function AssistantButton({
+  startAssistant,
+  stopAssistant,
+}: AssistantButtonProps) {
   const isActive = useAssistantStore((s) => s.isActive);
   const phase = useAssistantStore((s) => s.phase);
-  const { startAssistant, stopAssistant } = useAssistantLoop();
 
   const isLoading = phase === 'processing';
 

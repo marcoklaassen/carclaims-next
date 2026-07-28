@@ -14,7 +14,6 @@ import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import { keyframes } from '@mui/material/styles';
 import { useAssistantStore } from '@/stores/assistantStore';
-import { useAssistantLoop } from '@/hooks/useAssistantLoop';
 import { useGlobalFormStore } from '@/types/state';
 import { submitPhoto } from '@/api/photoApi';
 
@@ -24,7 +23,13 @@ const pulse = keyframes`
   100% { opacity: 1; }
 `;
 
-export default function AssistantBottomSheet() {
+interface AssistantBottomSheetProps {
+  stopAssistant: () => void;
+}
+
+export default function AssistantBottomSheet({
+  stopAssistant,
+}: AssistantBottomSheetProps) {
   const {
     isActive,
     phase,
@@ -34,7 +39,6 @@ export default function AssistantBottomSheet() {
     setError,
     setPhotoRecommendation,
   } = useAssistantStore();
-  const { stopAssistant } = useAssistantLoop();
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const globalForm = useGlobalFormStore((s) => s.form);

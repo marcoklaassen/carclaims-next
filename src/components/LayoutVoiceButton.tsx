@@ -8,6 +8,7 @@ import { PhotoInputButton } from './PhotoInputButton';
 import AssistantButton from './AssistantButton';
 import AssistantBottomSheet from './AssistantBottomSheet';
 import { useAssistantStore } from '@/stores/assistantStore';
+import { useAssistantLoop } from '@/hooks/useAssistantLoop';
 
 const PATHNAME_TO_STEP_KEY: Record<string, string> = {
   '/accidentinfo': 'carclaimsDetails',
@@ -31,6 +32,7 @@ export default function LayoutVoiceButton() {
   const pathname = usePathname();
   const language = useGlobalFormStore((s) => s.form.language);
   const isAssistantActive = useAssistantStore((s) => s.isActive);
+  const { startAssistant, stopAssistant } = useAssistantLoop();
 
   if (pathname === '/disclaimer') return null;
 
@@ -50,7 +52,10 @@ export default function LayoutVoiceButton() {
           zIndex: 1300,
         }}
       >
-        <AssistantButton />
+        <AssistantButton
+          startAssistant={startAssistant}
+          stopAssistant={stopAssistant}
+        />
         {!isAssistantActive && (
           <>
             <PhotoInputButton stepKey={stepKey} />
@@ -58,7 +63,7 @@ export default function LayoutVoiceButton() {
           </>
         )}
       </Box>
-      <AssistantBottomSheet />
+      <AssistantBottomSheet stopAssistant={stopAssistant} />
     </>
   );
 }

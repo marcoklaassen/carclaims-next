@@ -30,6 +30,7 @@ export function useAssistantLoop() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const vadRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const isActiveRef = useRef<boolean>(false);
   const previousStepKeyRef = useRef<string | null>(null);
   const previousQuestionRef = useRef<string | null>(null);
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -76,6 +77,10 @@ export function useAssistantLoop() {
 
   const handleSpeechEnd = useCallback(
     async (audioData: Float32Array) => {
+      if (!isActiveRef.current) {
+        return null;
+      }
+
       if (silenceTimerRef.current) {
         clearTimeout(silenceTimerRef.current);
         silenceTimerRef.current = null;
@@ -161,6 +166,10 @@ export function useAssistantLoop() {
 
   const handleTurnResponse = useCallback(
     async (response: AssistantTurnResponse) => {
+      if (!isActiveRef.current) {
+        return;
+      }
+
       if (response.claimsData) {
         setGlobalForm(response.claimsData);
       }
@@ -211,6 +220,7 @@ export function useAssistantLoop() {
     reset();
     setActive(true);
     setPhase('processing');
+    isActiveRef.current = true;
 
     try {
       const response = await submitAssistantTurn(null, {
@@ -229,6 +239,7 @@ export function useAssistantLoop() {
   }, [reset, setActive, setPhase, handleTurnResponse, setError]);
 
   const stopAssistant = useCallback(() => {
+    isActiveRef.current = false;
     stopVad();
     if (audioRef.current) {
       audioRef.current.pause();

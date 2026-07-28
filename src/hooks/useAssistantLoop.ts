@@ -132,8 +132,10 @@ export function useAssistantLoop() {
     setError(null);
 
     try {
-      const { MicVAD } = await import('@ricky0123/vad-web');
-      const vad = await MicVAD.new({
+      const vadModule = await import('@ricky0123/vad-web');
+      const ort = await import('onnxruntime-web');
+      ort.env.wasm.numThreads = 1;
+      const vad = await vadModule.MicVAD.new({
         baseAssetPath: '/',
         onnxWASMBasePath: '/',
         onSpeechEnd: async (audio: Float32Array) => {

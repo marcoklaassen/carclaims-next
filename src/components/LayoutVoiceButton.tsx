@@ -5,6 +5,9 @@ import { usePathname } from 'next/navigation';
 import { useGlobalFormStore } from '@/types/state';
 import { VoiceInputButton } from './VoiceInputButton';
 import { PhotoInputButton } from './PhotoInputButton';
+import AssistantButton from './AssistantButton';
+import AssistantBottomSheet from './AssistantBottomSheet';
+import { useAssistantStore } from '@/stores/assistantStore';
 
 const PATHNAME_TO_STEP_KEY: Record<string, string> = {
   '/accidentinfo': 'carclaimsDetails',
@@ -27,26 +30,35 @@ const PATHNAME_TO_STEP_KEY: Record<string, string> = {
 export default function LayoutVoiceButton() {
   const pathname = usePathname();
   const language = useGlobalFormStore((s) => s.form.language);
+  const isAssistantActive = useAssistantStore((s) => s.isActive);
 
   if (pathname === '/disclaimer') return null;
 
   const stepKey = pathname ? PATHNAME_TO_STEP_KEY[pathname] : undefined;
 
   return (
-    <Box
-      sx={{
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 1.5,
-        zIndex: 1300,
-      }}
-    >
-      <PhotoInputButton stepKey={stepKey} />
-      <VoiceInputButton language={language} stepKey={stepKey} />
-    </Box>
+    <>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 1.5,
+          zIndex: 1300,
+        }}
+      >
+        <AssistantButton />
+        {!isAssistantActive && (
+          <>
+            <PhotoInputButton stepKey={stepKey} />
+            <VoiceInputButton language={language} stepKey={stepKey} />
+          </>
+        )}
+      </Box>
+      <AssistantBottomSheet />
+    </>
   );
 }

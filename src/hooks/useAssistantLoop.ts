@@ -133,11 +133,13 @@ export function useAssistantLoop() {
 
     try {
       const vadModule = await import('@ricky0123/vad-web');
-      const ort = await import('onnxruntime-web');
-      ort.env.wasm.numThreads = 1;
       const vad = await vadModule.MicVAD.new({
         baseAssetPath: '/',
         onnxWASMBasePath: '/',
+        ortConfig: (ort) => {
+          ort.env.wasm.numThreads = 1;
+          ort.env.wasm.proxy = false;
+        },
         onSpeechEnd: async (audio: Float32Array) => {
           const response = await handleSpeechEnd(audio);
           if (response) {

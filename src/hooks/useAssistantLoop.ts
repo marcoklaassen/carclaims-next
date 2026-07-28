@@ -16,6 +16,7 @@ export function useAssistantLoop() {
 
   const {
     conversationHistory,
+    error,
     setActive,
     setPhase,
     addMessage,
@@ -247,5 +248,5 @@ export function useAssistantLoop() {
     };
   }, [stopVad]);
 
-  return { startAssistant, stopAssistant };
+  return { startAssistant, stopAssistant, error };
 }

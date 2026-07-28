@@ -46,3 +46,4 @@ jwtGenerator.js
 /public/silero_vad_*.onnx
 /public/vad.worklet.bundle.min.js
 /public/ort-wasm-*.wasm
+/public/ort-wasm-*.mjs

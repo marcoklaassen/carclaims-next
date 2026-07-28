@@ -162,8 +162,9 @@ export function useAssistantLoop() {
           text: 'Ich hoere Sie gerade nicht. Moechten Sie fortfahren?',
         });
       }, 30000);
-    } catch {
-      setError('Mikrofon konnte nicht aktiviert werden');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setError(`VAD init failed: ${msg}`);
       setPhase('idle');
     }
   }, [setPhase, setError, handleSpeechEnd, addMessage]);

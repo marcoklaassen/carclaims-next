@@ -1,8 +1,10 @@
 'use client';
 
+import { Box } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useGlobalFormStore } from '@/types/state';
 import { VoiceInputButton } from './VoiceInputButton';
+import { PhotoInputButton } from './PhotoInputButton';
 
 const PATHNAME_TO_STEP_KEY: Record<string, string> = {
   '/accidentinfo': 'carclaimsDetails',
@@ -30,5 +32,21 @@ export default function LayoutVoiceButton() {
 
   const stepKey = pathname ? PATHNAME_TO_STEP_KEY[pathname] : undefined;
 
-  return <VoiceInputButton language={language} stepKey={stepKey} />;
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: 24,
+        right: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 1.5,
+        zIndex: 1300,
+      }}
+    >
+      <PhotoInputButton stepKey={stepKey} />
+      <VoiceInputButton language={language} stepKey={stepKey} />
+    </Box>
+  );
 }

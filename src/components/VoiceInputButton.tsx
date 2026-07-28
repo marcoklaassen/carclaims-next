@@ -3,7 +3,6 @@
 import React, { useCallback, useState } from 'react';
 import {
   Alert,
-  Box,
   CircularProgress,
   Fab,
   Snackbar,
@@ -77,7 +76,7 @@ export function VoiceInputButton({ language, stepKey }: VoiceInputButtonProps) {
         setPendingSubmit(false);
       }
     },
-    [language, globalForm, setGlobalForm, showMessage, reset]
+    [language, globalForm, stepKey, setGlobalForm, showMessage, reset]
   );
 
   const handleMicClick = useCallback(
@@ -135,19 +134,7 @@ export function VoiceInputButton({ language, stepKey }: VoiceInputButtonProps) {
 
   return (
     <>
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 1.5,
-          zIndex: 1300,
-        }}
-      >
-        {showCancelButton && (
+      {showCancelButton && (
           <Tooltip title="Aufnahme abbrechen">
             <Fab
               type="button"
@@ -197,7 +184,6 @@ export function VoiceInputButton({ language, stepKey }: VoiceInputButtonProps) {
             <MicIcon />
           </Fab>
         </Tooltip>
-      </Box>
 
       <Snackbar
         open={snackbar.open}

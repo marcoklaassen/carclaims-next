@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "cp node_modules/@ricky0123/vad-web/dist/silero_vad_legacy.onnx node_modules/@ricky0123/vad-web/dist/silero_vad_v5.onnx node_modules/@ricky0123/vad-web/dist/vad.worklet.bundle.min.js node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded*.wasm public/ 2>/dev/null || true",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

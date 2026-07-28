@@ -134,6 +134,8 @@ export function useAssistantLoop() {
     try {
       const { MicVAD } = await import('@ricky0123/vad-web');
       const vad = await MicVAD.new({
+        baseAssetPath: '/',
+        onnxWASMBasePath: '/',
         onSpeechEnd: async (audio: Float32Array) => {
           const response = await handleSpeechEnd(audio);
           if (response) {

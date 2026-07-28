@@ -41,3 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 jwtGenerator.js
+
+# VAD/ONNX runtime files copied from node_modules (see postinstall)
+/public/silero_vad_*.onnx
+/public/vad.worklet.bundle.min.js
+/public/ort-wasm-*.wasm

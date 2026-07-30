@@ -1,14 +1,16 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import LinearProgress from '@mui/material/LinearProgress';
 import CloseIcon from '@mui/icons-material/Close';
 import MicIcon from '@mui/icons-material/Mic';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
@@ -16,6 +18,7 @@ import { keyframes } from '@mui/material/styles';
 import { useAssistantStore } from '@/stores/assistantStore';
 import { useGlobalFormStore } from '@/types/state';
 import { submitPhoto } from '@/api/photoApi';
+import { computeSectionProgress } from '@/utils/assistantProgress';
 
 const pulse = keyframes`
   0% { opacity: 1; }
@@ -33,22 +36,19 @@ export default function AssistantBottomSheet({
   const {
     isActive,
     phase,
-    messages,
+    currentQuestion,
     photoRecommendation,
     error,
     setError,
     setPhotoRecommendation,
   } = useAssistantStore();
-  const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages]);
+  const progressData = computeSectionProgress(
+    globalForm as Record<string, unknown>,
+  );
 
   const handlePhotoCapture = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -103,66 +103,89 @@ export default function AssistantBottomSheet({
         </IconButton>
       </Box>
 
-      {/* Conversation area */}
+      {/* Progress sections */}
       <Box
-        ref={scrollRef}
         sx={{
           flex: 1,
           overflowY: 'auto',
           px: 2,
-          py: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
+          py: 2,
         }}
       >
-        {messages.map((msg, i) => (
+        {progressData.map(({ section, filled, total }) => (
           <Box
-            key={i}
-            sx={{
-              alignSelf: msg.role === 'assistant' ? 'flex-start' : 'flex-end',
-              maxWidth: '80%',
-              px: 1.5,
-              py: 1,
-              borderRadius: 2,
-              bgcolor:
-                msg.role === 'assistant'
-                  ? 'grey.100'
-                  : 'primary.main',
-              color: msg.role === 'user' ? 'primary.contrastText' : 'text.primary',
-            }}
+            key={section.id}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}
           >
-            <Typography variant="body2">{msg.text}</Typography>
-          </Box>
-        ))}
-
-        {error && (
-          <Alert severity="error" onClose={() => setError(null)} sx={{ mt: 1 }}>
-            {error}
-          </Alert>
-        )}
-
-        {photoRecommendation && (
-          <Box sx={{ alignSelf: 'center', mt: 1 }}>
-            <Fab
-              size="small"
-              color="secondary"
-              onClick={() => fileInputRef.current?.click()}
-              aria-label="Foto aufnehmen"
+            {filled === total ? (
+              <CheckCircleIcon sx={{ fontSize: 18, color: 'success.main' }} />
+            ) : (
+              <Box sx={{ width: 18, height: 18 }} />
+            )}
+            <Typography
+              variant="body2"
+              sx={{
+                minWidth: 140,
+                color: filled === total ? 'success.main' : 'text.secondary',
+              }}
             >
-              <CameraAltIcon />
-            </Fab>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              hidden
-              onChange={handlePhotoCapture}
+              {section.label}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={(filled / total) * 100}
+              sx={{ flex: 1, height: 6, borderRadius: 3 }}
             />
           </Box>
-        )}
+        ))}
       </Box>
+
+      {/* Current question */}
+      {currentQuestion && (
+        <Box sx={{ px: 2, py: 1.5, borderTop: 1, borderColor: 'divider' }}>
+          <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
+            {currentQuestion}
+          </Typography>
+        </Box>
+      )}
+
+      {/* Error alert */}
+      {error && (
+        <Box sx={{ px: 2, pb: 1 }}>
+          <Alert severity="error" onClose={() => setError(null)}>
+            {error}
+          </Alert>
+        </Box>
+      )}
+
+      {/* Photo capture button */}
+      {photoRecommendation && (
+        <Box
+          sx={{
+            px: 2,
+            pb: 1,
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Fab
+            size="small"
+            color="secondary"
+            onClick={() => fileInputRef.current?.click()}
+            aria-label="Foto aufnehmen"
+          >
+            <CameraAltIcon />
+          </Fab>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            hidden
+            onChange={handlePhotoCapture}
+          />
+        </Box>
+      )}
 
       {/* Status bar */}
       <Box

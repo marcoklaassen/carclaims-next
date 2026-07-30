@@ -12,7 +12,7 @@ import {
 export function useAssistantLoop() {
   const router = useRouter();
   const globalForm = useGlobalFormStore((s) => s.form);
-  const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
+  const replaceGlobalForm = useGlobalFormStore((s) => s.replaceGlobalForm);
 
   const {
     conversationHistory,
@@ -178,7 +178,7 @@ export function useAssistantLoop() {
       }
 
       if (response.claimsData) {
-        setGlobalForm(response.claimsData);
+        replaceGlobalForm(response.claimsData);
       }
 
       if (response.navigateTo) {
@@ -225,7 +225,7 @@ export function useAssistantLoop() {
         startListening();
       }
     },
-    [setGlobalForm, router, setPhase, addMessage, setCurrentQuestion, setPhotoRecommendation, playAudio, stopVad, startListening],
+    [replaceGlobalForm, router, setPhase, addMessage, setCurrentQuestion, setPhotoRecommendation, playAudio, stopVad, startListening],
   );
 
   useEffect(() => {

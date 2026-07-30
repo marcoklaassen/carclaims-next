@@ -249,6 +249,7 @@ export interface WitnessDetails {
 type FormStore = {
   form: GlobalFormState;
   setGlobalForm: (values: Partial<GlobalFormState>) => void;
+  replaceGlobalForm: (values: Partial<GlobalFormState>) => void;
   resetGlobalForm: () => void;
 };
 
@@ -280,6 +281,8 @@ export const useGlobalFormStore = create<FormStore>((set) => ({
     set((state) => ({
       form: { ...state.form, ...coerceDates(values) },
     })),
+  replaceGlobalForm: (values) =>
+    set({ form: coerceDates(values) as GlobalFormState }),
   resetGlobalForm: () =>
     set({
       form: {},

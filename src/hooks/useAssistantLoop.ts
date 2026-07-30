@@ -3,7 +3,7 @@
 import { useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAssistantStore } from '../stores/assistantStore';
-import { useGlobalFormStore } from '../../types/state';
+import { useGlobalFormStore, serializeForm } from '../../types/state';
 import {
   submitAssistantTurn,
   type AssistantTurnResponse,
@@ -95,7 +95,7 @@ export function useAssistantLoop() {
         const blob = new Blob([wavBuffer], { type: 'audio/wav' });
 
         const response = await submitAssistantTurn(blob, {
-          currentState: globalFormRef.current,
+          currentState: serializeForm(globalFormRef.current),
           conversationHistory: conversationHistoryRef.current,
           previousStepKey: previousStepKeyRef.current || undefined,
           previousQuestion: previousQuestionRef.current || undefined,
@@ -240,7 +240,7 @@ export function useAssistantLoop() {
 
     try {
       const response = await submitAssistantTurn(null, {
-        currentState: globalFormRef.current,
+        currentState: serializeForm(globalFormRef.current),
         conversationHistory: [],
       });
       await handleTurnResponse(response);
@@ -274,7 +274,7 @@ export function useAssistantLoop() {
     try {
       const freshForm = useGlobalFormStore.getState().form;
       const response = await submitAssistantTurn(null, {
-        currentState: freshForm,
+        currentState: serializeForm(freshForm),
         conversationHistory: conversationHistoryRef.current,
         previousStepKey: previousStepKeyRef.current || undefined,
         previousQuestion: previousQuestionRef.current || undefined,
@@ -306,7 +306,7 @@ export function useAssistantLoop() {
     setPhase('processing');
     try {
       const response = await submitAssistantTurn(null, {
-        currentState: globalFormRef.current,
+        currentState: serializeForm(globalFormRef.current),
         conversationHistory: conversationHistoryRef.current,
         previousStepKey: previousStepKeyRef.current || undefined,
         previousQuestion: previousQuestionRef.current || undefined,

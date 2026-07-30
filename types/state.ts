@@ -275,6 +275,18 @@ function coerceDates(values: Partial<GlobalFormState>): Partial<GlobalFormState>
   return out;
 }
 
+export function serializeForm(form: Partial<GlobalFormState>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(form)) {
+    if (dayjs.isDayjs(value)) {
+      out[key] = TIME_KEYS.has(key) ? value.format('HH:mm') : value.format('YYYY-MM-DD');
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
 export const useGlobalFormStore = create<FormStore>((set) => ({
   form: {},
   setGlobalForm: (values) =>

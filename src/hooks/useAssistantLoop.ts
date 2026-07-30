@@ -272,8 +272,9 @@ export function useAssistantLoop() {
 
     setPhase('processing');
     try {
+      const freshForm = useGlobalFormStore.getState().form;
       const response = await submitAssistantTurn(null, {
-        currentState: globalFormRef.current,
+        currentState: freshForm,
         conversationHistory: conversationHistoryRef.current,
         previousStepKey: previousStepKeyRef.current || undefined,
         previousQuestion: previousQuestionRef.current || undefined,
@@ -294,6 +295,14 @@ export function useAssistantLoop() {
       return;
     }
 
+    if (previousQuestionRef.current && previousStepKeyRef.current) {
+      addHistoryEntry({
+        question: previousQuestionRef.current,
+        answer: 'Nutzer hat Foto uebersprungen',
+        stepKey: previousStepKeyRef.current,
+      });
+    }
+
     setPhase('processing');
     try {
       const response = await submitAssistantTurn(null, {
@@ -311,7 +320,7 @@ export function useAssistantLoop() {
       );
       setPhase('idle');
     }
-  }, [setPhase, handleTurnResponse, setError]);
+  }, [setPhase, handleTurnResponse, setError, addHistoryEntry]);
 
   useEffect(() => {
     return () => {

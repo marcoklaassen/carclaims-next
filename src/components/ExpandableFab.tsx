@@ -49,51 +49,48 @@ export default function ExpandableFab({
         zIndex: 1300,
       }}
     >
-      {/* Action FABs - appear above toggle when expanded */}
-      <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '150ms' : '0ms' }}>
-        <Box>
-          <AssistantButton
-            startAssistant={startAssistant}
-            stopAssistant={stopAssistant}
-          />
-        </Box>
-      </Zoom>
-
-      <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '75ms' : '0ms' }}>
-        <Box>
-          <PhotoInputButton stepKey={stepKey} />
-        </Box>
-      </Zoom>
-
-      <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '0ms' : '0ms' }}>
-        <Box>
-          <VoiceInputButton language={language} stepKey={stepKey} />
-        </Box>
-      </Zoom>
-
-      {/* Toggle FAB - hidden when assistant is active */}
-      {!isAssistantActive && (
-        <Fab
-          color="default"
-          onClick={handleToggle}
-          aria-label={expanded ? 'Menü schließen' : 'Menü öffnen'}
-          size="medium"
-          sx={{
-            bgcolor: 'grey.700',
-            '&:hover': { bgcolor: 'grey.800' },
-            color: 'white',
-          }}
-        >
-          {expanded ? <CloseIcon /> : <MenuIcon />}
-        </Fab>
-      )}
-
-      {/* When assistant is active, show only the assistant button */}
-      {isAssistantActive && (
+      {isAssistantActive ? (
         <AssistantButton
           startAssistant={startAssistant}
           stopAssistant={stopAssistant}
         />
+      ) : (
+        <>
+          <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '150ms' : '0ms' }}>
+            <Box>
+              <AssistantButton
+                startAssistant={startAssistant}
+                stopAssistant={stopAssistant}
+              />
+            </Box>
+          </Zoom>
+
+          <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '75ms' : '0ms' }}>
+            <Box>
+              <PhotoInputButton stepKey={stepKey} />
+            </Box>
+          </Zoom>
+
+          <Zoom in={expanded} timeout={300} style={{ transitionDelay: expanded ? '0ms' : '0ms' }}>
+            <Box>
+              <VoiceInputButton language={language} stepKey={stepKey} />
+            </Box>
+          </Zoom>
+
+          <Fab
+            color="default"
+            onClick={handleToggle}
+            aria-label={expanded ? 'Menü schließen' : 'Menü öffnen'}
+            size="medium"
+            sx={{
+              bgcolor: 'grey.700',
+              '&:hover': { bgcolor: 'grey.800' },
+              color: 'white',
+            }}
+          >
+            {expanded ? <CloseIcon /> : <MenuIcon />}
+          </Fab>
+        </>
       )}
     </Box>
   );

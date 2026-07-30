@@ -175,6 +175,7 @@ export function VoiceInputButton({ language, stepKey }: VoiceInputButtonProps) {
             aria-label="Spracheingabe starten"
             onClick={handleMicClick}
             disabled={isRecording || isSubmitting}
+            size="medium"
             sx={
               isRecording
                 ? { animation: `${pulse} 1.5s infinite` }

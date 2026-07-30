@@ -90,6 +90,7 @@ export function PhotoInputButton({ stepKey }: PhotoInputButtonProps) {
           aria-label="Foto aufnehmen"
           onClick={handleCameraClick}
           disabled={isSubmitting}
+          size="medium"
         >
           {isSubmitting ? (
             <CircularProgress size={24} color="inherit" />

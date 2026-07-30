@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -48,6 +48,7 @@ export default function AssistantBottomSheet({
     setPhotoRecommendation,
   } = useAssistantStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
@@ -61,6 +62,7 @@ export default function AssistantBottomSheet({
     const file = event.target.files?.[0];
     if (!file) return;
     event.target.value = '';
+    setIsUploading(true);
     try {
       const result = await submitPhoto(file, {
         currentState: globalForm as Record<string, unknown>,
@@ -68,12 +70,13 @@ export default function AssistantBottomSheet({
       setGlobalForm(result);
       setPhotoRecommendation(null);
 
-      // If in photo-prompt phase, continue after photo is processed
       if (phase === 'photo-prompt') {
         continueAfterPhoto();
       }
     } catch {
       setError('Foto konnte nicht verarbeitet werden');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -183,10 +186,15 @@ export default function AssistantBottomSheet({
           <Fab
             size="large"
             color="secondary"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => !isUploading && fileInputRef.current?.click()}
+            disabled={isUploading}
             aria-label="Foto aufnehmen"
           >
-            <CameraAltIcon fontSize="large" />
+            {isUploading ? (
+              <CircularProgress size={28} color="inherit" />
+            ) : (
+              <CameraAltIcon fontSize="large" />
+            )}
           </Fab>
           <Button
             variant="text"
@@ -218,10 +226,15 @@ export default function AssistantBottomSheet({
             <Fab
               size="small"
               color="secondary"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => !isUploading && fileInputRef.current?.click()}
+              disabled={isUploading}
               aria-label="Foto aufnehmen"
             >
-              <CameraAltIcon />
+              {isUploading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                <CameraAltIcon />
+              )}
             </Fab>
             <input
               ref={fileInputRef}
@@ -280,10 +293,18 @@ export default function AssistantBottomSheet({
             </Typography>
           </>
         )}
-        {phase === 'photo-prompt' && (
+        {phase === 'photo-prompt' && !isUploading && (
           <Typography variant="caption" color="text.secondary">
             Warte auf Foto...
           </Typography>
+        )}
+        {isUploading && (
+          <>
+            <CircularProgress size={16} />
+            <Typography variant="caption" color="text.secondary">
+              Foto wird analysiert...
+            </Typography>
+          </>
         )}
         {phase === 'done' && (
           <Typography variant="caption" color="success.main">

@@ -6,6 +6,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
+import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import MicIcon from '@mui/icons-material/Mic';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
@@ -28,10 +29,14 @@ const pulse = keyframes`
 
 interface AssistantBottomSheetProps {
   stopAssistant: () => void;
+  continueAfterPhoto: () => void;
+  skipPhoto: () => void;
 }
 
 export default function AssistantBottomSheet({
   stopAssistant,
+  continueAfterPhoto,
+  skipPhoto,
 }: AssistantBottomSheetProps) {
   const {
     isActive,
@@ -62,6 +67,11 @@ export default function AssistantBottomSheet({
       });
       setGlobalForm(result);
       setPhotoRecommendation(null);
+
+      // If in photo-prompt phase, continue after photo is processed
+      if (phase === 'photo-prompt') {
+        continueAfterPhoto();
+      }
     } catch {
       setError('Foto konnte nicht verarbeitet werden');
     }
@@ -159,23 +169,33 @@ export default function AssistantBottomSheet({
       )}
 
       {/* Photo capture button */}
-      {photoRecommendation && (
+      {phase === 'photo-prompt' ? (
         <Box
           sx={{
             px: 2,
-            pb: 1,
+            pb: 2,
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1.5,
           }}
         >
           <Fab
-            size="small"
+            size="large"
             color="secondary"
             onClick={() => fileInputRef.current?.click()}
             aria-label="Foto aufnehmen"
           >
-            <CameraAltIcon />
+            <CameraAltIcon fontSize="large" />
           </Fab>
+          <Button
+            variant="text"
+            size="small"
+            onClick={skipPhoto}
+            sx={{ textTransform: 'none' }}
+          >
+            Weiter ohne Foto
+          </Button>
           <input
             ref={fileInputRef}
             type="file"
@@ -185,6 +205,34 @@ export default function AssistantBottomSheet({
             onChange={handlePhotoCapture}
           />
         </Box>
+      ) : (
+        photoRecommendation && (
+          <Box
+            sx={{
+              px: 2,
+              pb: 1,
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Fab
+              size="small"
+              color="secondary"
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="Foto aufnehmen"
+            >
+              <CameraAltIcon />
+            </Fab>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              hidden
+              onChange={handlePhotoCapture}
+            />
+          </Box>
+        )
       )}
 
       {/* Status bar */}
@@ -231,6 +279,11 @@ export default function AssistantBottomSheet({
               Verarbeitet...
             </Typography>
           </>
+        )}
+        {phase === 'photo-prompt' && (
+          <Typography variant="caption" color="text.secondary">
+            Warte auf Foto...
+          </Typography>
         )}
         {phase === 'done' && (
           <Typography variant="caption" color="success.main">

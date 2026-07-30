@@ -9,6 +9,7 @@ export type AssistantPhase =
   | 'speaking'
   | 'listening'
   | 'processing'
+  | 'photo-prompt'
   | 'done';
 
 export interface ConversationMessage {

@@ -27,7 +27,7 @@ const PATHNAME_TO_STEP_KEY: Record<string, string> = {
 export default function LayoutVoiceButton() {
   const pathname = usePathname();
   const language = useGlobalFormStore((s) => s.form.language);
-  const { startAssistant, stopAssistant } = useAssistantLoop();
+  const { startAssistant, stopAssistant, continueAfterPhoto, skipPhoto } = useAssistantLoop();
 
   if (pathname === '/disclaimer') return null;
 
@@ -41,7 +41,11 @@ export default function LayoutVoiceButton() {
         language={language}
         stepKey={stepKey}
       />
-      <AssistantBottomSheet stopAssistant={stopAssistant} />
+      <AssistantBottomSheet
+        stopAssistant={stopAssistant}
+        continueAfterPhoto={continueAfterPhoto}
+        skipPhoto={skipPhoto}
+      />
     </>
   );
 }

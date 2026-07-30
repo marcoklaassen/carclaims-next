@@ -206,6 +206,15 @@ export function useAssistantLoop() {
         previousQuestionRef.current = response.question;
       }
 
+      // Handle photo-intro: show photo prompt instead of listening
+      if (response.photoRecommendation && response.stepKey === 'photo-intro') {
+        setPhase('photo-prompt');
+        if (response.audioUrl) {
+          await playAudio(response.audioUrl).catch(() => {});
+        }
+        return;
+      }
+
       if (response.audioUrl) {
         setPhase('speaking');
         try {
@@ -256,6 +265,54 @@ export function useAssistantLoop() {
     setPhase('idle');
   }, [stopVad, setActive, setPhase]);
 
+  const continueAfterPhoto = useCallback(async () => {
+    if (!isActiveRef.current) {
+      return;
+    }
+
+    setPhase('processing');
+    try {
+      const response = await submitAssistantTurn(null, {
+        currentState: globalFormRef.current,
+        conversationHistory: conversationHistoryRef.current,
+        previousStepKey: previousStepKeyRef.current || undefined,
+        previousQuestion: previousQuestionRef.current || undefined,
+      });
+      await handleTurnResponse(response);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Verbindung fehlgeschlagen',
+      );
+      setPhase('idle');
+    }
+  }, [setPhase, handleTurnResponse, setError]);
+
+  const skipPhoto = useCallback(async () => {
+    if (!isActiveRef.current) {
+      return;
+    }
+
+    setPhase('processing');
+    try {
+      const response = await submitAssistantTurn(null, {
+        currentState: globalFormRef.current,
+        conversationHistory: conversationHistoryRef.current,
+        previousStepKey: previousStepKeyRef.current || undefined,
+        previousQuestion: previousQuestionRef.current || undefined,
+      });
+      await handleTurnResponse(response);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Verbindung fehlgeschlagen',
+      );
+      setPhase('idle');
+    }
+  }, [setPhase, handleTurnResponse, setError]);
+
   useEffect(() => {
     return () => {
       stopVad();
@@ -266,5 +323,5 @@ export function useAssistantLoop() {
     };
   }, [stopVad]);
 
-  return { startAssistant, stopAssistant, error };
+  return { startAssistant, stopAssistant, continueAfterPhoto, skipPhoto, error };
 }

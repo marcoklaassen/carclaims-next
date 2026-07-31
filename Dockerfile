@@ -8,6 +8,13 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+RUN cp node_modules/@ricky0123/vad-web/dist/silero_vad_legacy.onnx \
+       node_modules/@ricky0123/vad-web/dist/silero_vad_v5.onnx \
+       node_modules/@ricky0123/vad-web/dist/vad.worklet.bundle.min.js \
+       node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.wasm \
+       node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.jsep.wasm \
+       node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.mjs \
+       public/
 RUN npm run build
 
 # Stage 2: Runtime

@@ -27,9 +27,9 @@ jobs:
           # Red Hat brand — tagged with 'redhat' prefix
           - brand: redhat
             build-args: |
-              NEXT_PUBLIC_PRIMARY_COLOR="#ee0000"
-              NEXT_PUBLIC_SECONDARY_COLOR="#a60000"
-              NEXT_PUBLIC_HEADER_BG="#151515"
+              NEXT_PUBLIC_PRIMARY_COLOR=#ee0000
+              NEXT_PUBLIC_SECONDARY_COLOR=#a60000
+              NEXT_PUBLIC_HEADER_BG=#151515
               NEXT_PUBLIC_LOGO_URL=/api/logo
               NEXT_PUBLIC_LOGO_POSITION=left
               NEXT_PUBLIC_BUTTON_RADIUS=2px

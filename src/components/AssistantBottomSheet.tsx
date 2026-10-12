@@ -1,25 +1,25 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import MicIcon from '@mui/icons-material/Mic';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import { keyframes } from '@mui/material/styles';
 import { useAssistantStore } from '@/stores/assistantStore';
-import { useGlobalFormStore } from '@/types/state';
+import { useGlobalFormStore, serializeForm } from '@/types/state';
 import { submitPhoto } from '@/api/photoApi';
-import { computeSectionProgress } from '@/utils/assistantProgress';
+import { computeChangedFields, generateFilledSummary } from '@/utils/fieldLabels';
 
 const pulse = keyframes`
   0% { opacity: 1; }
@@ -29,32 +29,38 @@ const pulse = keyframes`
 
 interface AssistantBottomSheetProps {
   stopAssistant: () => void;
+  pauseAssistant: () => void;
+  resumeAssistant: () => void;
   continueAfterPhoto: () => void;
   skipPhoto: () => void;
 }
 
 export default function AssistantBottomSheet({
   stopAssistant,
+  pauseAssistant,
+  resumeAssistant,
   continueAfterPhoto,
   skipPhoto,
 }: AssistantBottomSheetProps) {
   const {
     isActive,
+    isPaused,
     phase,
-    currentQuestion,
-    photoRecommendation,
+    messages,
     error,
     setError,
     setPhotoRecommendation,
+    addMessage,
   } = useAssistantStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
   const [isUploading, setIsUploading] = useState(false);
   const globalForm = useGlobalFormStore((s) => s.form);
   const setGlobalForm = useGlobalFormStore((s) => s.setGlobalForm);
 
-  const progressData = computeSectionProgress(
-    globalForm as Record<string, unknown>,
-  );
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handlePhotoCapture = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -63,11 +69,25 @@ export default function AssistantBottomSheet({
     if (!file) return;
     event.target.value = '';
     setIsUploading(true);
+
+    const beforeSerialized = serializeForm(globalForm);
+
     try {
       const result = await submitPhoto(file, {
         currentState: globalForm as Record<string, unknown>,
       });
-      setGlobalForm(result);
+
+      const userText = result.imageDescription ?? 'Foto hochgeladen';
+      addMessage({ role: 'user', text: userText });
+
+      const afterSerialized = result.claimsData as Record<string, unknown>;
+      const changedFields = computeChangedFields(beforeSerialized, afterSerialized);
+      const summary = generateFilledSummary(changedFields);
+      if (summary) {
+        addMessage({ role: 'assistant', type: 'action', text: summary });
+      }
+
+      setGlobalForm(result.claimsData);
       setPhotoRecommendation(null);
 
       if (phase === 'photo-prompt') {
@@ -87,7 +107,7 @@ export default function AssistantBottomSheet({
       variant="persistent"
       sx={{
         '& .MuiDrawer-paper': {
-          height: '40vh',
+          height: '42vh',
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           display: 'flex',
@@ -111,60 +131,90 @@ export default function AssistantBottomSheet({
         <Typography variant="subtitle1" fontWeight="bold">
           Assistent
         </Typography>
-        <IconButton onClick={stopAssistant} size="small">
-          <CloseIcon />
-        </IconButton>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          {(phase === 'listening' || isPaused) && (
+            <IconButton
+              onClick={isPaused ? resumeAssistant : pauseAssistant}
+              size="small"
+              aria-label={isPaused ? 'Fortsetzen' : 'Pausieren'}
+            >
+              {isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+            </IconButton>
+          )}
+          <IconButton onClick={stopAssistant} size="small" aria-label="Assistent beenden">
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </Box>
 
-      {/* Progress sections */}
+      {/* Chat messages */}
       <Box
         sx={{
           flex: 1,
           overflowY: 'auto',
           px: 2,
-          py: 2,
+          py: 1.5,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
         }}
       >
-        {progressData.map(({ section, filled, total }) => (
-          <Box
-            key={section.id}
-            sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}
-          >
-            {filled === total ? (
-              <CheckCircleIcon sx={{ fontSize: 18, color: 'success.main' }} />
-            ) : (
-              <Box sx={{ width: 18, height: 18 }} />
-            )}
-            <Typography
-              variant="body2"
+        {messages.length === 0 && (
+          <Typography variant="caption" color="text.disabled" sx={{ textAlign: 'center', mt: 2 }}>
+            Konversation startet...
+          </Typography>
+        )}
+
+        {messages.map((msg, i) => {
+          const isUser = msg.role === 'user';
+          const isAction = msg.role === 'assistant' && msg.type === 'action';
+
+          return (
+            <Box
+              key={i}
               sx={{
-                minWidth: 140,
-                color: filled === total ? 'success.main' : 'text.secondary',
+                display: 'flex',
+                justifyContent: isUser ? 'flex-end' : 'flex-start',
               }}
             >
-              {section.label}
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={(filled / total) * 100}
-              sx={{ flex: 1, height: 6, borderRadius: 3 }}
-            />
-          </Box>
-        ))}
-      </Box>
+              <Box
+                sx={{
+                  maxWidth: '82%',
+                  px: 1.5,
+                  py: 0.75,
+                  borderRadius: isUser
+                    ? '16px 16px 4px 16px'
+                    : '16px 16px 16px 4px',
+                  bgcolor: isUser
+                    ? 'primary.main'
+                    : isAction
+                      ? 'grey.300'
+                      : 'grey.400',
+                  color: isUser
+                    ? 'primary.contrastText'
+                    : 'text.primary',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    whiteSpace: 'pre-wrap',
+                    ...(isAction && { fontStyle: 'italic', fontWeight: 300 }),
+                  }}
+                >
+                  {msg.text}
+                </Typography>
+              </Box>
+            </Box>
+          );
+        })}
 
-      {/* Current question */}
-      {currentQuestion && (
-        <Box sx={{ px: 2, py: 1.5, borderTop: 1, borderColor: 'divider' }}>
-          <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
-            {currentQuestion}
-          </Typography>
-        </Box>
-      )}
+        <div ref={chatEndRef} />
+      </Box>
 
       {/* Error alert */}
       {error && (
-        <Box sx={{ px: 2, pb: 1 }}>
+        <Box sx={{ px: 2, pb: 1, flexShrink: 0 }}>
           <Alert severity="error" onClose={() => setError(null)}>
             {error}
           </Alert>
@@ -176,24 +226,25 @@ export default function AssistantBottomSheet({
         <Box
           sx={{
             px: 2,
-            pb: 2,
+            pb: 1,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: 1.5,
+            gap: 1,
+            flexShrink: 0,
           }}
         >
           <Fab
-            size="large"
-            color="secondary"
+            size="medium"
             onClick={() => !isUploading && fileInputRef.current?.click()}
             disabled={isUploading}
             aria-label="Foto aufnehmen"
+            color="secondary"
           >
             {isUploading ? (
-              <CircularProgress size={28} color="inherit" />
+              <CircularProgress size={24} color="inherit" />
             ) : (
-              <CameraAltIcon fontSize="large" />
+              <CameraAltIcon />
             )}
           </Fab>
           <Button
@@ -214,38 +265,16 @@ export default function AssistantBottomSheet({
           />
         </Box>
       ) : (
-        photoRecommendation && (
-          <Box
-            sx={{
-              px: 2,
-              pb: 1,
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Fab
-              size="small"
-              color="secondary"
-              onClick={() => !isUploading && fileInputRef.current?.click()}
-              disabled={isUploading}
-              aria-label="Foto aufnehmen"
-            >
-              {isUploading ? (
-                <CircularProgress size={20} color="inherit" />
-              ) : (
-                <CameraAltIcon />
-              )}
-            </Fab>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              hidden
-              onChange={handlePhotoCapture}
-            />
-          </Box>
-        )
+        <Box sx={{ flexShrink: 0 }}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            hidden
+            onChange={handlePhotoCapture}
+          />
+        </Box>
       )}
 
       {/* Status bar */}
@@ -255,7 +284,7 @@ export default function AssistantBottomSheet({
           alignItems: 'center',
           justifyContent: 'center',
           gap: 1,
-          py: 1.5,
+          py: 1,
           borderTop: 1,
           borderColor: 'divider',
           flexShrink: 0,
@@ -273,21 +302,28 @@ export default function AssistantBottomSheet({
             </Typography>
           </>
         )}
-        {phase === 'listening' && (
+        {phase === 'listening' && !isPaused && (
           <>
             <MicIcon
               fontSize="small"
-              color="error"
-              sx={{ animation: `${pulse} 1s infinite` }}
+              sx={{ color: '#ee0000', animation: `${pulse} 1s infinite` }}
             />
             <Typography variant="caption" color="text.secondary">
               Hoert zu...
             </Typography>
           </>
         )}
+        {isPaused && (
+          <>
+            <PauseIcon fontSize="small" sx={{ color: 'text.disabled' }} />
+            <Typography variant="caption" color="text.disabled">
+              Pausiert
+            </Typography>
+          </>
+        )}
         {phase === 'processing' && (
           <>
-            <CircularProgress size={16} />
+            <CircularProgress size={14} />
             <Typography variant="caption" color="text.secondary">
               Verarbeitet...
             </Typography>
@@ -300,7 +336,7 @@ export default function AssistantBottomSheet({
         )}
         {isUploading && (
           <>
-            <CircularProgress size={16} />
+            <CircularProgress size={14} />
             <Typography variant="caption" color="text.secondary">
               Foto wird analysiert...
             </Typography>

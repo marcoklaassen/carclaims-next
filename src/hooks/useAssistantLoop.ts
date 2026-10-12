@@ -8,6 +8,7 @@ import {
   submitAssistantTurn,
   type AssistantTurnResponse,
 } from '../api/assistantApi';
+import { computeChangedFields, generateFilledSummary } from '../utils/fieldLabels';
 
 export function useAssistantLoop() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export function useAssistantLoop() {
     conversationHistory,
     error,
     setActive,
+    setIsPaused,
     setPhase,
     addMessage,
     addHistoryEntry,
@@ -178,6 +180,13 @@ export function useAssistantLoop() {
       }
 
       if (response.claimsData) {
+        const beforeSerialized = serializeForm(globalFormRef.current);
+        const afterSerialized = response.claimsData as Record<string, unknown>;
+        const changedFields = computeChangedFields(beforeSerialized, afterSerialized);
+        const summary = generateFilledSummary(changedFields);
+        if (summary) {
+          addMessage({ role: 'assistant', type: 'action', text: summary });
+        }
         replaceGlobalForm(response.claimsData);
       }
 
@@ -190,7 +199,7 @@ export function useAssistantLoop() {
       if (response.done) {
         setPhase('done');
         if (response.question) {
-          addMessage({ role: 'assistant', text: response.question });
+          addMessage({ role: 'assistant', type: 'question', text: response.question });
         }
         if (response.audioUrl) {
           await playAudio(response.audioUrl).catch(() => {});
@@ -201,7 +210,7 @@ export function useAssistantLoop() {
 
       if (response.question) {
         setCurrentQuestion(response.question);
-        addMessage({ role: 'assistant', text: response.question });
+        addMessage({ role: 'assistant', type: 'question', text: response.question });
         previousStepKeyRef.current = response.stepKey;
         previousQuestionRef.current = response.question;
       }
@@ -254,6 +263,16 @@ export function useAssistantLoop() {
     }
   }, [reset, setActive, setPhase, handleTurnResponse, setError]);
 
+  const pauseAssistant = useCallback(() => {
+    stopVad();
+    setIsPaused(true);
+  }, [stopVad, setIsPaused]);
+
+  const resumeAssistant = useCallback(() => {
+    setIsPaused(false);
+    startListening();
+  }, [setIsPaused, startListening]);
+
   const stopAssistant = useCallback(() => {
     isActiveRef.current = false;
     stopVad();
@@ -262,8 +281,9 @@ export function useAssistantLoop() {
       audioRef.current = null;
     }
     setActive(false);
+    setIsPaused(false);
     setPhase('idle');
-  }, [stopVad, setActive, setPhase]);
+  }, [stopVad, setActive, setIsPaused, setPhase]);
 
   const continueAfterPhoto = useCallback(async () => {
     if (!isActiveRef.current) {
@@ -332,5 +352,5 @@ export function useAssistantLoop() {
     };
   }, [stopVad]);
 
-  return { startAssistant, stopAssistant, continueAfterPhoto, skipPhoto, error };
+  return { startAssistant, stopAssistant, pauseAssistant, resumeAssistant, continueAfterPhoto, skipPhoto, error };
 }

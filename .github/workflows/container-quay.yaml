@@ -10,8 +10,36 @@ env:
 
 jobs:
   build-and-push:
-    name: Build and Push
+    name: Build and Push (${{ matrix.brand }})
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          # Default FRIDA brand — backward-compatible tags (latest, sha, semver)
+          - brand: frida
+            build-args: ""
+            tags: |
+              type=raw,value=latest,enable={{is_default_branch}}
+              type=semver,pattern={{version}}
+              type=sha,prefix=,format=short
+
+          # Red Hat brand — tagged with 'redhat' prefix
+          - brand: redhat
+            build-args: |
+              NEXT_PUBLIC_PRIMARY_COLOR="#ee0000"
+              NEXT_PUBLIC_SECONDARY_COLOR="#a60000"
+              NEXT_PUBLIC_HEADER_BG="#151515"
+              NEXT_PUBLIC_LOGO_URL=https://static.redhat.com/libs/redhat/brand-assets/2/corp/logo--on-dark.svg
+              NEXT_PUBLIC_LOGO_POSITION=left
+              NEXT_PUBLIC_BUTTON_RADIUS=2px
+              NEXT_PUBLIC_FAVICON=/api/favicon
+              BRAND_FONT=red-hat-text
+              FAVICON_SOURCE_URL=https://www.redhat.com/favicon.ico
+            tags: |
+              type=raw,value=redhat,enable={{is_default_branch}}
+              type=semver,pattern=redhat-{{version}}
+              type=sha,prefix=redhat-,format=short
 
     steps:
       - name: Checkout code
@@ -32,10 +60,7 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}}
-            type=sha,prefix=,format=short
+          tags: ${{ matrix.tags }}
 
       - name: Build and push
         uses: docker/build-push-action@v7
@@ -43,5 +68,6 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          build-args: ${{ matrix.build-args }}
+          cache-from: type=gha,scope=${{ matrix.brand }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.brand }}

@@ -14,6 +14,8 @@ export type AssistantPhase =
 
 export interface ConversationMessage {
   role: 'assistant' | 'user';
+  /** 'question' = AI speaking a question; 'action' = field-fill confirmation; undefined treated as 'question' */
+  type?: 'question' | 'action';
   text: string;
 }
 
@@ -21,6 +23,7 @@ export type { ConversationEntry };
 
 interface AssistantState {
   isActive: boolean;
+  isPaused: boolean;
   phase: AssistantPhase;
   messages: ConversationMessage[];
   conversationHistory: ConversationEntry[];
@@ -29,6 +32,7 @@ interface AssistantState {
   error: string | null;
 
   setActive: (active: boolean) => void;
+  setIsPaused: (paused: boolean) => void;
   setPhase: (phase: AssistantPhase) => void;
   addMessage: (msg: ConversationMessage) => void;
   addHistoryEntry: (entry: ConversationEntry) => void;
@@ -40,6 +44,7 @@ interface AssistantState {
 
 const initialState = {
   isActive: false,
+  isPaused: false,
   phase: 'idle' as AssistantPhase,
   messages: [] as ConversationMessage[],
   conversationHistory: [] as ConversationEntry[],
@@ -51,6 +56,7 @@ const initialState = {
 export const useAssistantStore = create<AssistantState>((set) => ({
   ...initialState,
   setActive: (active) => set({ isActive: active }),
+  setIsPaused: (paused) => set({ isPaused: paused }),
   setPhase: (phase) => set({ phase }),
   addMessage: (msg) =>
     set((state) => ({ messages: [...state.messages, msg] })),

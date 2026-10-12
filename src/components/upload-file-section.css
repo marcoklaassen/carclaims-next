@@ -39,10 +39,10 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgb(34, 217, 224);
+  background: var(--secondary-color);
   padding: 8px;
   padding-bottom: 0px !important;
-  border-radius: 8px;
+  border-radius: var(--border-radius-button);
   font-size: 18px;
 }
 
@@ -56,11 +56,11 @@
 
 .delete-button {
   width: 100%;
-  background-color: rgb(206, 22, 22)!important;
+  background-color: var(--primary-color-dark) !important;
   color: var(--white) !important;
   padding: 8px !important;
   border: none !important;
-  border-radius: 30px !important;
+  border-radius: var(--border-radius-button) !important;
   cursor: pointer;
   font-weight: 500 !important;
   font-size: 16px !important;
@@ -73,7 +73,7 @@
 }
 
 .delete-button:hover {
-  background-color: red !important;
+  background-color: var(--primary-color) !important;
 }
 
 /* Stil für die deaktivierte Dropzone */

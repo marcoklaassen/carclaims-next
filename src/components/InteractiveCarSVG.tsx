@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { brandConfig, hexToRgb } from '@/config/brand';
 
 interface InteractiveCarSVGProps {
   selectedParts: string[];
@@ -25,9 +26,10 @@ const InteractiveCarSVG: React.FC<InteractiveCarSVGProps> = ({ selectedParts, on
   const getPartStyle = (partName: string) => {
     const isSelected = selectedParts.includes(partName);
     const isHovered = hoveredPart === partName;
+    const { r, g, b } = hexToRgb(brandConfig.primaryColor);
     return {
-      fill: isSelected ? 'rgba(26, 179, 185, 0.7)' : isHovered ? 'rgba(26, 179, 185, 0.3)' : undefined,
-      stroke: isSelected ? 'black' : isHovered ? 'rgb(26, 179, 185)' : undefined,
+      fill: isSelected ? `rgba(${r}, ${g}, ${b}, 0.7)` : isHovered ? `rgba(${r}, ${g}, ${b}, 0.3)` : undefined,
+      stroke: isSelected ? 'black' : isHovered ? brandConfig.primaryColor : undefined,
       strokeWidth: isSelected ? '2px' : isHovered ? '3px' : undefined,
       cursor: 'pointer',
       transition: 'all 0.3s ease',

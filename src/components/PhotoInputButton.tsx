@@ -45,11 +45,11 @@ export function PhotoInputButton({ stepKey }: PhotoInputButtonProps) {
 
       setIsSubmitting(true);
       try {
-        const response = await submitPhoto(file, {
+        const result = await submitPhoto(file, {
           currentState: globalForm as Record<string, unknown>,
           stepKey,
         });
-        setGlobalForm(response);
+        setGlobalForm(result.claimsData);
         showMessage('Angaben übernommen', 'success');
       } catch (err) {
         const message =

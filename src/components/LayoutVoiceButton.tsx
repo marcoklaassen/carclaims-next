@@ -30,7 +30,7 @@ export default function LayoutVoiceButton() {
   const pathname = usePathname();
   const language = useGlobalFormStore((s) => s.form.language);
   const isActive = useAssistantStore((s) => s.isActive);
-  const { startAssistant, stopAssistant, continueAfterPhoto, skipPhoto } = useAssistantLoop();
+  const { startAssistant, stopAssistant, pauseAssistant, resumeAssistant, continueAfterPhoto, skipPhoto } = useAssistantLoop();
 
   useEffect(() => {
     const main = document.querySelector('main');
@@ -56,6 +56,8 @@ export default function LayoutVoiceButton() {
       />
       <AssistantBottomSheet
         stopAssistant={stopAssistant}
+        pauseAssistant={pauseAssistant}
+        resumeAssistant={resumeAssistant}
         continueAfterPhoto={continueAfterPhoto}
         skipPhoto={skipPhoto}
       />

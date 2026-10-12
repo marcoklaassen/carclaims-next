@@ -1,24 +1,31 @@
 import { FormProgressProvider } from '@/context/FormProgressContext';
 import Header from '../components/header';
 import LayoutVoiceButton from '../components/LayoutVoiceButton';
+import BrandStyle from '../components/BrandStyle';
 import './globals.css';
 import { Metadata } from 'next';
-import { Roboto } from 'next/font/google';
+import { Roboto, Red_Hat_Text } from 'next/font/google';
 import ThemeProvider from '../components/ThemeProvider';
+
+const favicon = process.env.NEXT_PUBLIC_FAVICON || '/frida.ico';
 
 export const metadata: Metadata = {
   title: 'CarClaims - Schadensmeldung',
   description: 'Digitale Schadensmeldung für Kfz-Versicherungen',
-  icons: {
-    icon: '/frida.ico',
-  },
+  icons: { icon: favicon },
 };
-const roboto = Roboto({subsets: ['latin']});
+
+const roboto = Roboto({ subsets: ['latin'] });
+const redHatText = Red_Hat_Text({ subsets: ['latin'], weight: ['300', '400', '500', '700'] });
+
+const fontClass = process.env.BRAND_FONT === 'red-hat-text' ? redHatText.className : roboto.className;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={roboto.className}>
+    <html lang="en" className={fontClass}>
       <body>
+        {/* BrandStyle uses React 19 <style precedence> — hoisted to <head> automatically */}
+        <BrandStyle />
         <ThemeProvider>
           <FormProgressProvider>
             <Header />

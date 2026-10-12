@@ -13,6 +13,11 @@ type PhotoExtractResponse = {
   claimsData?: Record<string, unknown>;
 };
 
+export type PhotoExtractResult = {
+  claimsData: Partial<Claimsdata>;
+  imageDescription?: string;
+};
+
 export class PhotoApiError extends Error {
   constructor(message: string) {
     super(message);
@@ -23,7 +28,7 @@ export class PhotoApiError extends Error {
 export async function submitPhoto(
   file: File,
   options: PhotoExtractRequest = {}
-): Promise<Partial<Claimsdata>> {
+): Promise<PhotoExtractResult> {
   const resizedBlob = await resizeImage(file);
 
   const formData = new FormData();
@@ -65,7 +70,10 @@ export async function submitPhoto(
     throw new PhotoApiError('Keine relevanten Daten im Foto gefunden');
   }
 
-  return json.claimsData as Partial<Claimsdata>;
+  return {
+    claimsData: json.claimsData as Partial<Claimsdata>,
+    imageDescription: json.imageDescription,
+  };
 }
 
 const MAX_DIMENSION = 2048;

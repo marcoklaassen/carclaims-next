@@ -15,10 +15,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'www.redhat.com' },
-      { protocol: 'https', hostname: 'static.redhat.com' },
-    ],
+    remotePatterns: [],
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'none'; script-src 'none'; sandbox;",

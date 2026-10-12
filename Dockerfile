@@ -11,6 +11,8 @@ COPY . .
 
 # Brand theming — NEXT_PUBLIC_* vars are inlined into the client bundle at build time.
 # Defaults are the FRIDA brand. Override with --build-arg for other brands.
+# Logo and favicon are served via local proxy routes (/api/logo, /api/favicon) so
+# the actual upstream URLs are server-side-only vars (no NEXT_PUBLIC_ prefix).
 ARG NEXT_PUBLIC_PRIMARY_COLOR="#1AB3B9"
 ARG NEXT_PUBLIC_SECONDARY_COLOR="#22D9E0"
 ARG NEXT_PUBLIC_HEADER_BG="#333333"
@@ -26,7 +28,7 @@ ENV NEXT_PUBLIC_LOGO_POSITION=$NEXT_PUBLIC_LOGO_POSITION
 ENV NEXT_PUBLIC_BUTTON_RADIUS=$NEXT_PUBLIC_BUTTON_RADIUS
 ENV NEXT_PUBLIC_FAVICON=$NEXT_PUBLIC_FAVICON
 
-# BRAND_FONT is server-side only but must be set before build for font preloading in layout.tsx
+# BRAND_FONT is server-side only but influences font preloading in layout.tsx at build time
 ARG BRAND_FONT="roboto"
 ENV BRAND_FONT=$BRAND_FONT
 
@@ -49,11 +51,13 @@ ENV NODE_ENV=production
 ENV PORT=8080
 ENV HOSTNAME=0.0.0.0
 
-# Runtime-only vars — can be overridden at container/pod level without a rebuild.
+# Runtime-only vars — override at container/pod level without a rebuild.
 # BRAND_FONT: carried over from build arg so standalone docker run matches the built brand.
 ARG BRAND_FONT="roboto"
 ENV BRAND_FONT=$BRAND_FONT
-# FAVICON_SOURCE_URL: upstream URL for the /api/favicon proxy route.
+# Upstream URLs for the server-side proxy routes (/api/logo, /api/favicon).
+ARG LOGO_SOURCE_URL=""
+ENV LOGO_SOURCE_URL=$LOGO_SOURCE_URL
 ARG FAVICON_SOURCE_URL=""
 ENV FAVICON_SOURCE_URL=$FAVICON_SOURCE_URL
 

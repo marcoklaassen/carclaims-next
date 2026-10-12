@@ -30,11 +30,12 @@ jobs:
               NEXT_PUBLIC_PRIMARY_COLOR="#ee0000"
               NEXT_PUBLIC_SECONDARY_COLOR="#a60000"
               NEXT_PUBLIC_HEADER_BG="#151515"
-              NEXT_PUBLIC_LOGO_URL=https://static.redhat.com/libs/redhat/brand-assets/2/corp/logo--on-dark.svg
+              NEXT_PUBLIC_LOGO_URL=/api/logo
               NEXT_PUBLIC_LOGO_POSITION=left
               NEXT_PUBLIC_BUTTON_RADIUS=2px
               NEXT_PUBLIC_FAVICON=/api/favicon
               BRAND_FONT=red-hat-text
+              LOGO_SOURCE_URL=https://static.redhat.com/libs/redhat/brand-assets/2/corp/logo--on-dark.svg
               FAVICON_SOURCE_URL=https://www.redhat.com/favicon.ico
             tags: |
               type=raw,value=redhat,enable={{is_default_branch}}
